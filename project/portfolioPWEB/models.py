@@ -56,10 +56,15 @@ class UnidadeCurricular(models.Model):
     codigo_uc = models.CharField(max_length=30, unique=True)
     nome = models.CharField(max_length=100)
     ano_curricular = models.IntegerField()
+    semestre = models.IntegerField(null=True, blank=True)
     creditos = models.IntegerField()
     descricao = models.TextField()
-    imagem = models.ImageField(upload_to='ucs/')
-    link_uc = models.URLField()
+    imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
+    link_uc = models.URLField(blank=True)
+    metodologia = models.TextField(blank=True)
+    objetivos = models.TextField(blank=True)
+    programa = models.TextField(blank=True)
+    avaliacao = models.TextField(blank=True)
 
     licenciatura = models.ForeignKey(
         Licenciatura,

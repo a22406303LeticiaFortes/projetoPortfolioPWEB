@@ -14,9 +14,71 @@ class LicenciaturaAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'ano_curricular', 'creditos', 'licenciatura')
-    list_filter = ('ano_curricular', 'licenciatura')
-    search_fields = ('nome',)
+    list_display = (
+        'codigo_uc',
+        'nome',
+        'ano_curricular',
+        'semestre',
+        'creditos',
+        'licenciatura'
+    )
+
+    list_filter = (
+        'ano_curricular',
+        'semestre',
+        'licenciatura'
+    )
+
+    search_fields = (
+        'codigo_uc',
+        'nome',
+        'descricao',
+        'objetivos',
+        'programa',
+        'metodologia',
+        'avaliacao'
+    )
+
+    filter_horizontal = (
+        'docentes',
+        'competencias',
+        'tecnologias'
+    )
+
+    fieldsets = (
+        ('Informação Geral', {
+            'fields': (
+                'codigo_uc',
+                'nome',
+                'ano_curricular',
+                'semestre',
+                'creditos',
+                'licenciatura'
+            )
+        }),
+        ('Conteúdo da UC', {
+            'fields': (
+                'descricao',
+                'objetivos',
+                'programa',
+                'metodologia',
+                'avaliacao'
+            )
+        }),
+        ('Media e Ligação', {
+            'fields': (
+                'imagem',
+                'link_uc'
+            )
+        }),
+        ('Relações', {
+            'fields': (
+                'docentes',
+                'competencias',
+                'tecnologias'
+            )
+        }),
+    )
 
 
 @admin.register(Docente)
