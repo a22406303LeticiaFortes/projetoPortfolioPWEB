@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import (
     Licenciatura, UnidadeCurricular, Docente, Projeto,
@@ -83,36 +84,77 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 
 @admin.register(Docente)
 class DocenteAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'email')
+    list_display = ('nome', 'email', 'pagina_pessoal')
     search_fields = ('nome', 'email')
 
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'ano', 'uc')
+    list_display = ('titulo', 'ano', 'uc', 'preview_imagem')
     list_filter = ('ano', 'uc')
-    search_fields = ('titulo', 'descricao')
+    search_fields = ('titulo', 'descricao', 'conceitos_aplicados')
+    filter_horizontal = ('tecnologias', 'competencias')
+
+    fieldsets = (
+        ('Informação Geral', {
+            'fields': (
+                'titulo',
+                'descricao',
+                'conceitos_aplicados',
+                'ano',
+                'uc'
+            )
+        }),
+        ('Media e Links', {
+            'fields': (
+                'imagem',
+                'preview_imagem',
+                'video_demo',
+                'github'
+            )
+        }),
+        ('Relações', {
+            'fields': (
+                'tecnologias',
+                'competencias'
+            )
+        }),
+    )
+
+    readonly_fields = ('preview_imagem',)
+
+    def preview_imagem(self, obj):
+        if obj.imagem:
+            return format_html(
+                '<img src="{}" style="max-height: 120px; max-width: 200px;" />',
+                obj.imagem.url
+            )
+        return "Sem imagem"
+
+    preview_imagem.short_description = 'Preview'
 
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'tipo', 'nivel_conhecimento', 'nivel_interesse')
     list_filter = ('tipo',)
-    search_fields = ('nome', 'tipo')
+    search_fields = ('nome', 'tipo', 'descricao')
+    filter_horizontal = ('competencias',)
 
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'ano', 'nivel_interesse', 'licenciatura')
     list_filter = ('ano', 'licenciatura')
-    search_fields = ('titulo', 'autores')
+    search_fields = ('titulo', 'autores', 'descricao')
+    filter_horizontal = ('tecnologias', 'competencias', 'orientadores')
 
 
 @admin.register(Competencia)
 class CompetenciaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'tipo', 'nivel')
     list_filter = ('tipo', 'nivel')
-    search_fields = ('nome',)
+    search_fields = ('nome', 'descricao')
 
 
 @admin.register(Formacao)
@@ -120,16 +162,18 @@ class FormacaoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'instituicao', 'tipo', 'data_inicio', 'data_fim')
     list_filter = ('tipo', 'instituicao')
     search_fields = ('nome', 'instituicao')
+    filter_horizontal = ('competencias',)
 
 
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
     list_display = ('projeto',)
-    search_fields = ('projeto__titulo',)
+    search_fields = ('projeto__titulo', 'registos', 'decisoes', 'justificacao')
 
 
 @admin.register(AreaDeInteresse)
 class AreaDeInteresseAdmin(admin.ModelAdmin):
     list_display = ('nome', 'categoria')
     list_filter = ('categoria',)
-    search_fields = ('nome',)
+    search_fields = ('nome', 'descricao')
+    filter_horizontal = ('competencias',)

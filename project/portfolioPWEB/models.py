@@ -17,8 +17,8 @@ class Licenciatura(models.Model):
 class Docente(models.Model):
     codigo_docente = models.CharField(max_length=30, unique=True, blank=True, null=True)
     nome = models.CharField(max_length=100)
-    email = models.EmailField()
-    pagina_pessoal = models.URLField()
+    email = models.EmailField(blank=True)
+    pagina_pessoal = models.URLField(blank=True)
 
     def __str__(self):
         return self.nome
@@ -97,9 +97,9 @@ class Projeto(models.Model):
     conceitos_aplicados = models.TextField()
     tecnologias_resumo = models.TextField()
     ano = models.IntegerField()
-    imagem = models.ImageField(upload_to='projetos/')
+    imagem = models.ImageField(upload_to='projetos/', blank=True, null=True)
     video_demo = models.URLField(blank=True, null=True)
-    github = models.URLField()
+    github = models.URLField(blank=True, null=True)
 
     uc = models.ForeignKey(
         UnidadeCurricular,
