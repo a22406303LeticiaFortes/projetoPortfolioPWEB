@@ -9,7 +9,7 @@ class Licenciatura(models.Model):
     formato = models.CharField(max_length=50)
     website = models.URLField()
     faculdade = models.CharField(max_length=100)
-    
+
     class Meta:
         verbose_name = "Licenciatura"
         verbose_name_plural = "Licenciaturas"
@@ -37,14 +37,13 @@ class Competencia(models.Model):
     tipo = models.CharField(max_length=50)
     descricao = models.TextField()
     nivel = models.IntegerField()
-    
-     class Meta:
+
+    class Meta:
         verbose_name = "Competência"
         verbose_name_plural = "Competências"
 
     def __str__(self):
         return self.nome
-    
 
 
 class Tecnologia(models.Model):
@@ -60,6 +59,7 @@ class Tecnologia(models.Model):
         related_name='tecnologias',
         blank=True
     )
+
     class Meta:
         verbose_name = "Tecnologia"
         verbose_name_plural = "Tecnologias"
@@ -136,10 +136,11 @@ class Projeto(models.Model):
         related_name='projetos',
         blank=True
     )
+
     class Meta:
         verbose_name = "Projeto"
         verbose_name_plural = "Projetos"
-        
+
     def __str__(self):
         return self.titulo
 
@@ -172,10 +173,11 @@ class TFC(models.Model):
         related_name='tfcs_orientados',
         blank=True
     )
-    
-     class Meta:
+
+    class Meta:
         verbose_name = "TFC"
         verbose_name_plural = "TFCs"
+
     def __str__(self):
         return self.titulo
 
@@ -215,10 +217,10 @@ class MakingOf(models.Model):
         on_delete=models.CASCADE,
         related_name='makingofs'
     )
-    
+
     class Meta:
         verbose_name = "Making Of"
-        verbose_name_plural = "Making Ofs"
+        verbose_name_plural = "Making Of"
 
     def __str__(self):
         return f"MakingOf - {self.projeto.titulo}"
@@ -236,7 +238,7 @@ class AreaDeInteresse(models.Model):
 
     class Meta:
         verbose_name = "Área de Interesse"
-        verbose_name_plural = "Áreas de Interesses"
+        verbose_name_plural = "Áreas de Interesse"
 
     def __str__(self):
         return self.nome
