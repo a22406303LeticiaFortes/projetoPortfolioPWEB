@@ -117,7 +117,7 @@ class MakingOfAdmin(admin.ModelAdmin):
     list_display = ('projeto', 'etapas')
     search_fields = ('projeto__titulo', 'decisoes', 'justificacao')
 
-    fields = ('projeto', 'etapas', 'registo1', 'registo2', 'registo3', 'decisoes', 'erros_encontrados', 'correcoes', 'justificacao', 'uso_ia')
+    fields = ('projeto', 'etapas', 'registo1', 'registo2','decisoes', 'erros_encontrados', 'correcoes', 'justificacao', 'uso_ia')
 
 
 @admin.register(AreaDeInteresse)

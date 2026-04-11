@@ -189,7 +189,6 @@ class Formacao(models.Model):
 class MakingOf(models.Model):
     registo1 = models.FileField(upload_to='makingof/', blank=True, null=True)
     registo2 = models.FileField(upload_to='makingof/', blank=True, null=True)
-    registo3 = models.FileField(upload_to='makingof/', blank=True, null=True)
     etapas = models.CharField(max_length=100)
     decisoes = models.TextField()
     erros_encontrados = models.TextField()
