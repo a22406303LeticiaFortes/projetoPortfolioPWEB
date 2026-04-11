@@ -13,9 +13,12 @@ class LicenciaturaAdmin(admin.ModelAdmin):
     search_fields = ('nome', 'faculdade')
 
 
+from django.contrib import admin
+from django.utils.html import format_html
+
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('codigo_uc', 'imagem','nome', 'get_licenciaturas', 'ano_curricular', 'semestre', 'creditos')
+    list_display = ('imagem_preview', 'codigo_uc', 'nome', 'get_licenciaturas', 'ano_curricular', 'semestre', 'creditos')
     list_filter = ('ano_curricular', 'semestre')
     search_fields = ('codigo_uc', 'nome', 'descricao', 'objetivos', 'programa', 'metodologia', 'avaliacao')
     filter_horizontal = ('licenciaturas', 'docentes', 'competencias', 'tecnologias')
@@ -27,10 +30,16 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
         ('Relações', {'fields': ('docentes', 'competencias', 'tecnologias')}),
     )
 
+    def imagem_preview(self, obj):
+        if obj.imagem:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 4px;" />', obj.imagem.url)
+        return "-"
+
+    imagem_preview.short_description = 'Imagem'
+
     def get_licenciaturas(self, obj):
         return ", ".join([l.nome for l in obj.licenciaturas.all()])
     get_licenciaturas.short_description = 'Licenciaturas'
-
 
 @admin.register(Docente)
 class DocenteAdmin(admin.ModelAdmin):
@@ -40,7 +49,7 @@ class DocenteAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'ano', 'uc', 'preview_imagem')
+    list_display = ('preview_imagem','titulo', 'ano', 'uc')
     list_filter = ('ano', 'uc')
     search_fields = ('titulo', 'descricao', 'conceitos_aplicados')
     filter_horizontal = ('tecnologias', 'competencias')
@@ -61,12 +70,23 @@ class ProjetoAdmin(admin.ModelAdmin):
     preview_imagem.short_description = 'Imagem'
 
 
+
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'tipo', 'nivel_conhecimento', 'nivel_interesse')
+    list_display = ('logo_preview', 'nome', 'tipo', 'nivel_conhecimento', 'nivel_interesse')
     list_filter = ('tipo',)
     search_fields = ('nome', 'tipo', 'descricao')
     filter_horizontal = ('competencias',)
+
+    def logo_preview(self, obj):
+        if obj.logo:
+            return format_html(
+                '<img src="{}" style="height: 35px; width: auto; border-radius: 4px;" />',
+                obj.logo.url
+            )
+        return "-"
+
+    logo_preview.short_description = "Logo"
 
 
 @admin.register(TFC)
