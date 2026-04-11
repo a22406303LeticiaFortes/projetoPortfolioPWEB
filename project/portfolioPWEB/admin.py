@@ -131,7 +131,7 @@ class ProjetoAdmin(admin.ModelAdmin):
             )
         return "Sem imagem"
 
-    preview_imagem.short_description = 'Preview'
+    preview_imagem.short_description = 'Imagem'
 
 
 @admin.register(Tecnologia)
