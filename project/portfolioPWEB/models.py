@@ -9,6 +9,10 @@ class Licenciatura(models.Model):
     formato = models.CharField(max_length=50)
     website = models.URLField()
     faculdade = models.CharField(max_length=100)
+    
+    class Meta:
+        verbose_name = "Licenciatura"
+        verbose_name_plural = "Licenciaturas"
 
     def __str__(self):
         return self.nome
@@ -20,6 +24,10 @@ class Docente(models.Model):
     email = models.EmailField(blank=True)
     pagina_pessoal = models.URLField(blank=True)
 
+    class Meta:
+        verbose_name = "Docente"
+        verbose_name_plural = "Docentes"
+
     def __str__(self):
         return self.nome
 
@@ -29,9 +37,14 @@ class Competencia(models.Model):
     tipo = models.CharField(max_length=50)
     descricao = models.TextField()
     nivel = models.IntegerField()
+    
+     class Meta:
+        verbose_name = "Competência"
+        verbose_name_plural = "Competências"
 
     def __str__(self):
         return self.nome
+    
 
 
 class Tecnologia(models.Model):
@@ -47,6 +60,9 @@ class Tecnologia(models.Model):
         related_name='tecnologias',
         blank=True
     )
+    class Meta:
+        verbose_name = "Tecnologia"
+        verbose_name_plural = "Tecnologias"
 
     def __str__(self):
         return self.nome
@@ -87,6 +103,10 @@ class UnidadeCurricular(models.Model):
         blank=True
     )
 
+    class Meta:
+        verbose_name = "Unidade Curricular"
+        verbose_name_plural = "Unidades Curriculares"
+
     def __str__(self):
         return self.nome
 
@@ -116,7 +136,10 @@ class Projeto(models.Model):
         related_name='projetos',
         blank=True
     )
-
+    class Meta:
+        verbose_name = "Projeto"
+        verbose_name_plural = "Projetos"
+        
     def __str__(self):
         return self.titulo
 
@@ -149,7 +172,10 @@ class TFC(models.Model):
         related_name='tfcs_orientados',
         blank=True
     )
-
+    
+     class Meta:
+        verbose_name = "TFC"
+        verbose_name_plural = "TFCs"
     def __str__(self):
         return self.titulo
 
@@ -166,6 +192,10 @@ class Formacao(models.Model):
         related_name='formacoes',
         blank=True
     )
+
+    class Meta:
+        verbose_name = "Formação"
+        verbose_name_plural = "Formações"
 
     def __str__(self):
         return self.nome
@@ -185,6 +215,10 @@ class MakingOf(models.Model):
         on_delete=models.CASCADE,
         related_name='makingofs'
     )
+    
+    class Meta:
+        verbose_name = "Making Of"
+        verbose_name_plural = "Making Ofs"
 
     def __str__(self):
         return f"MakingOf - {self.projeto.titulo}"
@@ -199,6 +233,10 @@ class AreaDeInteresse(models.Model):
         related_name='areas_interesse',
         blank=True
     )
+
+    class Meta:
+        verbose_name = "Área de Interesse"
+        verbose_name_plural = "Áreas de Interesses"
 
     def __str__(self):
         return self.nome
