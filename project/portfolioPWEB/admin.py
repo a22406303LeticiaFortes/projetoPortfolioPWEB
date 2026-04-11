@@ -15,7 +15,7 @@ class LicenciaturaAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('codigo_uc', 'nome', 'get_licenciaturas', 'ano_curricular', 'semestre', 'creditos')
+    list_display = ('codigo_uc', 'imagem','nome', 'get_licenciaturas', 'ano_curricular', 'semestre', 'creditos')
     list_filter = ('ano_curricular', 'semestre')
     search_fields = ('codigo_uc', 'nome', 'descricao', 'objetivos', 'programa', 'metodologia', 'avaliacao')
     filter_horizontal = ('licenciaturas', 'docentes', 'competencias', 'tecnologias')
