@@ -15,71 +15,21 @@ class LicenciaturaAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = (
-        'codigo_uc',
-        'nome',
-        'ano_curricular',
-        'semestre',
-        'creditos',
-        'licenciatura'
-    )
-
-    list_filter = (
-        'ano_curricular',
-        'semestre',
-        'licenciatura'
-    )
-
-    search_fields = (
-        'codigo_uc',
-        'nome',
-        'descricao',
-        'objetivos',
-        'programa',
-        'metodologia',
-        'avaliacao'
-    )
-
-    filter_horizontal = (
-        'docentes',
-        'competencias',
-        'tecnologias'
-    )
+    list_display = ('codigo_uc', 'nome', 'get_licenciaturas', 'ano_curricular', 'semestre', 'creditos')
+    list_filter = ('ano_curricular', 'semestre')
+    search_fields = ('codigo_uc', 'nome', 'descricao', 'objetivos', 'programa', 'metodologia', 'avaliacao')
+    filter_horizontal = ('licenciaturas', 'docentes', 'competencias', 'tecnologias')
 
     fieldsets = (
-        ('Informação Geral', {
-            'fields': (
-                'codigo_uc',
-                'nome',
-                'ano_curricular',
-                'semestre',
-                'creditos',
-                'licenciatura'
-            )
-        }),
-        ('Conteúdo da UC', {
-            'fields': (
-                'descricao',
-                'objetivos',
-                'programa',
-                'metodologia',
-                'avaliacao'
-            )
-        }),
-        ('Media e Ligação', {
-            'fields': (
-                'imagem',
-                'link_uc'
-            )
-        }),
-        ('Relações', {
-            'fields': (
-                'docentes',
-                'competencias',
-                'tecnologias'
-            )
-        }),
+        ('Informação Geral', {'fields': ('codigo_uc', 'nome', 'ano_curricular', 'semestre', 'creditos', 'licenciaturas')}),
+        ('Conteúdo da UC', {'fields': ('descricao', 'objetivos', 'programa', 'metodologia', 'avaliacao')}),
+        ('Media e Ligação', {'fields': ('imagem', 'link_uc')}),
+        ('Relações', {'fields': ('docentes', 'competencias', 'tecnologias')}),
     )
+
+    def get_licenciaturas(self, obj):
+        return ", ".join([l.nome for l in obj.licenciaturas.all()])
+    get_licenciaturas.short_description = 'Licenciaturas'
 
 
 @admin.register(Docente)
@@ -96,39 +46,16 @@ class ProjetoAdmin(admin.ModelAdmin):
     filter_horizontal = ('tecnologias', 'competencias')
 
     fieldsets = (
-        ('Informação Geral', {
-            'fields': (
-                'titulo',
-                'descricao',
-                'conceitos_aplicados',
-                'ano',
-                'uc'
-            )
-        }),
-        ('Media e Links', {
-            'fields': (
-                'imagem',
-                'preview_imagem',
-                'video_demo',
-                'github'
-            )
-        }),
-        ('Relações', {
-            'fields': (
-                'tecnologias',
-                'competencias'
-            )
-        }),
+        ('Informação Geral', {'fields': ('titulo', 'descricao', 'conceitos_aplicados', 'ano', 'uc')}),
+        ('Media e Links', {'fields': ('imagem', 'preview_imagem', 'video_demo', 'github')}),
+        ('Relações', {'fields': ('tecnologias', 'competencias')}),
     )
 
     readonly_fields = ('preview_imagem',)
 
     def preview_imagem(self, obj):
         if obj.imagem:
-            return format_html(
-                '<img src="{}" style="max-height: 120px; max-width: 200px;" />',
-                obj.imagem.url
-            )
+            return format_html('<img src="{}" style="max-height: 120px; max-width: 200px;" />', obj.imagem.url)
         return "Sem imagem"
 
     preview_imagem.short_description = 'Imagem'
@@ -167,8 +94,10 @@ class FormacaoAdmin(admin.ModelAdmin):
 
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
-    list_display = ('projeto',)
-    search_fields = ('projeto__titulo', 'registos', 'decisoes', 'justificacao')
+    list_display = ('projeto', 'etapas')
+    search_fields = ('projeto__titulo', 'decisoes', 'justificacao')
+
+    fields = ('projeto', 'etapas', 'registo1', 'registo2', 'registo3', 'decisoes', 'erros_encontrados', 'correcoes', 'justificacao', 'uso_ia')
 
 
 @admin.register(AreaDeInteresse)

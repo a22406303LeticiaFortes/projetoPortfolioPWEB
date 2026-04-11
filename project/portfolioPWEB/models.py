@@ -82,26 +82,10 @@ class UnidadeCurricular(models.Model):
     programa = models.TextField(blank=True)
     avaliacao = models.TextField(blank=True)
 
-    licenciatura = models.ForeignKey(
-        Licenciatura,
-        on_delete=models.CASCADE,
-        related_name='ucs'
-    )
-    docentes = models.ManyToManyField(
-        Docente,
-        related_name='ucs',
-        blank=True
-    )
-    competencias = models.ManyToManyField(
-        Competencia,
-        related_name='ucs',
-        blank=True
-    )
-    tecnologias = models.ManyToManyField(
-        Tecnologia,
-        related_name='ucs',
-        blank=True
-    )
+    licenciaturas = models.ManyToManyField(Licenciatura, related_name='unidades_curriculares', blank=True )
+    docentes = models.ManyToManyField(Docente,related_name='ucs',blank=True)
+    competencias = models.ManyToManyField(Competencia,related_name='ucs',blank=True)
+    tecnologias = models.ManyToManyField(Tecnologia,related_name='ucs',blank=True )
 
     class Meta:
         verbose_name = "Unidade Curricular"
@@ -112,7 +96,7 @@ class UnidadeCurricular(models.Model):
 
 
 class Projeto(models.Model):
-    titulo = models.CharField(max_length=100)
+    titulo = models.CharField(max_length=50)
     descricao = models.TextField()
     conceitos_aplicados = models.TextField()
     tecnologias_resumo = models.TextField()
@@ -202,10 +186,11 @@ class Formacao(models.Model):
     def __str__(self):
         return self.nome
 
-
 class MakingOf(models.Model):
-    registos = models.TextField()
-    etapas = models.TextField()
+    registo1 = models.ImageField(upload_to='makingof/', blank=True, null=True)
+    registo2 = models.ImageField(upload_to='makingof/', blank=True, null=True)
+    registo3 = models.ImageField(upload_to='makingof/', blank=True, null=True)
+    etapas = models.CharField(max_length=100)
     decisoes = models.TextField()
     erros_encontrados = models.TextField()
     correcoes = models.TextField()
