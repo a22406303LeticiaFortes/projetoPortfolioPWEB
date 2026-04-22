@@ -124,3 +124,7 @@ footer {
     color: #9ca3af;
     margin-top: 40px;
 }
+article > section > ul > li a {
+    color: white;
+    text-decoration: none;
+}
