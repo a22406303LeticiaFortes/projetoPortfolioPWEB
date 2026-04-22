@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Portfólio</h1>
+        <nav>
+            <a href="/portfolio/licenciaturas/">Licenciaturas</a>
+            <a href="/portfolio/docentes/">Docentes</a>
+            <a href="/portfolio/competencias/">Competências</a>
+            <a href="/portfolio/tecnologias/">Tecnologias</a>
+            <a href="/portfolio/ucs/">UCs</a>
+            <a href="/portfolio/projetos/">Projetos</a>
+            <a href="/portfolio/tfcs/">TFCs</a>
+            <a href="/portfolio/formacoes/">Formações</a>
+            <a href="/portfolio/makingofs/">Making Of</a>
+            <a href="/portfolio/areas/">Áreas</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<h2>Formações</h2>
+
+<section>
+    {% for f in formacoes %}
+    <article>
+        <header>
+            <h3>{{ f.nome }}</h3>
+            <p>Instituição: {{ f.instituicao }}</p>
+            <p>Tipo: {{ f.tipo }}</p>
+        </header>
+
+        {% if f.logotipo %}
+            <img src="{{ f.logotipo.url }}" alt="Logotipo {{ f.nome }}">
+        {% endif %}
+
+        <section>
+            <h4>Datas</h4>
+            <p>{{ f.data_inicio }} - {{ f.data_fim }}</p>
+        </section>
+
+        <section>
+            <h4>Competências</h4>
+            <ul>
+                {% for competencia in f.competencias.all %}
+                    <li>{{ competencia.nome }}</li>
+                {% empty %}
+                    <li>Sem competências associadas</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% empty %}
+    <article>
+        <p>Sem formações registadas.</p>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<h2>Competências</h2>
+
+<section>
+    {% for c in competencias %}
+    <article>
+        <h3>{{ c.nome }}</h3>
+        <p>{{ c.descricao }}</p>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}

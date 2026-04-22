@@ -1,0 +1,36 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<h2>Tecnologias</h2>
+
+<section>
+    {% for tecnologia in tecnologias %}
+    <article>
+        <header>
+            <h3>{{ tecnologia.nome }}</h3>
+            <p>Tipo: {{ tecnologia.tipo }}</p>
+        </header>
+
+        {% if tecnologia.logo %}
+            <img src="{{ tecnologia.logo.url }}" alt="Logo {{ tecnologia.nome }}">
+        {% endif %}
+
+        <section>
+            <h4>Descrição</h4>
+            <p>{{ tecnologia.descricao }}</p>
+        </section>
+
+        <section>
+            <h4>Competências</h4>
+            <ul>
+                {% for competencia in tecnologia.competencias.all %}
+                    <li>{{ competencia.nome }}</li>
+                {% empty %}
+                    <li>Sem competências</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}

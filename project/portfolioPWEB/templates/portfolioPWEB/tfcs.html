@@ -1,0 +1,14 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<h2>TFCs</h2>
+
+<section>
+    {% for t in tfcs %}
+    <article>
+        <h3>{{ t.titulo }}</h3>
+        <p>{{ t.descricao }}</p>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}
