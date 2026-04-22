@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "portfolioPWEB",
+    'escola'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL pública para aceder aos ficheiros
 MEDIA_URL = '/media/'
+
