@@ -3,6 +3,12 @@
 {% block content %}
 <h2>Formações</h2>
 
+{% if request.user.is_authenticated %}
+    <a href="{% url 'nova_formacao' %}">
+        <button>Nova Formação</button>
+    </a>
+{% endif %}
+
 <section>
     {% for f in formacoes %}
     <article>
@@ -31,6 +37,16 @@
                 {% endfor %}
             </ul>
         </section>
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'edita_formacao' f.id %}">
+                <button>Editar</button>
+            </a>
+
+            <a href="{% url 'apaga_formacao' f.id %}">
+                <button>Apagar</button>
+            </a>
+        {% endif %}
     </article>
     {% empty %}
     <article>

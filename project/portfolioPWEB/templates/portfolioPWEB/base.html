@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio</title>
+    <title>Portfólio Pessoal</title>
 
     {% load static %}
-    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}?v=1.2">
+
+    <style>
+        .errorlist { display: none; }
+    </style>
 </head>
 <body>
     <header>
@@ -25,12 +31,12 @@
         </nav>
     </header>
 
-    <main>
+    <main class="fade-in-container">
         {% block content %}{% endblock %}
     </main>
 
     <footer>
-        <p>&copy; 2026</p>
+        <p>&copy; 2026 | Desenvolvido com Django & Estilo</p>
     </footer>
 </body>
 </html>

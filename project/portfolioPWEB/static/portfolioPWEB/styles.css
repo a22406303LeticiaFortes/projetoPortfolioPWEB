@@ -1,137 +1,233 @@
-/* escola/static/escola/styles.css   */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
+/* --- VARIÁVEIS PARA EDIÇÃO RÁPIDA --- */
+:root {
+    --primary: #6366f1;       /* Indigo moderno */
+    --secondary: #a855f7;     /* Roxo vibrante */
+    --accent: #22d3ee;        /* Ciano para detalhes */
+    --bg-dark: #020617;       /* Fundo quase preto */
+    --card-bg: rgba(30, 41, 59, 0.5); 
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+}
+
+/* --- RESET E BASE --- */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* BODY */
 body {
-    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: #e6ebf2;
-    color: #111827;
-    line-height: 1.5;
+    font-family: "Inter", sans-serif;
+    background: radial-gradient(circle at top left, #1e1b4b, #020617, #0f172a);
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* HEADER PRINCIPAL DO WEBSITE (de base.html) */
+/* --- HEADER DINÂMICO --- */
 body > header {
-    background: #1f2937;
-    color: white;
-    padding: 20px 40px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 8%;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 body > header h1 {
     font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
 }
 
-body > header nav {
-    margin-top: 10px;
+nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-body > header nav a {
-    color: #d1d5db;
-    margin-right: 20px;
+nav a {
+    color: var(--text-dim);
     text-decoration: none;
-    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
-body > header nav a:hover {
+nav a:hover {
     color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--card-border);
+    transform: translateY(-2px);
 }
 
-/* MAIN */
+/* --- CONTEÚDO PRINCIPAL --- */
 main {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 40px auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* TÍTULO DA PÁGINA */
 h2 {
-    margin-bottom: 20px;
-    font-size: 26px;
+    font-size: 38px;
+    margin-bottom: 40px;
+    font-weight: 800;
+    position: relative;
 }
 
-/* GRID DE CURSOS */
-section > article {
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid #d1d5db;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    transition: all 0.25s ease;
-    margin-bottom: 20px;
+h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+    margin-top: 8px;
 }
 
-section > article:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+/* --- GRID INTELIGENTE --- */
+main > section {
+    display: grid;
+    /* Ajusta automaticamente o número de colunas conforme o espaço */
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
 }
 
-/* HEADER DO CARD */
-article > header {
+/* --- CARTÕES (GLASSMORPHISM) --- */
+article {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+article:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: rgba(30, 41, 59, 0.7);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+article h3 {
+    font-size: 22px;
+    color: white;
     margin-bottom: 12px;
 }
 
-article > header > h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-article > header > p {
-    font-size: 14px;
-    color: #374151;
-}
-
-/* SEÇÃO DO CARD */
-article > section {
-    margin-top: 10px;
-}
-
-article > section > h4 {
+article h4 {
+    margin-top: 15px;
+    color: var(--primary);
     font-size: 11px;
     text-transform: uppercase;
-    color: #6b7280;
-    margin-bottom: 8px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.15em;
+    font-weight: 800;
 }
 
-/* LISTA DE ELEMENTOS do CARD */
-article > section > ul {
+article p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Garante que o texto empurra as tags para o fundo */
+}
+
+/* --- IMAGENS NOS CARTÕES --- */
+article img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    padding: 15px;
+    transition: transform 0.3s ease;
+}
+
+article:hover img {
+    transform: scale(1.05);
+}
+
+/* --- TAGS / PILLS --- */
+article ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: auto;
 }
 
-/* ITEM */
-article > section > ul > li {
-    background: #2563eb;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 500;
+article li {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: #c7d2fe;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
 }
 
-/* FOOTER */
+/* --- ANIMAÇÕES --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Atraso sequencial para os primeiros 6 itens */
+article:nth-child(1) { animation-delay: 0.1s; }
+article:nth-child(2) { animation-delay: 0.2s; }
+article:nth-child(3) { animation-delay: 0.3s; }
+article:nth-child(4) { animation-delay: 0.4s; }
+article:nth-child(5) { animation-delay: 0.5s; }
+article:nth-child(6) { animation-delay: 0.6s; }
+
+/* --- FOOTER --- */
 footer {
+    margin-top: 80px;
+    padding: 40px;
     text-align: center;
-    padding: 25px;
-    background: #1f2937;
-    color: #9ca3af;
-    margin-top: 40px;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-dim);
+    font-size: 14px;
 }
-article > section > ul > li a {
-    color: white;
-    text-decoration: none;
-}
-article img {
-    max-width: 100px;   /* tamanho máximo */
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    margin-top: 10px;
+
+/* --- RESPONSIVIDADE EXTRA --- */
+@media (max-width: 600px) {
+    body > header {
+        justify-content: center;
+        text-align: center;
+    }
+    h2 {
+        font-size: 30px;
+    }
+    main > section {
+        grid-template-columns: 1fr;
+    }
 }

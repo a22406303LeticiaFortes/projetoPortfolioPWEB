@@ -3,16 +3,60 @@
 {% block content %}
 <h2>Making Of</h2>
 
-<section>
+<section class="making-of-grid">
     {% for m in makingofs %}
-    <article>
-        <h3>{{ m.projeto }}</h3>
-        <p>{{ m.descricao }}</p>
+    <article class="mo-card">
+        <div class="mo-header">
+            <div class="mo-title-group">
+                <h3>{{ m.projeto.titulo }}</h3>
+                <span class="etapa-badge">{{ m.etapas }}</span>
+            </div>
+        </div>
 
-        {% if m.registos %}
-        <img src="{{ m.registos.url }}">
-        {% endif %}
+        <div class="mo-content">
+            <div class="mo-section">
+                <h4><i class="icon">💡</i> Decisões e Justificação</h4>
+                <p><strong>Decisão:</strong> {{ m.decisoes }}</p>
+                <p class="mo-subtext"><em>{{ m.justificacao }}</em></p>
+            </div>
+
+            <div class="mo-split">
+                <div class="mo-box error">
+                    <h4><i class="icon">⚠️</i> Erros Encontrados</h4>
+                    <p>{{ m.erros_encontrados }}</p>
+                </div>
+                <div class="mo-box success">
+                    <h4><i class="icon">✅</i> Correções Realizadas</h4>
+                    <p>{{ m.correcoes }}</p>
+                </div>
+            </div>
+
+            {% if m.uso_ia %}
+            <div class="mo-section ia-block">
+                <h4><i class="icon">🤖</i> Uso de Inteligência Artificial</h4>
+                <p>{{ m.uso_ia }}</p>
+            </div>
+            {% endif %}
+
+            <div class="mo-media">
+                {% if m.registo1 %}
+                    <div class="media-item">
+                        <p>Registo Técnico 1:</p>
+                        <a href="{{ m.registo1.url }}" class="btn-file" target="_blank">Abrir Ficheiro</a>
+                    </div>
+                {% endif %}
+                
+                {% if m.registo2 %}
+                    <div class="media-item">
+                        <p>Registo Técnico 2:</p>
+                        <a href="{{ m.registo2.url }}" class="btn-file" target="_blank">Abrir Ficheiro</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </article>
+    {% empty %}
+    <p>Ainda não foram registados processos de "Making Of".</p>
     {% endfor %}
 </section>
 {% endblock %}
