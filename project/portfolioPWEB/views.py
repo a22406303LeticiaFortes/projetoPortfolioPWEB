@@ -20,7 +20,9 @@ from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 def licenciaturas_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related(
         "unidades_curriculares",
-        "unidades_curriculares__docentes"
+        "unidades_curriculares__docentes",
+        "unidades_curriculares__tecnologias",
+        "unidades_curriculares__competencias",
     ).all()
     return render(request, "portfolioPWEB/licenciaturas.html", {"licenciaturas": licenciaturas})
 
@@ -82,7 +84,15 @@ def areas_view(request):
 
 
 def portfolio_home_view(request):
-    return render(request, "portfolioPWEB/home.html")
+    projetos_destaque = (
+        Projeto.objects
+        .select_related("uc")
+        .prefetch_related("tecnologias")
+        .order_by("-ano")[:3]
+    )
+    return render(request, "portfolioPWEB/home.html", {
+        "projetos_destaque": projetos_destaque,
+    })
 
 
 # --- CRUD PROJETOS ---
@@ -196,3 +206,33 @@ def apaga_formacao_view(request, formacao_id):
 
 def sobre_view(request):
     return render(request, "portfolioPWEB/sobre.html")
+
+def percurso_view(request):
+    licenciaturas = Licenciatura.objects.prefetch_related(
+        "unidades_curriculares",
+        "unidades_curriculares__docentes",
+        "unidades_curriculares__tecnologias",
+        "unidades_curriculares__competencias",
+    ).all()
+    formacoes    = Formacao.objects.prefetch_related("competencias").order_by("-data_fim")
+    competencias = Competencia.objects.all().order_by("tipo", "nome")
+    areas        = AreaDeInteresse.objects.prefetch_related("competencias").all()
+    tecnologias = Tecnologia.objects.prefetch_related("competencias").order_by("tipo", "nome")
+
+ 
+    return render(request, "portfolioPWEB/percurso.html", {
+        "licenciaturas": licenciaturas,
+        "formacoes":     formacoes,
+        "competencias":  competencias,
+        "tecnologias":   tecnologias,  # ← adiciona isto
+        "areas":         areas,
+    })
+
+def painel_view(request):
+    return render(request, "portfolioPWEB/painel.html", {
+        "projetos":    Projeto.objects.select_related("uc").order_by("-ano"),
+        "tecnologias": Tecnologia.objects.order_by("tipo", "nome"),
+        "competencias": Competencia.objects.order_by("tipo", "nome"),
+        "formacoes":   Formacao.objects.order_by("-data_fim"),
+    })
+ 

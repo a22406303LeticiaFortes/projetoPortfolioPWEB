@@ -1,64 +1,22 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}{% if tecnologia %}Editar{% else %}Nova{% endif %} Tecnologia | Leticia{% endblock %}
 
 {% block content %}
-<section style="display: flex; justify-content: center; padding: 40px 0;">
-    
-    <article style="max-width: 600px; width: 100%; padding: 40px;">
-        
-        <h2 style="margin-bottom: 30px;">
+<div class="form-page">
+    <div class="form-card">
+        <span class="section-label">Tecnologias</span>
+        <h2 style="font-family:var(--font-title);font-size:38px;font-weight:400;margin:10px 0 6px">
             {% if tecnologia %}Editar{% else %}Nova{% endif %} Tecnologia
         </h2>
-
-        <form method="POST" enctype="multipart/form-data">
+        <p class="form-desc">Preenche os dados da tecnologia.</p>
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
             {% csrf_token %}
-            
-            <div class="glass-form-fields">
-                {{ form.as_p }}
-            </div>
-
-            <div style="margin-top: 40px; display: flex; gap: 20px; align-items: center;">
-                <button type="submit" class="btn-action btn-primary-glass" style="border: none; cursor: pointer; padding: 14px 28px;">
-                    Guardar Alterações
-                </button>
-                
-                <a href="{% url 'tecnologias' %}" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">
-                    Cancelar
-                </a>
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
             </div>
         </form>
-        
-    </article>
-</section>
-
-<style>
-    .glass-form-fields p {
-        margin-bottom: 20px;
-    }
-    .glass-form-fields label {
-        display: block;
-        margin-bottom: 8px;
-        color: var(--accent);
-        font-weight: 800;
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 1px;
-    }
-    .glass-form-fields input, 
-    .glass-form-fields textarea, 
-    .glass-form-fields select {
-        width: 100%;
-        padding: 12px;
-        background: rgba(15, 23, 42, 0.6); /* Fundo escuro transparente */
-        border: 1px solid var(--card-border);
-        border-radius: 12px;
-        color: white;
-        font-family: inherit;
-        transition: 0.3s;
-    }
-    .glass-form-fields input:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-    }
-</style>
+    </div>
+</div>
 {% endblock %}

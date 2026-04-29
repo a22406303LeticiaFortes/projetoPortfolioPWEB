@@ -1,221 +1,73 @@
 {% extends "portfolioPWEB/base.html" %}
 
+{% block title %}Projetos | Leticia Fortes{% endblock %}
+
 {% block content %}
-<div class="page-header-premium">
-    <div class="header-titles">
-        <span class="ui-tag">Informática de Gestão</span>
-        <h2>Showcase de Projetos</h2>
-    </div>
-    
-    <a href="{% url 'novo_projeto' %}" class="btn-action btn-primary-glass">
-        + Adicionar Ativo
-    </a>
+
+<div class="lic-hero">
+    <span class="section-label">Portfólio</span>
+    <h2>Projetos</h2>
+    <p>
+        Trabalhos desenvolvidos ao longo do percurso académico —
+        cada projeto com a sua história, tecnologias e processo criativo.
+    </p>
 </div>
 
-<section class="portfolio-horizontal-list">
+<div class="proj-list">
     {% for p in projetos %}
-    <article class="project-entry-row">
-        
-        <div class="media-column">
-            <div class="large-media-container-glass">
-                {% if p.imagem %}
-                    <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}">
-                {% else %}
-                    <div class="no-image-placeholder">Nenhuma Imagem</div>
+    <article class="proj-item">
+
+        <!-- Índice -->
+        <span class="proj-num">0{{ forloop.counter }}</span>
+
+        <!-- Texto -->
+        <div class="proj-text">
+            <div class="proj-header">
+                <h3 class="proj-titulo">{{ p.titulo }}</h3>
+            </div>
+
+            {% if p.uc %}
+            <span class="proj-uc">{{ p.uc.nome }}</span>
+            {% endif %}
+
+            <p class="proj-descricao">{{ p.descricao }}</p>
+
+            {% if p.tecnologias.all %}
+            <div class="proj-tecnologias">
+                {% for t in p.tecnologias.all %}
+                <span class="tag tag-lg">{{ t.nome }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if p.github or p.video_demo %}
+            <div class="proj-links">
+                {% if p.github %}
+                <a href="{{ p.github }}" target="_blank" rel="noopener" class="proj-link-btn">GitHub ↗</a>
+                {% endif %}
+                {% if p.video_demo %}
+                <a href="{{ p.video_demo }}" target="_blank" rel="noopener" class="proj-link-btn">Demo ↗</a>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
 
-        <div class="content-column">
-            <header class="content-header">
-                <h3>{{ p.titulo }}</h3>
-                <span class="ano-badge">{{ p.ano }}</span>
-            </header>
-            
-            <div class="content-body">
-                <p class="full-untruncated-description">{{ p.descricao }}</p>
-            </div>
-
-            <footer class="content-footer">
-                <div class="actions-group">
-                    <a href="{% url 'edita_projeto' p.id %}" class="btn-premium-action btn-edit-icon" title="Editar">
-                        ✎ Editar
-                    </a>
-                    <a href="{% url 'apaga_projeto' p.id %}" class="btn-premium-action btn-delete-icon" title="Apagar">
-                        🗑️ Apagar
-                    </a>
-                </div>
-            </footer>
+        <!-- Imagem -->
+        <div class="proj-img-col">
+            {% if p.imagem %}
+            <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" />
+            {% else %}
+            <div class="proj-placeholder">{{ p.titulo|first }}</div>
+            {% endif %}
+            <span class="proj-ano-badge">{{ p.ano }}</span>
         </div>
 
     </article>
+    {% empty %}
+    <div class="empty-state">
+        <p>Ainda não existem projetos publicados.</p>
+    </div>
     {% endfor %}
-</section>
+</div>
 
-<style>
-    /* Estilo do Cabeçalho da Página */
-    .page-header-premium {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 50px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .ui-tag {
-        color: var(--accent);
-        text-transform: uppercase;
-        font-weight: 800;
-        font-size: 12px;
-        letter-spacing: 2px;
-    }
-
-    /* Estrutura da Lista Horizontal */
-    .portfolio-horizontal-list {
-        display: flex;
-        flex-direction: column;
-        gap: 40px; /* Mais espaço entre projetos */
-    }
-
-    /* Entrada Individual (Linha/Row) */
-    .project-entry-row {
-        display: flex;
-        background: rgba(30, 41, 59, 0.3); /* Fundo roxo escuro ainda mais translúcido */
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 24px;
-        overflow: hidden; /* Garante cantos arredondados na imagem */
-        transition: all 0.3s ease;
-        position: relative;
-    }
-
-    .project-entry-row:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary);
-        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
-    }
-
-    /* 1. Coluna Media (Esquerda) */
-    .media-column {
-        flex: 0 0 30%; /* Ocupa 30% e não encolhe */
-        max-width: 300px; /* Limite opcional se o ecrã for enorme */
-        padding: 0;
-    }
-
-    .large-media-container-glass {
-        width: 100%;
-        height: 100%; /* Ocupa a altura total do cartão */
-        background: rgba(15, 23, 42, 0.6); /* Fundo ainda mais escuro */
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .large-media-container-glass img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Cobre todo o espaço, aspeto Premium */
-    }
-
-    /* Placeholder quando não há imagem */
-    .no-image-placeholder {
-        color: var(--text-dim);
-        font-size: 14px;
-        opacity: 0.5;
-    }
-
-    /* 2. Coluna Conteúdo (Direita) */
-    .content-column {
-        flex: 1; /* Ocupa o resto do espaço */
-        padding: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .content-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .content-content-header h3 {
-        font-size: 28px;
-        margin: 0;
-        color: white;
-        font-weight: 800;
-        letter-spacing: -1px;
-    }
-
-    .ano-badge {
-        background: rgba(139, 92, 246, 0.15); /* Fundo roxo suave */
-        color: var(--primary);
-        padding: 6px 16px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-    /* AQUI É O TEU TEXTO GRANDE (Sem cortes) */
-    .full-untruncated-description {
-        color: var(--text-dim);
-        line-height: 1.8; /* Leitura profissional */
-        font-size: 16px;
-        margin: 0 0 30px 0;
-        white-space: pre-line; /* Respeita os parágrafos */
-        flex-grow: 1; /* Empurra o rodapé para baixo */
-    }
-
-    /* Rodapé do Conteúdo (Ações) */
-    .content-footer {
-        margin-top: auto;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .actions-group {
-        display: flex;
-        gap: 20px;
-        justify-content: flex-end;
-    }
-
-    .btn-premium-action {
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 700;
-        transition: all 0.2s ease;
-        padding: 10px 18px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .btn-edit-icon {
-        color: var(--accent);
-        background: rgba(34, 211, 238, 0.05);
-    }
-    .btn-edit-icon:hover {
-        background: rgba(34, 211, 238, 0.2);
-    }
-
-    .btn-delete-icon {
-        color: #f87171;
-        background: rgba(248, 113, 113, 0.05);
-    }
-    .btn-delete-icon:hover {
-        background: rgba(248, 113, 113, 0.2);
-    }
-
-    /* Responsividade para telemóveis */
-    @media (max-width: 900px) {
-        .project-entry-row { flex-direction: column; border-radius: 20px; }
-        .media-column { width: 100%; max-width: 100%; }
-        .large-media-container-glass { height: 250px; }
-        .content-column { padding: 30px; }
-        .content-header h3 { font-size: 24px; }
-    }
-</style>
 {% endblock %}

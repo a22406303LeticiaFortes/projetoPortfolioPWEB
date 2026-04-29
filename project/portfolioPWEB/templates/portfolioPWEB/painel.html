@@ -1,0 +1,137 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block title %}Painel | Leticia Fortes{% endblock %}
+
+{% block content %}
+
+<div class="lic-hero">
+    <span class="section-label">Gestão</span>
+    <h2>Painel</h2>
+    <p>Gere o conteúdo do teu portfólio — projetos, tecnologias, competências e formações.</p>
+</div>
+
+<div class="painel-grid">
+
+    <!-- ══ PROJETOS ══ -->
+    <div class="painel-section">
+        <div class="painel-section-header">
+            <h3>Projetos</h3>
+            <a href="{% url 'novo_projeto' %}" class="btn btn-primary">+ Novo</a>
+        </div>
+        <div class="painel-list">
+            {% for p in projetos %}
+            <div class="painel-item">
+                <div class="painel-item-info">
+                    {% if p.imagem %}
+                    <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" class="painel-thumb" />
+                    {% else %}
+                    <div class="painel-thumb-placeholder">{{ p.titulo|first }}</div>
+                    {% endif %}
+                    <div>
+                        <p class="painel-item-nome">{{ p.titulo }}</p>
+                        <p class="painel-item-meta">{{ p.ano }}{% if p.uc %} · {{ p.uc.nome }}{% endif %}</p>
+                    </div>
+                </div>
+                <div class="painel-item-actions">
+                    <a href="{% url 'edita_projeto' p.id %}" class="painel-btn-edit">✎</a>
+                    <a href="{% url 'apaga_projeto' p.id %}" class="painel-btn-delete">✕</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="painel-empty">Sem projetos.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ══ TECNOLOGIAS ══ -->
+    <div class="painel-section">
+        <div class="painel-section-header">
+            <h3>Tecnologias</h3>
+            <a href="{% url 'nova_tecnologia' %}" class="btn btn-primary">+ Nova</a>
+        </div>
+        <div class="painel-list">
+            {% for t in tecnologias %}
+            <div class="painel-item">
+                <div class="painel-item-info">
+                    {% if t.logo %}
+                    <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="painel-thumb painel-thumb--contain" />
+                    {% else %}
+                    <div class="painel-thumb-placeholder">{{ t.nome|first }}</div>
+                    {% endif %}
+                    <div>
+                        <p class="painel-item-nome">{{ t.nome }}</p>
+                        <p class="painel-item-meta">{{ t.tipo }}</p>
+                    </div>
+                </div>
+                <div class="painel-item-actions">
+                    <a href="{% url 'edita_tecnologia' t.id %}" class="painel-btn-edit">✎</a>
+                    <a href="{% url 'apaga_tecnologia' t.id %}" class="painel-btn-delete">✕</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="painel-empty">Sem tecnologias.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ══ COMPETÊNCIAS ══ -->
+    <div class="painel-section">
+        <div class="painel-section-header">
+            <h3>Competências</h3>
+            <a href="{% url 'nova_competencia' %}" class="btn btn-primary">+ Nova</a>
+        </div>
+        <div class="painel-list">
+            {% for c in competencias %}
+            <div class="painel-item">
+                <div class="painel-item-info">
+                    <div class="painel-thumb-placeholder">{{ c.nome|first }}</div>
+                    <div>
+                        <p class="painel-item-nome">{{ c.nome }}</p>
+                        <p class="painel-item-meta">{{ c.tipo }} · Nível {{ c.nivel }}/5</p>
+                    </div>
+                </div>
+                <div class="painel-item-actions">
+                    <a href="{% url 'edita_competencia' c.id %}" class="painel-btn-edit">✎</a>
+                    <a href="{% url 'apaga_competencia' c.id %}" class="painel-btn-delete">✕</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="painel-empty">Sem competências.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ══ FORMAÇÕES ══ -->
+    <div class="painel-section">
+        <div class="painel-section-header">
+            <h3>Formações</h3>
+            <a href="{% url 'nova_formacao' %}" class="btn btn-primary">+ Nova</a>
+        </div>
+        <div class="painel-list">
+            {% for f in formacoes %}
+            <div class="painel-item">
+                <div class="painel-item-info">
+                    {% if f.logotipo %}
+                    <img src="{{ f.logotipo.url }}" alt="{{ f.nome }}" class="painel-thumb painel-thumb--contain" />
+                    {% else %}
+                    <div class="painel-thumb-placeholder">{{ f.instituicao|first }}</div>
+                    {% endif %}
+                    <div>
+                        <p class="painel-item-nome">{{ f.nome }}</p>
+                        <p class="painel-item-meta">{{ f.instituicao }} · {{ f.tipo }}</p>
+                    </div>
+                </div>
+                <div class="painel-item-actions">
+                    <a href="{% url 'edita_formacao' f.id %}" class="painel-btn-edit">✎</a>
+                    <a href="{% url 'apaga_formacao' f.id %}" class="painel-btn-delete">✕</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="painel-empty">Sem formações.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

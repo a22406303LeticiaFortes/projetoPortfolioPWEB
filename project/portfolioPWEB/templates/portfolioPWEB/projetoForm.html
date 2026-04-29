@@ -1,136 +1,24 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}{% if projeto %}Editar{% else %}Novo{% endif %} Projeto | Leticia{% endblock %}
 
 {% block content %}
-<section class="form-container">
-    <article class="glass-card">
-        <div class="form-header">
-            <span class="ui-tag">Gestão de Portfólio</span>
-            <h2>{% if projeto %}Editar{% else %}Adicionar{% endif %} Projeto</h2>
-            <p>Preenche os detalhes para destacar as tuas competências tecnológicas.</p>
-        </div>
-
-        <form method="POST" enctype="multipart/form-data" class="modern-form">
+<div class="form-page">
+    <div class="form-card">
+        <span class="section-label">Projetos</span>
+        <h2 style="font-family:var(--font-title);font-size:38px;font-weight:400;margin:10px 0 6px">
+            {% if projeto %}Editar{% else %}Novo{% endif %} Projeto
+        </h2>
+        <p class="form-desc">Preenche os detalhes do projeto.</p>
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
             {% csrf_token %}
-            
-            <div class="form-grid">
-                {{ form.as_p }}
-            </div>
-
+            {{ form.as_p }}
             <div class="form-actions">
-                <button type="submit" class="btn-action btn-primary-glass">
-                    {% if projeto %}Atualizar Projeto{% else %}Publicar Projeto{% endif %}
+                <button type="submit" class="btn btn-primary">
+                    {% if projeto %}Guardar alterações{% else %}Publicar projeto{% endif %}
                 </button>
-                <a href="{% url 'projetos' %}" class="btn-link">Cancelar e Voltar</a>
+                <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
             </div>
         </form>
-    </article>
-</section>
-
-<style>
-    /* Contentor Principal */
-    .form-container {
-        display: flex;
-        justify-content: center;
-        padding: 40px 20px;
-        min-height: 80vh;
-    }
-
-    /* O Cartão de Vidro */
-    .glass-card {
-        max-width: 800px;
-        width: 100%;
-        background: rgba(30, 41, 59, 0.7); /* Azul muito escuro e translúcido */
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 40px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    }
-
-    .form-header {
-        margin-bottom: 30px;
-        text-align: left;
-    }
-
-    .form-header h2 {
-        font-size: 32px;
-        margin: 10px 0;
-        background: linear-gradient(to right, #fff, var(--primary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    /* Estilização Mágica dos Campos do Django (as_p) */
-    .modern-form p {
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .modern-form label {
-        color: var(--accent);
-        font-weight: 700;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-    }
-
-    /* Input, Textarea e Select */
-    .modern-form input, 
-    .modern-form textarea, 
-    .modern-form select {
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 12px 15px;
-        color: white;
-        font-family: inherit;
-        font-size: 15px;
-        transition: all 0.3s ease;
-    }
-
-    .modern-form input:focus, 
-    .modern-form textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        background: rgba(15, 23, 42, 1);
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-    }
-
-    /* Ajuste para áreas de texto grandes */
-    .modern-form textarea {
-        min-height: 120px;
-        resize: vertical;
-    }
-
-    /* Rodapé do Formulário */
-    .form-actions {
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        gap: 25px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 30px;
-    }
-
-    .btn-link {
-        color: var(--text-dim);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-        transition: 0.3s;
-    }
-
-    .btn-link:hover {
-        color: white;
-    }
-
-    /* Responsividade */
-    @media (max-width: 600px) {
-        .glass-card { padding: 25px; }
-        .form-actions { flex-direction: column; align-items: stretch; }
-        .btn-action { text-align: center; }
-    }
-</style>
+    </div>
+</div>
 {% endblock %}

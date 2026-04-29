@@ -1,21 +1,22 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}{% if competencia %}Editar{% else %}Nova{% endif %} Competência | Leticia{% endblock %}
 
 {% block content %}
-<section style="display: flex; justify-content: center;">
-    <article style="max-width: 600px; width: 100%;">
-        <h3>{% if competencia %}Editar{% else %}Nova{% endif %} Competência</h3>
-        <br>
-        <form method="POST" enctype="multipart/form-data">
+<div class="form-page">
+    <div class="form-card">
+        <span class="section-label">Competências</span>
+        <h2 style="font-family:var(--font-title);font-size:38px;font-weight:400;margin:10px 0 6px">
+            {% if competencia %}Editar{% else %}Nova{% endif %} Competência
+        </h2>
+        <p class="form-desc">Preenche os dados da competência.</p>
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
             {% csrf_token %}
-            <div class="form-glass">
-                {{ form.as_p }}
-            </div>
-            <br>
-            <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-indigo">Guardar</button>
-                <a href="{% url 'competencias' %}" style="text-decoration: none; color: var(--text-dim); padding: 10px;">Cancelar</a>
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
             </div>
         </form>
-    </article>
-</section>
+    </div>
+</div>
 {% endblock %}

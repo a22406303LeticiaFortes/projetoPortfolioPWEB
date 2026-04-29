@@ -1,14 +1,14 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}Apagar Projeto | Leticia{% endblock %}
 
 {% block content %}
 <div class="delete-box">
-    <h2>⚠️ Confirmar Eliminação</h2>
-    <p>Leticia, tens a certeza que queres apagar o projeto <strong>"{{ projeto.titulo }}"</strong>?</p>
-    
+    <h2>Apagar Projeto</h2>
+    <p>Tens a certeza que queres apagar <strong>"{{ projeto.titulo }}"</strong>? Esta ação é irreversível.</p>
     <form method="POST" class="delete-form">
         {% csrf_token %}
-        <button type="submit" class="btn-danger">Sim, apagar definitivamente</button>
-        <a href="{% url 'projetos' %}" class="btn-neutral">Não, manter este projeto</a>
+        <button type="submit" class="btn btn-danger">Sim, apagar definitivamente</button>
+        <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
     </form>
 </div>
 {% endblock %}

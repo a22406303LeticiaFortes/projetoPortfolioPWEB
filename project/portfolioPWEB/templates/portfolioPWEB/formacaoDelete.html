@@ -1,13 +1,14 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}Apagar Formação | Leticia{% endblock %}
 
 {% block content %}
-<div style="max-width: 500px; margin: 0 auto; text-align: center;">
-    <h2 style="color: var(--danger);">⚠️ Apagar Formação</h2>
-    <p>Tens a certeza que queres eliminar a formação em <strong>"{{ formacao.nome }}"</strong>?</p>
-    <form method="POST" style="margin-top: 30px;">
+<div class="delete-box">
+    <h2>Apagar Formação</h2>
+    <p>Tens a certeza que queres eliminar <strong>"{{ formacao.nome }}"</strong>? Esta ação é irreversível.</p>
+    <form method="POST" class="delete-form">
         {% csrf_token %}
-        <button type="submit" class="btn-save" style="background: var(--danger);">Confirmar</button>
-        <a href="{% url 'formacoes' %}" class="btn-cancel">Voltar</a>
+        <button type="submit" class="btn btn-danger">Sim, apagar</button>
+        <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
     </form>
 </div>
 {% endblock %}

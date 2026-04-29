@@ -2,69 +2,143 @@
 
 {% block content %}
 <section class="lic-page">
+
     <div class="lic-hero">
         <span class="section-label">Percurso académico</span>
         <h2>Licenciaturas</h2>
         <p>
-            Explora as licenciaturas associadas ao meu percurso académico. Cada cartão apresenta
-            o contexto da formação, dados principais e as unidades curriculares associadas.
+            Explora as licenciaturas associadas ao meu percurso académico.
+            Clica em cada uma para ver a descrição e as unidades curriculares associadas.
         </p>
     </div>
 
     <div class="lic-grid">
         {% for l in licenciaturas %}
         <article class="lic-card">
+
+            <!-- ── Cabeçalho clicável ── -->
             <button class="lic-card-header" type="button" aria-expanded="false">
                 <div>
                     <span class="lic-index">0{{ forloop.counter }}</span>
                     <h3>{{ l.nome }}</h3>
                     <p>{{ l.faculdade }}</p>
                 </div>
-                <span class="lic-toggle-icon">+</span>
+                <span class="lic-toggle-icon" aria-hidden="true">+</span>
             </button>
 
+            <!-- ── Corpo expansível ── -->
             <div class="lic-card-body">
-                <p class="lic-description">{{ l.descricao }}</p>
 
+                <!-- Descrição -->
+                {% if l.descricao %}
+                <p class="lic-description">{{ l.descricao }}</p>
+                {% endif %}
+
+                <!-- Meta: créditos, semestres, formato -->
                 <div class="lic-meta">
+                    {% if l.creditos %}
                     <div>
                         <span>Créditos</span>
                         <strong>{{ l.creditos }}</strong>
                     </div>
+                    {% endif %}
+                    {% if l.semestres %}
                     <div>
                         <span>Semestres</span>
                         <strong>{{ l.semestres }}</strong>
                     </div>
+                    {% endif %}
+                    {% if l.formato %}
                     <div>
                         <span>Formato</span>
                         <strong>{{ l.formato }}</strong>
                     </div>
+                    {% endif %}
                 </div>
 
+                <!-- UCs agrupadas por ano curricular -->
                 <div class="lic-section">
                     <h4>Unidades Curriculares</h4>
 
-                    <div class="uc-list">
-                        {% for uc in l.unidades_curriculares.all %}
-                        <div class="uc-pill">
-                            <strong>{{ uc.nome }}</strong>
-                            <span>{{ uc.ano_curricular }}º ano · {{ uc.creditos }} ECTS</span>
+                    {% regroup l.unidades_curriculares.all|dictsort:"ano_curricular" by ano_curricular as ucs_por_ano %}
+
+                    {% if ucs_por_ano %}
+                        {% for grupo in ucs_por_ano %}
+                        <div class="uc-ano-grupo">
+                            <p class="uc-ano-label">{{ grupo.grouper }}º Ano</p>
+                            <div class="uc-list">
+                                {% for uc in grupo.list %}
+                                <div class="uc-pill">
+
+                                    <!-- Nome e créditos -->
+                                    <div class="uc-pill-header">
+                                        <strong>{{ uc.nome }}</strong>
+                                        <span class="uc-pill-meta">{{ uc.creditos }} ECTS{% if uc.semestre %} · {{ uc.semestre }}º semestre{% endif %}</span>
+                                    </div>
+
+                                    <!-- Docentes -->
+                                    {% if uc.docentes.all %}
+                                    <div class="uc-pill-section">
+                                        <p class="uc-pill-label">Docentes</p>
+                                        <div class="uc-docentes">
+                                            {% for d in uc.docentes.all %}
+                                            <span class="uc-docente">
+                                                {% if d.pagina_pessoal %}
+                                                <a href="{{ d.pagina_pessoal }}" target="_blank" rel="noopener">{{ d.nome }}</a>
+                                                {% else %}
+                                                {{ d.nome }}
+                                                {% endif %}
+                                            </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Tecnologias -->
+                                    {% if uc.tecnologias.all %}
+                                    <div class="uc-pill-section">
+                                        <p class="uc-pill-label">Tecnologias</p>
+                                        <div class="uc-tags">
+                                            {% for t in uc.tecnologias.all %}
+                                            <span class="tag">{{ t.nome }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Competências -->
+                                    {% if uc.competencias.all %}
+                                    <div class="uc-pill-section">
+                                        <p class="uc-pill-label">Competências</p>
+                                        <div class="uc-tags">
+                                            {% for c in uc.competencias.all %}
+                                            <span class="tag">{{ c.nome }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        {% empty %}
-                        <p class="lic-empty">Ainda não existem unidades curriculares associadas.</p>
                         {% endfor %}
-                    </div>
+                    {% else %}
+                        <p class="lic-empty">Ainda não existem unidades curriculares associadas.</p>
+                    {% endif %}
                 </div>
 
                 {% if l.website %}
-                <a href="{{ l.website }}" target="_blank" class="btn btn-outline lic-link">
-                    Ver website oficial
+                <a href="{{ l.website }}" target="_blank" rel="noopener" class="btn btn-outline lic-link">
+                    Ver website oficial ↗
                 </a>
                 {% endif %}
+
             </div>
         </article>
         {% endfor %}
     </div>
+
 </section>
 
 <script>
@@ -81,6 +155,12 @@ document.querySelectorAll(".lic-card-header").forEach((button) => {
         if (!isOpen) {
             card.classList.add("open");
             button.setAttribute("aria-expanded", "true");
+            setTimeout(() => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < 80) {
+                    card.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }, 80);
         }
     });
 });

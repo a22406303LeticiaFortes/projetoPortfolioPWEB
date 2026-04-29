@@ -1,15 +1,22 @@
 {% extends "portfolioPWEB/base.html" %}
+{% block title %}{% if formacao %}Editar{% else %}Nova{% endif %} Formação | Leticia{% endblock %}
 
 {% block content %}
-<div class="form-card">
-    <h2>{% if formacao %}Editar{% else %}Nova{% endif %} Formação</h2>
-    <form method="POST" enctype="multipart/form-data" class="styled-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div style="margin-top: 30px;">
-            <button type="submit" class="btn-save">Guardar Formação</button>
-            <a href="{% url 'formacoes' %}" class="btn-cancel">Cancelar</a>
-        </div>
-    </form>
+<div class="form-page">
+    <div class="form-card">
+        <span class="section-label">Formações</span>
+        <h2 style="font-family:var(--font-title);font-size:38px;font-weight:400;margin:10px 0 6px">
+            {% if formacao %}Editar{% else %}Nova{% endif %} Formação
+        </h2>
+        <p class="form-desc">Preenche os dados da formação.</p>
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

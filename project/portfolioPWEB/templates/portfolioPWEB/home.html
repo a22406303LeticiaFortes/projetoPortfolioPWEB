@@ -1,90 +1,152 @@
 {% extends "portfolioPWEB/base.html" %}
+{% load static %}
+{% block title %}Leticia Fortes | Portfólio{% endblock %}
 
 {% block content %}
 
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
 <section class="home-intro">
-    <div class="home-intro-text">
-        <span class="section-label">Portfólio pessoal</span>
 
-        <h1>Leticia Fortes</h1>
+    <div class="home-intro-text">
+        <span class="section-label home-eyebrow">Informática de Gestão</span>
+
+        <h1>
+            Olá,<br>
+            sou a<br>
+            <em>Leticia.</em>
+        </h1>
 
         <p>
-            Estudante de Informática de Gestão, com interesse em desenvolvimento web,
-            organização de informação e criação de aplicações digitais funcionais,
-            claras e bem estruturadas.
+            Estudante apaixonada por tecnologia e design. Este portfólio
+            reúne o meu percurso académico, projetos e aprendizagens.
         </p>
 
         <div class="home-actions">
-            <a href="{% url 'projetos' %}" class="btn btn-primary">Ver projetos</a>
-            <a href="{% url 'sobre' %}" class="btn btn-outline">Sobre esta aplicação</a>
+            <a href="{% url 'projetos' %}" class="btn btn-primary">Ver Projetos →</a>
+            <a href="{% url 'percurso' %}" class="btn home-btn-percurso">Percurso académico ↗</a>
+            <a href="{% url 'painel' %}" class="btn btn-outline">⚙ Painel</a>
         </div>
     </div>
 
-    <aside class="home-summary">
-        <div>
-            <span>Área</span>
-            <strong>Informática de Gestão</strong>
-        </div>
-
-        <div>
-            <span>Aplicação</span>
-            <strong>Portfólio pessoal em Django</strong>
-        </div>
-
-        <div>
-            <span>Foco</span>
-            <strong>Formação, competências, tecnologias e projetos</strong>
-        </div>
-    </aside>
 </section>
 
+
+<!-- ══ MAPA DO SITE ══════════════════════════════════════════ -->
 <section class="home-map">
+
     <div class="home-map-header">
-        <span class="section-label">Estrutura</span>
-        <h2>O que encontra neste portfólio</h2>
+        <span class="section-label">Explorar</span>
+        <h2>O que encontras<br>aqui dentro</h2>
         <p>
-            O site está organizado para apresentar o meu percurso académico,
-            as competências desenvolvidas e os projetos realizados ao longo do curso.
+            Navega pelas secções do portfólio — do percurso académico
+            aos projetos desenvolvidos, competências e tecnologias exploradas.
         </p>
     </div>
 
     <div class="home-map-grid">
-        <a href="{% url 'formacoes' %}" class="home-map-card">
-            <span class="card-number">01</span>
-            <h3>Formação</h3>
-            <p>Cursos, certificações e etapas relevantes do meu percurso académico.</p>
+
+        <a href="{% url 'projetos' %}" class="home-map-card featured">
+            <p class="card-number">01</p>
+            <h3>Projetos</h3>
+            <p>Trabalhos desenvolvidos ao longo do percurso, com descrição, tecnologias e Making Of.</p>
         </a>
 
-        <a href="{% url 'licenciaturas' %}" class="home-map-card">
-            <span class="card-number">02</span>
-            <h3>Licenciaturas</h3>
-            <p>Contexto académico, plano geral, unidades curriculares e docentes.</p>
+        <a href="{% url 'percurso' %}" class="home-map-card">
+            <p class="card-number">02</p>
+            <h3>Percurso</h3>
+            <p>Licenciaturas, formações e áreas de interesse que definem o meu caminho académico.</p>
         </a>
 
         <a href="{% url 'competencias' %}" class="home-map-card">
-            <span class="card-number">03</span>
+            <p class="card-number">03</p>
             <h3>Competências</h3>
-            <p>Capacidades técnicas e transversais desenvolvidas através dos projetos.</p>
+            <p>Competências técnicas e transversais desenvolvidas ao longo da formação.</p>
         </a>
 
         <a href="{% url 'tecnologias' %}" class="home-map-card">
-            <span class="card-number">04</span>
+            <p class="card-number">04</p>
             <h3>Tecnologias</h3>
-            <p>Ferramentas, linguagens e frameworks usadas no desenvolvimento.</p>
-        </a>
-
-        <a href="{% url 'projetos' %}" class="home-map-card featured">
-            <span class="card-number">05</span>
-            <h3>Projetos</h3>
-            <p>Trabalhos realizados, objetivos, contexto e tecnologias aplicadas.</p>
+            <p>Linguagens, frameworks e ferramentas exploradas, com nível de conhecimento.</p>
         </a>
 
         <a href="{% url 'makingofs' %}" class="home-map-card">
-            <span class="card-number">06</span>
+            <p class="card-number">05</p>
             <h3>Making Of</h3>
-            <p>Processo de desenvolvimento, decisões, dificuldades e soluções.</p>
+            <p>Diário de bordo do desenvolvimento — decisões, erros, correções e uso de IA.</p>
+        </a>
+
+        <a href="{% url 'sobre' %}" class="home-map-card">
+            <p class="card-number">06</p>
+            <h3>Sobre</h3>
+            <p>Arquitetura MVT, stack tecnológica e documentação técnica desta aplicação.</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ══ PROJETOS EM DESTAQUE ══════════════════════════════════ -->
+{% if projetos_destaque %}
+<section class="home-map" style="margin-bottom: 0">
+
+    <div class="home-map-header">
+        <span class="section-label">Em destaque</span>
+        <h2>Projetos recentes</h2>
+    </div>
+
+    <div class="projects-list">
+        {% for p in projetos_destaque %}
+        <article class="project-row">
+
+            <div class="proj-img">
+                {% if p.imagem %}
+                <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" />
+                {% else %}
+                <span class="no-img">{{ p.titulo|first }}</span>
+                {% endif %}
+            </div>
+
+            <div class="proj-content">
+                <div class="proj-header">
+                    <h3 class="proj-title">{{ p.titulo }}</h3>
+                    <span class="proj-year">{{ p.ano }}</span>
+                </div>
+
+                <span class="page-tag">{{ p.uc.nome }}</span>
+
+                <p class="proj-desc">{{ p.descricao|truncatewords:28 }}</p>
+
+                <div class="card-tags">
+                    {% for t in p.tecnologias.all|slice:":4" %}
+                    <span class="tag">{{ t.nome }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="proj-footer">
+                    <a href="{% url 'projetos' %}" class="btn btn-primary">
+                        Ver projeto →
+                    </a>
+                    {% if p.github %}
+                    <a href="{{ p.github }}" target="_blank" rel="noopener" class="btn btn-outline">
+                        GitHub ↗
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </article>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 24px;">
+        <a href="{% url 'projetos' %}" class="btn btn-outline">
+            Ver todos os projetos →
         </a>
     </div>
+
 </section>
+{% endif %}
+
 
 {% endblock %}
