@@ -4,29 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leticia Fortes | Portfólio</title>
+    <title>{% block title %}Leticia Fortes | Portfólio{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}?v=1.5">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        .errorlist { display: none; }
+        .errorlist {
+            list-style: none;
+            color: #b91c1c;
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
     </style>
+
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <header>
-        <h1>Leticia Fortes</h1>
-        <nav>
-            <a href="{% url 'portfolio_home' %}">Home</a>
-            <a href="{% url 'formacoes' %}">Formações</a>
-            <a href="{% url 'licenciaturas' %}">Licenciaturas</a>
-            <a href="{% url 'competencias' %}">Competências</a>
-            <a href="{% url 'tecnologias' %}">Tecnologias</a>
-            <a href="{% url 'ucs' %}">UCs</a>
-            <a href="{% url 'projetos' %}">Projetos</a>
-            <a href="{% url 'makingofs' %}">Making Of</a>
-        </nav>
+
+    <header id="siteHeader">
+        <div class="header-inner">
+            <a href="{% url 'portfolio_home' %}" class="logo-link">
+                <h1>Leticia<span>.</span></h1>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav id="mainNav">
+                <a href="{% url 'portfolio_home' %}" class="nav-link">Home</a>
+                <a href="{% url 'formacoes' %}" class="nav-link">Formações</a>
+                <a href="{% url 'licenciaturas' %}" class="nav-link">Licenciaturas</a>
+                <a href="{% url 'competencias' %}" class="nav-link">Competências</a>
+                <a href="{% url 'tecnologias' %}" class="nav-link">Tecnologias</a>
+                <a href="{% url 'projetos' %}" class="nav-link">Projetos</a>
+                <a href="{% url 'sobre' %}" class="nav-link">Sobre</a>
+                <a href="{% url 'makingofs' %}" class="nav-link">Making Of</a>
+            </nav>
+        </div>
     </header>
 
     <main>
@@ -34,7 +58,117 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 | Leticia Fortes · Desenvolvido com Django</p>
+        <div class="footer-inner">
+            <p class="footer-brand">Leticia Fortes</p>
+            <p class="footer-copy">&copy; 2026 · Desenvolvido em <strong>Django</strong> </p>
+            <div class="footer-links">
+                <a href="{% url 'portfolio_home' %}">Home</a>
+                <a href="{% url 'sobre' %}">Sobre</a>
+                <a href="{% url 'projetos' %}">Projetos</a>
+            </div>
+        </div>
     </footer>
+
+    <script>
+    /* ── Custom Cursor ── */
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px,${my}px)`;
+    });
+
+    (function animateRing() {
+        rx += (mx - rx) * 0.14;
+        ry += (my - ry) * 0.14;
+        ring.style.transform = `translate(${rx}px,${ry}px)`;
+        requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a,button,[role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+    });
+
+    /* ── Sticky Header ── */
+    const header = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Active Nav Link ── */
+    const path = window.location.pathname;
+    document.querySelectorAll('.nav-link').forEach(a => {
+        if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+
+    /* ── Mobile Menu ── */
+    const toggle = document.getElementById('navToggle');
+    const nav    = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('.nav-link').forEach(a => {
+        a.addEventListener('click', () => {
+            nav.classList.remove('open');
+            toggle.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    /* ── Background Particles ── */
+    const container = document.getElementById('bgParticles');
+    const PARTICLE_COUNT = 22;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size  = Math.random() * 6 + 3;
+        const delay = Math.random() * 18;
+        const dur   = Math.random() * 14 + 12;
+        const left  = Math.random() * 100;
+        p.style.cssText = `
+            width:${size}px;height:${size}px;
+            left:${left}%;
+            animation-delay:${delay}s;
+            animation-duration:${dur}s;
+            opacity:${Math.random() * 0.4 + 0.1};
+        `;
+        container.appendChild(p);
+    }
+
+    /* ── Scroll Reveal ── */
+    const revealEls = document.querySelectorAll('.card, .project-row, .about-card, .mo-card, .home-link-card, .home-stats');
+    const observer  = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('revealed');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => { el.classList.add('will-reveal'); observer.observe(el); });
+    document.querySelectorAll('.licenciatura-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling;
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            document.querySelectorAll('.licenciatura-content').forEach(c => {
+                c.style.maxHeight = null;
+            });
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+});
+    </script>
+
+    {% load django_browser_reload %}
+    {% django_browser_reload_script %}
+
 </body>
 </html>

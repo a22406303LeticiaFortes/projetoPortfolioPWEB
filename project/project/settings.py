@@ -26,6 +26,7 @@ SECRET_KEY = "django-insecure-7hu01jbk39#*^jei0jqfa*#0)s0mt$d5-5z+(i-fmvv!5w9kcn
 DEBUG = True
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "portfolioPWEB",
-    'escola'
+    'escola',
+    "django_browser_reload"
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware"
 ]
 
 ROOT_URLCONF = "project.urls"

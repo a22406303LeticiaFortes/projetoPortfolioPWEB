@@ -8,6 +8,7 @@ urlpatterns = [
     path("escola/", include("escola.urls")),
     path("", include("portfolioPWEB.urls")),
     path("portfolio/", include("portfolioPWEB.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 if settings.DEBUG:

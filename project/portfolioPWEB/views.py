@@ -18,7 +18,10 @@ from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 
 
 def licenciaturas_view(request):
-    licenciaturas = Licenciatura.objects.all()
+    licenciaturas = Licenciatura.objects.prefetch_related(
+        "unidades_curriculares",
+        "unidades_curriculares__docentes"
+    ).all()
     return render(request, "portfolioPWEB/licenciaturas.html", {"licenciaturas": licenciaturas})
 
 
@@ -190,3 +193,6 @@ def apaga_formacao_view(request, formacao_id):
         formacao.delete()
         return redirect("formacoes")
     return render(request, "portfolioPWEB/formacaoDelete.html", {"formacao": formacao})
+
+def sobre_view(request):
+    return render(request, "portfolioPWEB/sobre.html")

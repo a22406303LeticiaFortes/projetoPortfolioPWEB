@@ -1,14 +1,88 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Licenciaturas</h2>
+<section class="lic-page">
+    <div class="lic-hero">
+        <span class="section-label">Percurso académico</span>
+        <h2>Licenciaturas</h2>
+        <p>
+            Explora as licenciaturas associadas ao meu percurso académico. Cada cartão apresenta
+            o contexto da formação, dados principais e as unidades curriculares associadas.
+        </p>
+    </div>
 
-<section>
-    {% for l in licenciaturas %}
-    <article>
-        <h3>{{ l.nome }}</h3>
-        <p>{{ l.descricao }}</p>
-    </article>
-    {% endfor %}
+    <div class="lic-grid">
+        {% for l in licenciaturas %}
+        <article class="lic-card">
+            <button class="lic-card-header" type="button" aria-expanded="false">
+                <div>
+                    <span class="lic-index">0{{ forloop.counter }}</span>
+                    <h3>{{ l.nome }}</h3>
+                    <p>{{ l.faculdade }}</p>
+                </div>
+                <span class="lic-toggle-icon">+</span>
+            </button>
+
+            <div class="lic-card-body">
+                <p class="lic-description">{{ l.descricao }}</p>
+
+                <div class="lic-meta">
+                    <div>
+                        <span>Créditos</span>
+                        <strong>{{ l.creditos }}</strong>
+                    </div>
+                    <div>
+                        <span>Semestres</span>
+                        <strong>{{ l.semestres }}</strong>
+                    </div>
+                    <div>
+                        <span>Formato</span>
+                        <strong>{{ l.formato }}</strong>
+                    </div>
+                </div>
+
+                <div class="lic-section">
+                    <h4>Unidades Curriculares</h4>
+
+                    <div class="uc-list">
+                        {% for uc in l.unidades_curriculares.all %}
+                        <div class="uc-pill">
+                            <strong>{{ uc.nome }}</strong>
+                            <span>{{ uc.ano_curricular }}º ano · {{ uc.creditos }} ECTS</span>
+                        </div>
+                        {% empty %}
+                        <p class="lic-empty">Ainda não existem unidades curriculares associadas.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if l.website %}
+                <a href="{{ l.website }}" target="_blank" class="btn btn-outline lic-link">
+                    Ver website oficial
+                </a>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
 </section>
+
+<script>
+document.querySelectorAll(".lic-card-header").forEach((button) => {
+    button.addEventListener("click", () => {
+        const card = button.closest(".lic-card");
+        const isOpen = card.classList.contains("open");
+
+        document.querySelectorAll(".lic-card").forEach((item) => {
+            item.classList.remove("open");
+            item.querySelector(".lic-card-header").setAttribute("aria-expanded", "false");
+        });
+
+        if (!isOpen) {
+            card.classList.add("open");
+            button.setAttribute("aria-expanded", "true");
+        }
+    });
+});
+</script>
 {% endblock %}

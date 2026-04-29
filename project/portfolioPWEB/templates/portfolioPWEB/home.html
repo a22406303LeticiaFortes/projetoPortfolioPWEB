@@ -1,25 +1,90 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<section class="hero-professional">
-    <div class="hero-text-side">
-        <span class="ui-label-pro">Informática de Gestão</span>
-        <h1 class="hero-title-serif">Leticia Fortes</h1>
-        <p class="hero-subtitle-pro">
-           ccc
+
+<section class="home-intro">
+    <div class="home-intro-text">
+        <span class="section-label">Portfólio pessoal</span>
+
+        <h1>Leticia Fortes</h1>
+
+        <p>
+            Estudante de Informática de Gestão, com interesse em desenvolvimento web,
+            organização de informação e criação de aplicações digitais funcionais,
+            claras e bem estruturadas.
         </p>
 
-        <div class="hero-action-btns">
-            <a href="{% url 'projetos' %}" class="btn-pro btn-primary-pro">Projetos</a>
-            <a href="https://www.linkedin.com/in/atuaconta" target="_blank" class="btn-pro btn-outline-pro">LinkedIn</a>
+        <div class="home-actions">
+            <a href="{% url 'projetos' %}" class="btn btn-primary">Ver projetos</a>
+            <a href="{% url 'sobre' %}" class="btn btn-outline">Sobre esta aplicação</a>
         </div>
     </div>
 
-    <div class="hero-visual-side">
-        <div class="organic-shape">
-            <div class="shape-bg"></div>
-            <div class="shape-overlay"></div>
+    <aside class="home-summary">
+        <div>
+            <span>Área</span>
+            <strong>Informática de Gestão</strong>
         </div>
+
+        <div>
+            <span>Aplicação</span>
+            <strong>Portfólio pessoal em Django</strong>
+        </div>
+
+        <div>
+            <span>Foco</span>
+            <strong>Formação, competências, tecnologias e projetos</strong>
+        </div>
+    </aside>
+</section>
+
+<section class="home-map">
+    <div class="home-map-header">
+        <span class="section-label">Estrutura</span>
+        <h2>O que encontra neste portfólio</h2>
+        <p>
+            O site está organizado para apresentar o meu percurso académico,
+            as competências desenvolvidas e os projetos realizados ao longo do curso.
+        </p>
+    </div>
+
+    <div class="home-map-grid">
+        <a href="{% url 'formacoes' %}" class="home-map-card">
+            <span class="card-number">01</span>
+            <h3>Formação</h3>
+            <p>Cursos, certificações e etapas relevantes do meu percurso académico.</p>
+        </a>
+
+        <a href="{% url 'licenciaturas' %}" class="home-map-card">
+            <span class="card-number">02</span>
+            <h3>Licenciaturas</h3>
+            <p>Contexto académico, plano geral, unidades curriculares e docentes.</p>
+        </a>
+
+        <a href="{% url 'competencias' %}" class="home-map-card">
+            <span class="card-number">03</span>
+            <h3>Competências</h3>
+            <p>Capacidades técnicas e transversais desenvolvidas através dos projetos.</p>
+        </a>
+
+        <a href="{% url 'tecnologias' %}" class="home-map-card">
+            <span class="card-number">04</span>
+            <h3>Tecnologias</h3>
+            <p>Ferramentas, linguagens e frameworks usadas no desenvolvimento.</p>
+        </a>
+
+        <a href="{% url 'projetos' %}" class="home-map-card featured">
+            <span class="card-number">05</span>
+            <h3>Projetos</h3>
+            <p>Trabalhos realizados, objetivos, contexto e tecnologias aplicadas.</p>
+        </a>
+
+        <a href="{% url 'makingofs' %}" class="home-map-card">
+            <span class="card-number">06</span>
+            <h3>Making Of</h3>
+            <p>Processo de desenvolvimento, decisões, dificuldades e soluções.</p>
+        </a>
     </div>
 </section>
+
 {% endblock %}

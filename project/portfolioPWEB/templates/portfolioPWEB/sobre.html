@@ -1,0 +1,78 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="page-tag">Sobre esta aplicação</span>
+        <h2>Arquitetura, modelação e tecnologias</h2>
+    </div>
+</div>
+
+<section class="about-layout">
+    <article class="about-card featured">
+        <span class="card-subtitle">Arquitetura MVT</span>
+        <h3 class="card-title">Como a aplicação Django está organizada</h3>
+        <p class="card-body">
+            Esta aplicação segue a arquitetura MVT do Django: os Models representam os dados,
+            as Views tratam a lógica da aplicação e os Templates apresentam a informação ao utilizador.
+        </p>
+
+        <div class="mvt-grid">
+            <div>
+                <strong>Model</strong>
+                <p>Define entidades como Projeto, Tecnologia, Competência, Formação e Making Of.</p>
+            </div>
+            <div>
+                <strong>View</strong>
+                <p>Recebe pedidos, consulta a base de dados e envia dados para os templates.</p>
+            </div>
+            <div>
+                <strong>Template</strong>
+                <p>Constrói as páginas HTML visíveis no browser.</p>
+            </div>
+        </div>
+    </article>
+
+    <article class="about-card">
+        <span class="card-subtitle">Modelação</span>
+        <h3 class="card-title">Entidades principais</h3>
+        <p class="card-body">
+            A aplicação está organizada em entidades relacionadas entre si. Os projetos podem estar associados
+            a tecnologias, competências e unidades curriculares. As formações também podem estar ligadas
+            a competências.
+        </p>
+    </article>
+
+    <article class="about-card">
+        <span class="card-subtitle">Tecnologias</span>
+        <h3 class="card-title">Ferramentas usadas</h3>
+        <ul class="clean-list">
+            <li>Django para backend e organização MVT</li>
+            <li>Python para lógica da aplicação</li>
+            <li>HTML para estrutura das páginas</li>
+            <li>CSS para identidade visual e responsividade</li>
+            <li>SQLite/base de dados para guardar informação</li>
+            <li>GitHub para controlo de versões</li>
+        </ul>
+    </article>
+
+    <article class="about-card">
+        <span class="card-subtitle">Estrutura das páginas</span>
+        <h3 class="card-title">Navegação do portfólio</h3>
+        <p class="card-body">
+            A aplicação inclui páginas para formações, competências, tecnologias, unidades curriculares,
+            projetos, áreas de interesse, making of e esta página técnica sobre a aplicação.
+        </p>
+    </article>
+
+    <article class="about-card featured">
+        <span class="card-subtitle">Repositório GitHub</span>
+        <h3 class="card-title">Gestão do desenvolvimento</h3>
+        <p class="card-body">
+            O GitHub foi usado para guardar versões do projeto, acompanhar alterações e documentar a evolução
+            da aplicação ao longo do desenvolvimento.
+        </p>
+        <a href="#" class="btn btn-primary">Adicionar link do GitHub</a>
+    </article>
+</section>
+{% endblock %}

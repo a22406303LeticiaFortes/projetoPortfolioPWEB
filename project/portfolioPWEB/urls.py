@@ -14,6 +14,7 @@ urlpatterns = [
     path("formacoes/", views.formacoes_view, name="formacoes"),
     path("makingofs/", views.makingofs_view, name="makingofs"),
     path("areas/", views.areas_view, name="areas"),
+    path("sobre/", views.sobre_view, name="sobre"),
 
     # PROJETOS
     path("projeto/novo/", views.novo_projeto_view, name="novo_projeto"),
