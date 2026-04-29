@@ -1,0 +1,13 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto; text-align: center;">
+    <h2 style="color: var(--danger);">⚠️ Apagar Tecnologia</h2>
+    <p>Leticia, queres mesmo remover a tecnologia <strong>"{{ tecnologia.nome }}"</strong>?</p>
+    <form method="POST" style="margin-top: 30px;">
+        {% csrf_token %}
+        <button type="submit" class="btn-save" style="background: var(--danger);">Sim, apagar</button>
+        <a href="{% url 'tecnologias' %}" class="btn-cancel">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

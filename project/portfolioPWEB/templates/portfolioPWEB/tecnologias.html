@@ -1,24 +1,24 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Tecnologias</h2>
-
-{% if request.user.is_authenticated %}
-    <a href="{% url 'nova_tecnologia' %}">
-        <button>Nova Tecnologia</button>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Tecnologias</h2>
+    
+    <a href="{% url 'nova_tecnologia' %}" class="btn-action btn-primary-glass">
+        + Adicionar Tecnologia
     </a>
-{% endif %}
+</div>
 
-<section>
+<section class="grid">
     {% for tecnologia in tecnologias %}
     <article>
         <header>
             <h3>{{ tecnologia.nome }}</h3>
-            <p>Tipo: {{ tecnologia.tipo }}</p>
+            <p><strong>Tipo:</strong> {{ tecnologia.tipo }}</p>
         </header>
 
         {% if tecnologia.logo %}
-            <img src="{{ tecnologia.logo.url }}" alt="Logo {{ tecnologia.nome }}">
+            <img src="{{ tecnologia.logo.url }}" alt="Logo {{ tecnologia.nome }}" style="max-width: 100px; margin: 15px 0;">
         {% endif %}
 
         <section>
@@ -37,16 +37,17 @@
             </ul>
         </section>
 
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'edita_tecnologia' tecnologia.id %}">
-                <button>Editar</button>
+        <div class="actions" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--card-border); display: flex; gap: 20px;">
+            <a href="{% url 'edita_tecnologia' tecnologia.id %}" style="color: var(--accent); text-decoration: none; font-weight: bold;">
+                ✎ Editar
             </a>
-
-            <a href="{% url 'apaga_tecnologia' tecnologia.id %}">
-                <button>Apagar</button>
+            <a href="{% url 'apaga_tecnologia' tecnologia.id %}" style="color: #f87171; text-decoration: none; font-weight: bold;">
+                Apagar
             </a>
-        {% endif %}
+        </div>
     </article>
+    {% empty %}
+        <p>Ainda não tens tecnologias registadas.</p>
     {% endfor %}
 </section>
 {% endblock %}

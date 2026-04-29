@@ -1,30 +1,28 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Competências</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+    <h2>Competências</h2>
+    
+    <a href="{% url 'nova_competencia' %}" class="btn-action btn-primary-glass">+ Nova Competência</a>
+</div>
 
-{% if request.user.is_authenticated %}
-    <a href="{% url 'nova_competencia' %}">
-        <button>Nova Competência</button>
-    </a>
-{% endif %}
-
-<section>
+<section class="grid">
     {% for c in competencias %}
     <article>
-        <h3>{{ c.nome }}</h3>
-        <p>{{ c.descricao }}</p>
+        <h3 style="color: white; margin-bottom: 15px;">{{ c.nome }}</h3>
+        
+        <p style="color: var(--text-dim); font-size: 15px; flex-grow: 1;">
+            {{ c.descricao }}
+        </p>
 
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'edita_competencia' c.id %}">
-                <button>Editar</button>
-            </a>
-
-            <a href="{% url 'apaga_competencia' c.id %}">
-                <button>Apagar</button>
-            </a>
-        {% endif %}
+        <div class="actions" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--card-border); display: flex; gap: 20px;">
+            <a href="{% url 'edita_competencia' c.id %}" class="link-edit" style="color: var(--accent); text-decoration: none; font-weight: 700;">✎ Editar</a>
+            <a href="{% url 'apaga_competencia' c.id %}" class="link-delete" style="color: #f87171; text-decoration: none; font-weight: 700;"> Apagar</a>
+        </div>
     </article>
+    {% empty %}
+    <p>Ainda não tens competências registadas.</p>
     {% endfor %}
 </section>
 {% endblock %}

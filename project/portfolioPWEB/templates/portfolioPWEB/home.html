@@ -1,14 +1,50 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Portfólio</h2>
+<div class="hero-wrapper">
+    
+    <div class="hero-content-left">
+        <div class="badge-animated">Informática de Gestão</div>
+        <h1 class="hero-main-title">Olá, o meu nome é <span class="gradient-text">Letícia Fortes!</span></h1>
+        <p class="hero-description">
+            Especialista em unir a **estratégia de negócio** com o poder da **tecnologia**. 
+            Desenvolvo ecossistemas digitais que transformam dados em decisões e processos em valor.
+        </p>
 
-<section>
-    <article>
-        <header>
-            <h3>Interfaces de consulta</h3>
-            <p>Escolha uma secção do portfólio no menu.</p>
-        </header>
-    </article>
-</section>
+        <div class="hero-btns">
+            <a href="{% url 'projetos' %}" class="btn-hero btn-primary">Explorar Projetos</a>
+            <a href="{% url 'competencias' %}" class="btn-hero btn-secondary">Skills Cloud</a>
+        </div>
+
+        <div class="quick-stats">
+            <div class="stat-item">
+                <span class="stat-num">+15</span>
+                <span class="stat-label">Tecnologias</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">20+</span>
+                <span class="stat-label">Projetos</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">98%</span>
+                <span class="stat-label">Eficiência</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-visual-right">
+        <div class="tech-sphere">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="core"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
 {% endblock %}

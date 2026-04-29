@@ -1,57 +1,51 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Formações</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+    <h2>Formações Extra</h2>
+    
+    <a href="{% url 'nova_formacao' %}" class="btn-action btn-primary-glass">+ Nova Formação</a>
+</div>
 
-{% if request.user.is_authenticated %}
-    <a href="{% url 'nova_formacao' %}">
-        <button>Nova Formação</button>
-    </a>
-{% endif %}
-
-<section>
+<section class="grid">
     {% for f in formacoes %}
     <article>
-        <header>
-            <h3>{{ f.nome }}</h3>
-            <p>Instituição: {{ f.instituicao }}</p>
-            <p>Tipo: {{ f.tipo }}</p>
-        </header>
+        <h3>{{ f.nome }}</h3>
+        <p style="color: var(--accent); font-weight: 700; font-size: 14px;">{{ f.instituicao }}</p>
+        <p style="font-size: 13px; color: var(--text-dim);">Tipo: {{ f.tipo }}</p>
 
-        {% if f.logotipo %}
-            <img src="{{ f.logotipo.url }}" alt="Logotipo {{ f.nome }}">
-        {% endif %}
+        <div class="project-img-container" style="height: 120px; margin: 15px 0;">
+            {% if f.logotipo %}
+                <img src="{{ f.logotipo.url }}" alt="Logotipo {{ f.nome }}">
+            {% else %}
+                <div style="color: var(--text-dim); font-size: 12px;">Sem Logotipo</div>
+            {% endif %}
+        </div>
 
-        <section>
-            <h4>Datas</h4>
-            <p>{{ f.data_inicio }} - {{ f.data_fim }}</p>
-        </section>
+        <div style="margin-bottom: 15px;">
+            <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary);">Período</h4>
+            <p style="font-size: 14px;">{{ f.data_inicio }} — {{ f.data_fim }}</p>
+        </div>
 
-        <section>
-            <h4>Competências</h4>
+        <div>
+            <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 8px;">Competências</h4>
             <ul>
                 {% for competencia in f.competencias.all %}
                     <li>{{ competencia.nome }}</li>
                 {% empty %}
-                    <li>Sem competências associadas</li>
+                    <li style="opacity: 0.5;">Sem competências associadas</li>
                 {% endfor %}
             </ul>
-        </section>
+        </div>
 
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'edita_formacao' f.id %}">
-                <button>Editar</button>
-            </a>
+        <div class="actions" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--card-border); display: flex; gap: 20px;">
+            <a href="{% url 'edita_formacao' f.id %}" class="link-edit" style="color: var(--accent); text-decoration: none; font-weight: 700;">✎ Editar</a>
+            <a href="{% url 'apaga_formacao' f.id %}" class="link-delete" style="color: #f87171; text-decoration: none; font-weight: 700;"> Apagar</a>
+        </div>
 
-            <a href="{% url 'apaga_formacao' f.id %}">
-                <button>Apagar</button>
-            </a>
-        {% endif %}
     </article>
     {% empty %}
-    <article>
-        <p>Sem formações registadas.</p>
-    </article>
+    <p>Ainda não tens formações registadas.</p>
     {% endfor %}
 </section>
 {% endblock %}

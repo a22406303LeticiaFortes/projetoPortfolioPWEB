@@ -1,14 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Pessoal</title>
+    <title>Leticia Fortes | Portfólio</title>
 
-    {% load static %}
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}?v=1.5">
     
-    <link rel="stylesheet" href="{% static 'portfolioPWEB/styles.css' %}?v=1.2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         .errorlist { display: none; }
@@ -16,27 +16,25 @@
 </head>
 <body>
     <header>
-        <h1>Portfólio</h1>
+        <h1>Leticia Fortes</h1>
         <nav>
-            <a href="/portfolio/licenciaturas/">Licenciaturas</a>
-            <a href="/portfolio/docentes/">Docentes</a>
-            <a href="/portfolio/competencias/">Competências</a>
-            <a href="/portfolio/tecnologias/">Tecnologias</a>
-            <a href="/portfolio/ucs/">UCs</a>
-            <a href="/portfolio/projetos/">Projetos</a>
-            <a href="/portfolio/tfcs/">TFCs</a>
-            <a href="/portfolio/formacoes/">Formações</a>
-            <a href="/portfolio/makingofs/">Making Of</a>
-            <a href="/portfolio/areas/">Áreas</a>
+            <a href="{% url 'portfolio_home' %}">Home</a>
+            <a href="{% url 'formacoes' %}">Formações</a>
+            <a href="{% url 'licenciaturas' %}">Licenciaturas</a>
+            <a href="{% url 'competencias' %}">Competências</a>
+            <a href="{% url 'tecnologias' %}">Tecnologias</a>
+            <a href="{% url 'ucs' %}">UCs</a>
+            <a href="{% url 'projetos' %}">Projetos</a>
+            <a href="{% url 'makingofs' %}">Making Of</a>
         </nav>
     </header>
 
-    <main class="fade-in-container">
+    <main>
         {% block content %}{% endblock %}
     </main>
 
     <footer>
-        <p>&copy; 2026 | Desenvolvido com Django & Estilo</p>
+        <p>&copy; 2026 | Leticia Fortes · Desenvolvido com Django</p>
     </footer>
 </body>
 </html>

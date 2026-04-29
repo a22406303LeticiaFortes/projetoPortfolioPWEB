@@ -1,0 +1,21 @@
+{% extends "portfolioPWEB/base.html" %}
+
+{% block content %}
+<section style="display: flex; justify-content: center;">
+    <article style="max-width: 600px; width: 100%;">
+        <h3>{% if competencia %}Editar{% else %}Nova{% endif %} Competência</h3>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-glass">
+                {{ form.as_p }}
+            </div>
+            <br>
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn-indigo">Guardar</button>
+                <a href="{% url 'competencias' %}" style="text-decoration: none; color: var(--text-dim); padding: 10px;">Cancelar</a>
+            </div>
+        </form>
+    </article>
+</section>
+{% endblock %}
