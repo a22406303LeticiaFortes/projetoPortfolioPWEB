@@ -22,20 +22,39 @@
 
         <!-- Texto -->
         <div class="proj-text">
-            <div class="proj-header">
-                <h3 class="proj-titulo">{{ p.titulo }}</h3>
-            </div>
+            <h3 class="proj-titulo">{{ p.titulo }}</h3>
 
             {% if p.uc %}
             <span class="proj-uc">{{ p.uc.nome }}</span>
             {% endif %}
 
-            <p class="proj-descricao">{{ p.descricao }}</p>
+            <!-- Descrição truncada + ler mais -->
+            <div class="proj-desc-wrap" id="desc-{{ forloop.counter }}">
+                <p class="proj-descricao proj-descricao--short">
+                    {{ p.descricao|truncatewords:30 }}
+                </p>
+                <p class="proj-descricao proj-descricao--full" hidden>
+                    {{ p.descricao }}
+                </p>
+                {% if p.descricao|wordcount > 30 %}
+                <button class="proj-ler-mais" onclick="toggleDesc({{ forloop.counter }})">
+                    Ler mais ↓
+                </button>
+                {% endif %}
+            </div>
 
             {% if p.tecnologias.all %}
             <div class="proj-tecnologias">
                 {% for t in p.tecnologias.all %}
                 <span class="tag tag-lg">{{ t.nome }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if p.competencias.all %}
+            <div class="proj-tecnologias" style="margin-top:6px">
+                {% for c in p.competencias.all %}
+                <span class="tag tag-lg tag-competencia">{{ c.nome }}</span>
                 {% endfor %}
             </div>
             {% endif %}
@@ -70,4 +89,18 @@
     {% endfor %}
 </div>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleDesc(id) {
+    const short  = document.querySelector(`#desc-${id} .proj-descricao--short`);
+    const full   = document.querySelector(`#desc-${id} .proj-descricao--full`);
+    const btn    = document.querySelector(`#desc-${id} .proj-ler-mais`);
+    const isOpen = !full.hidden;
+    short.hidden = !isOpen;
+    full.hidden  = isOpen;
+    btn.textContent = isOpen ? 'Ler mais ↓' : 'Ler menos ↑';
+}
+</script>
 {% endblock %}

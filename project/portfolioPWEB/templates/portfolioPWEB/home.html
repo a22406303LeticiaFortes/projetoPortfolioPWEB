@@ -4,149 +4,183 @@
 
 {% block content %}
 
-<!-- ══ HERO ══════════════════════════════════════════════════ -->
-<section class="home-intro">
+<!-- ══ HERO — layout editorial assimétrico ════════════════════ -->
+<section class="h-hero">
 
-    <div class="home-intro-text">
-        <span class="section-label home-eyebrow">Informática de Gestão</span>
+    <!-- Coluna esquerda: texto -->
+    <div class="h-hero-text">
+        <div class="h-hero-label">
+            <span class="h-label-line"></span>
+            <span class="h-label-text">Informática de Gestão · 2026</span>
+        </div>
 
-        <h1>
-            Olá,<br>
-            sou a<br>
-            <em>Leticia.</em>
+        <h1 class="h-hero-title">
+            <span class="h-title-row h-title-row--1">Olá,</span>
+            <span class="h-title-row h-title-row--2">sou a</span>
+            <span class="h-title-row h-title-row--3"><em>Leticia<span class="h-title-dot">.</span></em></span>
         </h1>
 
-        <p>
-            Estudante apaixonada por tecnologia e design. Este portfólio
-            reúne o meu percurso académico, projetos e aprendizagens.
+        <p class="h-hero-sub">
+            Estudante apaixonada por tecnologia, design
+            e soluções que fazem sentido.
         </p>
 
-        <div class="home-actions">
-            <a href="{% url 'projetos' %}" class="btn btn-primary">Ver Projetos →</a>
-            <a href="{% url 'percurso' %}" class="btn home-btn-percurso">Percurso académico ↗</a>
-            <a href="{% url 'painel' %}" class="btn btn-outline">⚙ Painel</a>
+        <div class="h-hero-actions">
+            <a href="{% url 'projetos' %}" class="h-btn-primary">
+                <span>Ver Projetos</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="{% url 'percurso' %}" class="h-btn-ghost">Percurso ↗</a>
+            <a href="{% url 'painel' %}" class="h-btn-icon" title="Painel">⚙</a>
         </div>
+    </div>
+
+    <!-- Coluna direita: card de stats + decoração -->
+    <div class="h-hero-right">
+        <div class="h-stats-card">
+            <div class="h-stat">
+                <span class="h-stat-n">{{ projetos_destaque|length }}</span>
+                <span class="h-stat-l">Projetos</span>
+            </div>
+            <div class="h-stat-sep"></div>
+            <div class="h-stat">
+                <span class="h-stat-n">2</span>
+                <span class="h-stat-l">Licenciaturas</span>
+            </div>
+            <div class="h-stat-sep"></div>
+            <div class="h-stat">
+                <span class="h-stat-n">∞</span>
+                <span class="h-stat-l">Curiosidade</span>
+            </div>
+        </div>
+
+        <div class="h-tags-cloud">
+            <span class="h-cloud-tag" style="--d:.0s">Django</span>
+            <span class="h-cloud-tag" style="--d:.15s">Python</span>
+            <span class="h-cloud-tag" style="--d:.3s">Power BI</span>
+            <span class="h-cloud-tag" style="--d:.45s">SQL</span>
+            <span class="h-cloud-tag" style="--d:.6s">CSS</span>
+            <span class="h-cloud-tag" style="--d:.75s">GitHub</span>
+        </div>
+
+        <!-- Elemento decorativo -->
+        <div class="h-deco-ring"></div>
     </div>
 
 </section>
 
+<!-- Separador editorial -->
+<div class="h-sep">
+    <div class="h-sep-line"></div>
+    <span class="h-sep-text">Portfólio · Leticia Fortes · {% now "Y" %}</span>
+    <div class="h-sep-line"></div>
+</div>
 
-<!-- ══ MAPA DO SITE ══════════════════════════════════════════ -->
-<section class="home-map">
 
-    <div class="home-map-header">
-        <span class="section-label">Explorar</span>
-        <h2>O que encontras<br>aqui dentro</h2>
-        <p>
-            Navega pelas secções do portfólio — do percurso académico
-            aos projetos desenvolvidos, competências e tecnologias exploradas.
-        </p>
+<!-- ══ MAPA — grelha editorial ═══════════════════════════════ -->
+<section class="h-map">
+    <div class="h-map-intro">
+        <span class="h-section-label">01 — Explorar</span>
+        <h2 class="h-map-title">O que<br><em>encontras</em><br>aqui dentro</h2>
     </div>
 
-    <div class="home-map-grid">
-
-        <a href="{% url 'projetos' %}" class="home-map-card featured">
-            <p class="card-number">01</p>
-            <h3>Projetos</h3>
-            <p>Trabalhos desenvolvidos ao longo do percurso, com descrição, tecnologias e Making Of.</p>
+    <div class="h-map-grid">
+        <a href="{% url 'projetos' %}" class="h-map-card h-map-card--big">
+            <span class="h-map-num">01</span>
+            <div class="h-map-card-body">
+                <h3>Projetos</h3>
+                <p>Trabalhos desenvolvidos com tecnologias, descrição e Making Of.</p>
+            </div>
+            <span class="h-map-arrow">→</span>
         </a>
 
-        <a href="{% url 'percurso' %}" class="home-map-card">
-            <p class="card-number">02</p>
-            <h3>Percurso</h3>
-            <p>Licenciaturas, formações e áreas de interesse que definem o meu caminho académico.</p>
+        <a href="{% url 'percurso' %}" class="h-map-card">
+            <span class="h-map-num">02</span>
+            <div class="h-map-card-body">
+                <h3>Percurso</h3>
+                <p>Licenciaturas, formações e competências.</p>
+            </div>
+            <span class="h-map-arrow">→</span>
         </a>
 
-        <a href="{% url 'competencias' %}" class="home-map-card">
-            <p class="card-number">03</p>
-            <h3>Competências</h3>
-            <p>Competências técnicas e transversais desenvolvidas ao longo da formação.</p>
+        <a href="{% url 'tecnologias' %}" class="h-map-card">
+            <span class="h-map-num">03</span>
+            <div class="h-map-card-body">
+                <h3>Tecnologias</h3>
+                <p>Ferramentas e linguagens exploradas.</p>
+            </div>
+            <span class="h-map-arrow">→</span>
         </a>
 
-        <a href="{% url 'tecnologias' %}" class="home-map-card">
-            <p class="card-number">04</p>
-            <h3>Tecnologias</h3>
-            <p>Linguagens, frameworks e ferramentas exploradas, com nível de conhecimento.</p>
+        <a href="{% url 'makingofs' %}" class="h-map-card">
+            <span class="h-map-num">04</span>
+            <div class="h-map-card-body">
+                <h3>Making Of</h3>
+                <p>Diário de bordo do desenvolvimento.</p>
+            </div>
+            <span class="h-map-arrow">→</span>
         </a>
 
-        <a href="{% url 'makingofs' %}" class="home-map-card">
-            <p class="card-number">05</p>
-            <h3>Making Of</h3>
-            <p>Diário de bordo do desenvolvimento — decisões, erros, correções e uso de IA.</p>
+        <a href="{% url 'sobre' %}" class="h-map-card">
+            <span class="h-map-num">05</span>
+            <div class="h-map-card-body">
+                <h3>Sobre</h3>
+                <p>Arquitetura MVT e documentação.</p>
+            </div>
+            <span class="h-map-arrow">→</span>
         </a>
-
-        <a href="{% url 'sobre' %}" class="home-map-card">
-            <p class="card-number">06</p>
-            <h3>Sobre</h3>
-            <p>Arquitetura MVT, stack tecnológica e documentação técnica desta aplicação.</p>
-        </a>
-
     </div>
-
 </section>
 
 
 <!-- ══ PROJETOS EM DESTAQUE ══════════════════════════════════ -->
 {% if projetos_destaque %}
-<section class="home-map" style="margin-bottom: 0">
-
-    <div class="home-map-header">
-        <span class="section-label">Em destaque</span>
-        <h2>Projetos recentes</h2>
+<section class="h-featured">
+    <div class="h-featured-header">
+        <span class="h-section-label">02 — Em destaque</span>
+        <h2 class="h-featured-title">Projetos<br><em>recentes</em></h2>
+        <a href="{% url 'projetos' %}" class="h-ver-todos">Ver todos →</a>
     </div>
 
-    <div class="projects-list">
+    <div class="h-proj-grid">
         {% for p in projetos_destaque %}
-        <article class="project-row">
-
-            <div class="proj-img">
+        <a href="{% url 'projetos' %}" class="h-proj-card {% if forloop.first %}h-proj-card--hero{% endif %}">
+            <div class="h-proj-img">
                 {% if p.imagem %}
                 <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" />
                 {% else %}
-                <span class="no-img">{{ p.titulo|first }}</span>
+                <div class="h-proj-ph">{{ p.titulo|first }}</div>
                 {% endif %}
             </div>
-
-            <div class="proj-content">
-                <div class="proj-header">
-                    <h3 class="proj-title">{{ p.titulo }}</h3>
-                    <span class="proj-year">{{ p.ano }}</span>
+            <div class="h-proj-info">
+                <div class="h-proj-meta">
+                    {% if p.uc %}<span class="h-proj-uc">{{ p.uc.nome }}</span>{% endif %}
+                    <span class="h-proj-year">{{ p.ano }}</span>
                 </div>
-
-                <span class="page-tag">{{ p.uc.nome }}</span>
-
-                <p class="proj-desc">{{ p.descricao|truncatewords:28 }}</p>
-
-                <div class="card-tags">
-                    {% for t in p.tecnologias.all|slice:":4" %}
-                    <span class="tag">{{ t.nome }}</span>
+                <h3 class="h-proj-title">{{ p.titulo }}</h3>
+                <p class="h-proj-desc">{{ p.descricao|truncatewords:18 }}</p>
+                <div class="h-proj-tags">
+                    {% for t in p.tecnologias.all|slice:":3" %}
+                    <span>{{ t.nome }}</span>
                     {% endfor %}
                 </div>
-
-                <div class="proj-footer">
-                    <a href="{% url 'projetos' %}" class="btn btn-primary">
-                        Ver projeto →
-                    </a>
-                    {% if p.github %}
-                    <a href="{{ p.github }}" target="_blank" rel="noopener" class="btn btn-outline">
-                        GitHub ↗
-                    </a>
-                    {% endif %}
-                </div>
             </div>
-
-        </article>
+            <span class="h-proj-arrow">↗</span>
+        </a>
         {% endfor %}
     </div>
-
-    <div style="margin-top: 24px;">
-        <a href="{% url 'projetos' %}" class="btn btn-outline">
-            Ver todos os projetos →
-        </a>
-    </div>
-
 </section>
 {% endif %}
 
+{% endblock %}
 
+{% block extra_scripts %}
+<script>
+/* Animação de entrada staggered */
+const els = document.querySelectorAll('.h-title-row, .h-hero-sub, .h-hero-actions, .h-stats-card, .h-tags-cloud, .h-map-card, .h-proj-card');
+const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('h-visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+els.forEach(el => obs.observe(el));
+</script>
 {% endblock %}

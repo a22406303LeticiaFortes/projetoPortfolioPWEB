@@ -205,7 +205,25 @@ def apaga_formacao_view(request, formacao_id):
     return render(request, "portfolioPWEB/formacaoDelete.html", {"formacao": formacao})
 
 def sobre_view(request):
-    return render(request, "portfolioPWEB/sobre.html")
+    from .models import Tecnologia, MakingOf, Projeto
+ 
+    # Tenta buscar as tecnologias do projeto "Portfolio"
+    # Ajusta o título se o teu projeto tiver nome diferente
+    try:
+        projeto_portfolio = Projeto.objects.get(titulo__icontains="portfolio")
+        tecnologias_sobre = projeto_portfolio.tecnologias.order_by("tipo", "nome")
+    except Projeto.DoesNotExist:
+        tecnologias_sobre = Tecnologia.objects.none()
+    except Projeto.MultipleObjectsReturned:
+        projeto_portfolio = Projeto.objects.filter(titulo__icontains="portfolio").first()
+        tecnologias_sobre = projeto_portfolio.tecnologias.order_by("tipo", "nome")
+ 
+    makingofs = MakingOf.objects.select_related("projeto").all()
+ 
+    return render(request, "portfolioPWEB/sobre.html", {
+        "tecnologias_sobre": tecnologias_sobre,
+        "makingofs": makingofs,
+    })
 
 def percurso_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related(

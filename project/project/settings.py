@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "portfolioPWEB",
     'escola',
+    "markdownify.apps.MarkdownifyConfig",
     "django_browser_reload"
 ]
 
@@ -132,3 +133,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # URL pública para aceder aos ficheiros
 MEDIA_URL = '/media/'
 
+# Configurações para o Markdownify (Ficha 8)
+MARKDOWNIFY = {
+    "default": {
+        "WHITELIST_TAGS": [
+            'a', 'abbr', 'acronym', 'b', 'blockquote', 'em', 'i', 'li', 'ol', 'p', 'strong', 'ul',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 'div', 'span', 'br'
+        ],
+        "MARKDOWN_EXTENSIONS": [
+            "markdown.extensions.fenced_code",
+            "markdown.extensions.extra",
+        ],
+    },
+}

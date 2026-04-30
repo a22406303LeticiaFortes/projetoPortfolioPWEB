@@ -9,9 +9,46 @@
             {% if tecnologia %}Editar{% else %}Nova{% endif %} Tecnologia
         </h2>
         <p class="form-desc">Preenche os dados da tecnologia.</p>
+
         <form method="POST" enctype="multipart/form-data" class="styled-form">
             {% csrf_token %}
-            {{ form.as_p }}
+
+            {% for field in form %}
+                {% if field.name == "competencias" %}
+                <div style="margin-bottom:18px">
+                    <label style="color:var(--rose-dark);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;display:block;margin-bottom:10px">
+                        {{ field.label }}
+                    </label>
+                    <div class="pill-selected" id="selected-{{ field.name }}"></div>
+                    <div class="pill-dropdown-wrap">
+                        <button type="button" class="pill-trigger" onclick="toggleDropdown('{{ field.name }}')">
+                            + Selecionar {{ field.label }}
+                        </button>
+                        <div class="pill-dropdown" id="dropdown-{{ field.name }}" hidden>
+                            {% for choice_value, choice_label in field.field.choices %}
+                            {% if choice_value %}
+                            <div class="pill-option" data-value="{{ choice_value }}" onclick="selectOption('{{ field.name }}','{{ choice_value }}','{{ choice_label }}')">
+                                {{ choice_label }}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div id="hidden-{{ field.name }}">
+                        {% for val in field.value %}
+                        <input type="hidden" name="{{ field.name }}" value="{{ val }}" />
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <p>
+                    <label>{{ field.label_tag }}</label>
+                    {{ field }}
+                    {% if field.errors %}<span style="color:var(--danger);font-size:12px">{{ field.errors }}</span>{% endif %}
+                </p>
+                {% endif %}
+            {% endfor %}
+
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <a href="{% url 'painel' %}" class="btn btn-outline">Cancelar</a>
@@ -19,4 +56,71 @@
         </form>
     </div>
 </div>
+
+<style>
+.pill-selected { display: flex; flex-wrap: wrap; gap: 8px; min-height: 20px; margin-bottom: 10px; }
+.pill-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,132,149,0.15); border: 1px solid rgba(200,132,149,0.35); color: var(--rose-dark); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; font-family: var(--font-body); }
+.pill-tag button { background: none; border: none; color: var(--rose-dark); cursor: pointer; font-size: 15px; line-height: 1; padding: 0; opacity: .7; transition: opacity .15s; }
+.pill-tag button:hover { opacity: 1; }
+.pill-trigger { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.85); border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; font-family: var(--font-body); transition: .2s ease; width: 100%; text-align: left; }
+.pill-trigger:hover { border-color: rgba(200,132,149,0.50); color: var(--rose-dark); }
+.pill-dropdown-wrap { position: relative; }
+.pill-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: white; border: 1.5px solid rgba(200,132,149,0.25); border-radius: 16px; box-shadow: 0 8px 24px rgba(88,65,85,0.12); max-height: 220px; overflow-y: auto; z-index: 50; padding: 6px; }
+.pill-option { padding: 9px 14px; border-radius: 10px; font-size: 13.5px; color: var(--text); cursor: pointer; transition: background .15s; }
+.pill-option:hover { background: rgba(200,132,149,0.08); color: var(--rose-dark); }
+.pill-option.selected { opacity: .35; pointer-events: none; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[id^="hidden-"]').forEach(container => {
+        const fieldName = container.id.replace('hidden-', '');
+        container.querySelectorAll('input[type="hidden"]').forEach(inp => {
+            const val = inp.value;
+            const opt = document.querySelector(`#dropdown-${fieldName} .pill-option[data-value="${val}"]`);
+            const label = opt ? opt.textContent.trim() : val;
+            _addPill(fieldName, val, label, false);
+            if (opt) opt.classList.add('selected');
+        });
+    });
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.pill-dropdown-wrap') && !e.target.closest('.pill-trigger'))
+            document.querySelectorAll('.pill-dropdown').forEach(d => d.hidden = true);
+    });
+});
+
+function toggleDropdown(n) { const d = document.getElementById(`dropdown-${n}`); d.hidden = !d.hidden; }
+
+function selectOption(n, v, l) {
+    const h = document.getElementById(`hidden-${n}`);
+    if (h.querySelector(`input[value="${v}"]`)) return;
+    _addPill(n, v, l, true);
+    const opt = document.querySelector(`#dropdown-${n} .pill-option[data-value="${v}"]`);
+    if (opt) opt.classList.add('selected');
+    document.getElementById(`dropdown-${n}`).hidden = true;
+}
+
+function _addPill(n, v, l, addHidden) {
+    const s = document.getElementById(`selected-${n}`);
+    const p = document.createElement('span');
+    p.className = 'pill-tag'; p.dataset.value = v;
+    p.innerHTML = `${l} <button type="button" onclick="removePill('${n}','${v}',this)">×</button>`;
+    s.appendChild(p);
+    if (addHidden) {
+        const h = document.getElementById(`hidden-${n}`);
+        const i = document.createElement('input');
+        i.type = 'hidden'; i.name = n; i.value = v;
+        h.appendChild(i);
+    }
+}
+
+function removePill(n, v, btn) {
+    btn.closest('.pill-tag').remove();
+    const i = document.querySelector(`#hidden-${n} input[value="${v}"]`);
+    if (i) i.remove();
+    const opt = document.querySelector(`#dropdown-${n} .pill-option[data-value="${v}"]`);
+    if (opt) opt.classList.remove('selected');
+}
+</script>
+
 {% endblock %}

@@ -160,48 +160,72 @@
 </div>
 
 
-<!-- ══ TECNOLOGIAS — layout com foto ═════════════════════════ -->
+<!-- ══ TECNOLOGIAS — accordion por tipo ══════════════════════ -->
 <div id="sec-tecnologias" class="percurso-section" hidden>
-    <div class="tec-grid">
-        {% for t in tecnologias %}
-        <div class="tec-card">
 
-            <div class="tec-img-wrap">
-                {% if t.logo %}
-                <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="tec-img" />
-                {% else %}
-                <div class="tec-img-placeholder">{{ t.nome|slice:":2"|upper }}</div>
-                {% endif %}
-                <span class="tec-tipo-badge">{{ t.tipo }}</span>
-            </div>
+    {% regroup tecnologias by tipo as tec_por_tipo %}
 
-            <div class="tec-body">
-                <h3 class="tec-nome">{{ t.nome }}</h3>
-                <p class="tec-desc">{{ t.descricao }}</p>
+    {% if tec_por_tipo %}
+    <div class="tec-accordion">
+        {% for grupo in tec_por_tipo %}
+        <div class="tec-acc-item">
 
-                {% if t.nivel_conhecimento %}
-                <div class="tec-nivel">
-                    <div class="tec-dots">
-                        {% for i in "12345" %}
-                        <div class="tec-dot {% if forloop.counter <= t.nivel_conhecimento %}tec-dot--on{% endif %}"></div>
-                        {% endfor %}
+            <!-- Trigger -->
+            <button class="tec-acc-trigger" type="button">
+                <div class="tec-acc-trigger-left">
+                    <span class="tec-acc-tipo">{{ grupo.grouper }}</span>
+                    <span class="tec-acc-count">{{ grupo.list|length }} tecnologia{{ grupo.list|length|pluralize:"s" }}</span>
+                </div>
+                <span class="tec-acc-icon">+</span>
+            </button>
+
+            <!-- Conteúdo -->
+            <div class="tec-acc-body">
+                <div class="tec-acc-grid">
+                    {% for t in grupo.list %}
+                    <div class="tec-acc-card">
+                        <div class="tec-acc-card-top">
+                            <div class="tec-acc-logo">
+                                {% if t.logo %}
+                                <img src="{{ t.logo.url }}" alt="{{ t.nome }}" />
+                                {% else %}
+                                <span>{{ t.nome|slice:":2"|upper }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="tec-acc-info">
+                                <h4 class="tec-acc-nome">{{ t.nome }}</h4>
+                                {% if t.nivel_conhecimento %}
+                                <div class="tec-acc-nivel">
+                                    {% for i in "12345" %}
+                                    <div class="tec-acc-dot {% if forloop.counter <= t.nivel_conhecimento %}tec-acc-dot--on{% endif %}"></div>
+                                    {% endfor %}
+                                    <span>{{ t.nivel_conhecimento }}/5</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if t.nivel_conhecimento %}
+                        <div class="tec-acc-bar">
+                            <div class="tec-acc-bar-fill" style="width:calc({{ t.nivel_conhecimento }} * 20%)"></div>
+                        </div>
+                        {% endif %}
+                        {% if t.competencias.all %}
+                        <div class="tec-acc-comps">
+                            {% for c in t.competencias.all|slice:":3" %}<span>{{ c.nome }}</span>{% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
-                    <span class="tec-nivel-num">{{ t.nivel_conhecimento }}/5</span>
+                    {% endfor %}
                 </div>
-                {% endif %}
-
-                {% if t.competencias.all %}
-                <div class="tec-tags">
-                    {% for c in t.competencias.all %}<span class="tag">{{ c.nome }}</span>{% endfor %}
-                </div>
-                {% endif %}
             </div>
 
         </div>
-        {% empty %}
-        <p class="lic-empty">Ainda não existem tecnologias registadas.</p>
         {% endfor %}
     </div>
+    {% else %}
+    <p class="lic-empty">Ainda não existem tecnologias registadas.</p>
+    {% endif %}
+
 </div>
 
 
@@ -236,6 +260,16 @@ document.querySelectorAll('.percurso-tab').forEach(tab => {
         document.querySelectorAll('.percurso-section').forEach(s => s.hidden = true);
         tab.classList.add('active');
         document.getElementById(tab.dataset.target).hidden = false;
+    });
+});
+
+/* ── Accordion tecnologias ── */
+document.querySelectorAll('.tec-acc-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const item   = btn.closest('.tec-acc-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.tec-acc-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
     });
 });
 
