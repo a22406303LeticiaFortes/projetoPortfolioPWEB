@@ -10,8 +10,9 @@
     <span class="section-label">Documentação técnica</span>
     <h2>Sobre esta<br>Aplicação</h2>
     <p>
-        Arquitetura, modelação, tecnologias utilizadas e estrutura de navegação
-        deste portfólio desenvolvido em Django.
+        Esta página apresenta os aspetos técnicos do portfólio desenvolvido em Django:
+        arquitetura MVT, modelação, tecnologias usadas, estrutura de navegação,
+        repositório GitHub e making of do desenvolvimento.
     </p>
 </div>
 
@@ -19,14 +20,12 @@
     <a href="#mvt" class="sobre-nav-item">01 · Arquitetura MVT</a>
     <a href="#modelacao" class="sobre-nav-item">02 · Modelação</a>
     <a href="#tecnologias" class="sobre-nav-item">03 · Tecnologias</a>
-    <a href="#estrutura" class="sobre-nav-item">04 · Estrutura de páginas</a>
+    <a href="#estrutura" class="sobre-nav-item">04 · Estrutura das páginas</a>
     <a href="#github" class="sobre-nav-item">05 · Repositório GitHub</a>
     <a href="#makingof" class="sobre-nav-item">06 · Making Of</a>
 </div>
 
-
-<!-- ══ 1. ARQUITETURA MVT ════════════════════════════════════ -->
-<div id="mvt" class="sobre-section">
+<section id="mvt" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">01</span>
         <h3>Arquitetura MVT</h3>
@@ -34,82 +33,98 @@
 
     <div class="sobre-content">
         <p class="sobre-intro">
-            Esta aplicação segue a arquitetura <strong>MVT (Model–View–Template)</strong> do Django —
-            uma variação do MVC onde o framework trata o controlador internamente.
+            A aplicação segue a arquitetura <strong>MVT</strong> do Django:
+            Model, View e Template. Esta organização separa os dados, a lógica
+            e a apresentação visual da aplicação.
         </p>
 
         <div class="sobre-card sobre-card--highlight">
-            <p class="sobre-card-label">Diagrama desenhado à mão</p>
-            <img src="{% static 'portfolioPWEB/img/mvt.jpg' %}" alt="Diagrama MVT" class="sobre-img">
+            <p class="sobre-card-label">Desenho da arquitetura MVT</p>
+            <img src="{% static 'portfolioPWEB/img/mvt.jpg' %}" alt="Desenho da arquitetura MVT do Django" class="sobre-img">
         </div>
 
         <div class="mvt-grid" style="margin-top:16px">
             <div>
                 <strong>Model</strong>
-                <p>Define as entidades e a estrutura da base de dados. Cada classe Python representa uma tabela. O Django gera automaticamente as migrações SQL.</p>
+                <p>
+                    Define a estrutura dos dados. Cada classe no ficheiro
+                    <code>models.py</code> representa uma tabela da base de dados.
+                </p>
             </div>
+
             <div>
                 <strong>View</strong>
-                <p>Recebe os pedidos HTTP, consulta os Models via ORM, processa a lógica e envia os dados ao Template.</p>
+                <p>
+                    Recebe os pedidos do utilizador, consulta os modelos,
+                    processa a lógica e envia dados para os templates.
+                </p>
             </div>
+
             <div>
                 <strong>Template</strong>
-                <p>Ficheiros HTML com linguagem de template do Django. Recebem os dados das Views e constroem o HTML final.</p>
+                <p>
+                    Define a apresentação visual. São ficheiros HTML que usam
+                    a linguagem template do Django para mostrar dados dinâmicos.
+                </p>
             </div>
         </div>
 
         <div class="sobre-card" style="margin-top:16px">
             <p class="sobre-card-label">Fluxo de informação</p>
+
             <div class="fluxo-lista">
                 <div class="fluxo-item">
                     <span class="fluxo-num">1</span>
-                    <div><strong>Browser</strong> envia pedido HTTP para um URL</div>
+                    <div><strong>Browser</strong> envia um pedido HTTP para um URL.</div>
                 </div>
+
                 <div class="fluxo-seta">↓</div>
 
                 <div class="fluxo-item">
                     <span class="fluxo-num">2</span>
-                    <div><strong>urls.py</strong> mapeia o URL para a View correspondente</div>
+                    <div><strong>urls.py</strong> associa esse URL a uma função view.</div>
                 </div>
+
                 <div class="fluxo-seta">↓</div>
 
                 <div class="fluxo-item">
                     <span class="fluxo-num">3</span>
-                    <div><strong>View</strong> consulta os Models e prepara os dados</div>
+                    <div><strong>View</strong> consulta os modelos e prepara os dados.</div>
                 </div>
+
                 <div class="fluxo-seta">↓</div>
 
                 <div class="fluxo-item">
                     <span class="fluxo-num">4</span>
-                    <div><strong>Template</strong> recebe os dados e gera o HTML</div>
+                    <div><strong>Template</strong> recebe os dados e gera o HTML final.</div>
                 </div>
+
                 <div class="fluxo-seta">↓</div>
 
                 <div class="fluxo-item">
                     <span class="fluxo-num">5</span>
-                    <div><strong>Resposta HTTP</strong> com o HTML enviada ao browser</div>
+                    <div><strong>Resposta HTTP</strong> devolve a página ao browser.</div>
                 </div>
             </div>
         </div>
 
         <div class="sobre-card" style="margin-top:16px">
-            <p class="sobre-card-label">Vídeo tutorial — Formulário para criar novo projeto</p>
+            <p class="sobre-card-label">Vídeo tutorial — formulário para criar novo projeto</p>
 
-            <div class="sobre-video-embed">
-                <iframe src="https://youtu.be/Kb1WArl8nYw?si=vqB8JZB3ZqDw7jz4"
-                        width="100%"
-                        height="400"
-                        frameborder="0"
-                        allowfullscreen>
+            <div class="video-wrapper">
+                <iframe
+                    src="https://www.youtube.com/embed/Kb1WArl8nYw"
+                    title="Vídeo tutorial - Formulário para criar novo projeto"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
                 </iframe>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-
-<!-- ══ 2. MODELAÇÃO ══════════════════════════════════════════ -->
-<div id="modelacao" class="sobre-section">
+<section id="modelacao" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">02</span>
         <h3>Modelação</h3>
@@ -117,56 +132,48 @@
 
     <div class="sobre-content">
         <p class="sobre-intro">
-            O diagrama entidade-relação representa as entidades do sistema e as suas relações.
+            A modelação representa as entidades principais da aplicação e as relações
+            entre elas. O objetivo é organizar o portfólio de forma relacional,
+            ligando projetos, tecnologias, competências, formações e unidades curriculares.
         </p>
 
         <div class="sobre-card sobre-card--highlight">
-            <p class="sobre-card-label">Diagrama Entidade-Relação</p>
-            <img src="{% static 'portfolioPWEB/img/er.jpg' %}" alt="Diagrama Entidade-Relação" class="sobre-img">
+            <p class="sobre-card-label">Diagrama entidade-relação</p>
+            <img src="{% static 'portfolioPWEB/img/er.jpg' %}" alt="Diagrama entidade-relação" class="sobre-img">
         </div>
 
         <div class="sobre-card" style="margin-top:16px">
-            <p class="sobre-card-label">Entidades e relações</p>
+            <p class="sobre-card-label">Entidades e relações principais</p>
 
             <div class="er-grid">
                 <div class="er-entity">
                     <p class="er-entity-name">Licenciatura</p>
-                    <p class="er-entity-rel">↔ UnidadeCurricular (M2M)</p>
+                    <p class="er-entity-rel">Relaciona-se com UnidadeCurricular.</p>
                 </div>
 
                 <div class="er-entity">
                     <p class="er-entity-name">UnidadeCurricular</p>
-                    <p class="er-entity-rel">↔ Docente, Competência, Tecnologia (M2M)</p>
+                    <p class="er-entity-rel">Relaciona-se com Docente, Competência, Tecnologia e Projeto.</p>
                 </div>
 
                 <div class="er-entity">
                     <p class="er-entity-name">Projeto</p>
-                    <p class="er-entity-rel">→ UC (FK) · ↔ Tecnologia, Competência (M2M)</p>
-                </div>
-
-                <div class="er-entity">
-                    <p class="er-entity-name">MakingOf</p>
-                    <p class="er-entity-rel">→ Projeto (FK)</p>
+                    <p class="er-entity-rel">Pertence a uma UC e pode ter várias tecnologias e competências.</p>
                 </div>
 
                 <div class="er-entity">
                     <p class="er-entity-name">Tecnologia</p>
-                    <p class="er-entity-rel">↔ Competência (M2M)</p>
+                    <p class="er-entity-rel">Pode estar associada a competências, UCs, projetos e TFCs.</p>
                 </div>
 
                 <div class="er-entity">
-                    <p class="er-entity-name">Formação</p>
-                    <p class="er-entity-rel">↔ Competência (M2M)</p>
+                    <p class="er-entity-name">Competência</p>
+                    <p class="er-entity-rel">Pode estar associada a tecnologias, projetos, formações e áreas de interesse.</p>
                 </div>
 
                 <div class="er-entity">
-                    <p class="er-entity-name">TFC</p>
-                    <p class="er-entity-rel">→ Licenciatura (FK) · ↔ Tecnologia, Docente (M2M)</p>
-                </div>
-
-                <div class="er-entity">
-                    <p class="er-entity-name">AreaDeInteresse</p>
-                    <p class="er-entity-rel">↔ Competência (M2M)</p>
+                    <p class="er-entity-name">MakingOf</p>
+                    <p class="er-entity-rel">Documenta o processo de desenvolvimento de um projeto.</p>
                 </div>
             </div>
         </div>
@@ -174,58 +181,15 @@
         <div class="sobre-card" style="margin-top:16px">
             <p class="sobre-card-label">Implementação em models.py</p>
 
+            <p style="color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:16px">
+                A modelação foi implementada no ficheiro <code>models.py</code>,
+                usando campos como <code>CharField</code>, <code>TextField</code>,
+                <code>URLField</code>, <code>ImageField</code>, <code>ForeignKey</code>
+                e <code>ManyToManyField</code>.
+            </p>
+
             <div class="code-block">
-                <pre><code>class Licenciatura(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
-    creditos = models.IntegerField()
-    semestres = models.IntegerField()
-    formato = models.CharField(max_length=50)
-    website = models.URLField()
-    faculdade = models.CharField(max_length=100)
-
-
-class Docente(models.Model):
-    codigo_docente = models.CharField(max_length=30, unique=True, blank=True, null=True)
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(blank=True)
-    pagina_pessoal = models.URLField(blank=True)
-
-
-class Competencia(models.Model):
-    nome = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=50)
-    descricao = models.TextField()
-    nivel = models.IntegerField()
-
-
-class Tecnologia(models.Model):
-    nome = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=50)
-    descricao = models.TextField()
-    logo = models.ImageField(upload_to='tecnologias/')
-    website = models.URLField()
-    nivel_conhecimento = models.IntegerField()
-    nivel_interesse = models.IntegerField()
-    competencias = models.ManyToManyField(Competencia, related_name='tecnologias', blank=True)
-
-
-class UnidadeCurricular(models.Model):
-    codigo_uc = models.CharField(max_length=30, unique=True)
-    nome = models.CharField(max_length=100)
-    ano_curricular = models.IntegerField()
-    semestre = models.IntegerField(null=True, blank=True)
-    creditos = models.IntegerField()
-    descricao = models.TextField()
-    imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
-    link_uc = models.URLField(blank=True)
-    licenciaturas = models.ManyToManyField(Licenciatura, related_name='unidades_curriculares', blank=True)
-    docentes = models.ManyToManyField(Docente, related_name='ucs', blank=True)
-    competencias = models.ManyToManyField(Competencia, related_name='ucs', blank=True)
-    tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs', blank=True)
-
-
-class Projeto(models.Model):
+<pre><code>class Projeto(models.Model):
     titulo = models.CharField(max_length=50)
     descricao = models.TextField()
     conceitos_aplicados = models.TextField()
@@ -234,59 +198,30 @@ class Projeto(models.Model):
     imagem = models.ImageField(upload_to='projetos/', blank=True, null=True)
     video_demo = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)
-    uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE, related_name='projetos')
-    tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos', blank=True)
-    competencias = models.ManyToManyField(Competencia, related_name='projetos', blank=True)
 
+    uc = models.ForeignKey(
+        UnidadeCurricular,
+        on_delete=models.CASCADE,
+        related_name='projetos'
+    )
 
-class Formacao(models.Model):
-    nome = models.CharField(max_length=100)
-    instituicao = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=50)
-    data_inicio = models.DateField()
-    data_fim = models.DateField()
-    logotipo = models.ImageField(upload_to='formacoes/')
-    competencias = models.ManyToManyField(Competencia, related_name='formacoes', blank=True)
+    tecnologias = models.ManyToManyField(
+        Tecnologia,
+        related_name='projetos',
+        blank=True
+    )
 
-
-class MakingOf(models.Model):
-    registo1 = models.FileField(upload_to='makingof/', blank=True, null=True)
-    registo2 = models.FileField(upload_to='makingof/', blank=True, null=True)
-    etapas = models.CharField(max_length=100)
-    decisoes = models.TextField()
-    erros_encontrados = models.TextField()
-    correcoes = models.TextField()
-    justificacao = models.TextField()
-    uso_ia = models.TextField()
-    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE, related_name='makingofs')
-
-
-class AreaDeInteresse(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
-    categoria = models.CharField(max_length=50)
-    competencias = models.ManyToManyField(Competencia, related_name='areas_interesse', blank=True)
-
-
-class TFC(models.Model):
-    titulo = models.CharField(max_length=150)
-    autores = models.CharField(max_length=150)
-    ano = models.IntegerField()
-    descricao = models.TextField()
-    link = models.URLField()
-    nivel_interesse = models.IntegerField()
-    licenciatura = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='tfcs')
-    tecnologias = models.ManyToManyField(Tecnologia, related_name='tfcs', blank=True)
-    competencias = models.ManyToManyField(Competencia, related_name='tfcs', blank=True)
-    orientadores = models.ManyToManyField(Docente, related_name='tfcs_orientados', blank=True)</code></pre>
+    competencias = models.ManyToManyField(
+        Competencia,
+        related_name='projetos',
+        blank=True
+    )</code></pre>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-
-<!-- ══ 3. TECNOLOGIAS ════════════════════════════════════════ -->
-<div id="tecnologias" class="sobre-section">
+<section id="tecnologias" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">03</span>
         <h3>Tecnologias</h3>
@@ -294,113 +229,130 @@ class TFC(models.Model):
 
     <div class="sobre-content">
         <p class="sobre-intro">
-            Tecnologias usadas na construção desta aplicação, organizadas por tipo.
+            Esta secção apresenta as tecnologias usadas na construção da aplicação,
+            organizadas por tipo. Estas tecnologias estão associadas ao projeto
+            Portfólio de Programação Web.
         </p>
 
         {% if tecnologias_sobre %}
             {% regroup tecnologias_sobre by tipo as tec_por_tipo %}
 
             {% for grupo in tec_por_tipo %}
-            <div class="sobre-tec-grupo">
+            <div class="sobre-card" style="margin-bottom:16px">
                 <p class="sobre-card-label">{{ grupo.grouper }}</p>
 
-                <div class="sobre-tec-grid">
+                <div class="sobre-tec-lista">
                     {% for t in grupo.list %}
-                    <div class="sobre-tec-item">
-                        {% if t.logo %}
-                            <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="sobre-tec-logo">
-                        {% else %}
-                            <div class="sobre-tec-placeholder">{{ t.nome|first }}</div>
-                        {% endif %}
-                    </div>
+                    <article class="sobre-tec-card">
+                        <div>
+                            {% if t.logo %}
+                                <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="sobre-tec-logo">
+                            {% else %}
+                                <div class="sobre-tec-placeholder">{{ t.nome|first }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <h4>{{ t.nome }}</h4>
+                            <p>{{ t.descricao }}</p>
+
+                            {% if t.website %}
+                            <a href="{{ t.website }}" target="_blank" rel="noopener">Website oficial ↗</a>
+                            {% endif %}
+                        </div>
+                    </article>
                     {% endfor %}
                 </div>
             </div>
             {% endfor %}
-
         {% else %}
-            <div class="sobre-tec-grupo">
-                <p class="sobre-card-label">Backend</p>
-                <div class="sobre-tec-grid">
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">D</div></div>
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">P</div></div>
-                </div>
-            </div>
+            <div class="sobre-card sobre-card--highlight">
+                <p class="sobre-card-label">Tecnologias principais</p>
 
-            <div class="sobre-tec-grupo">
-                <p class="sobre-card-label">Frontend</p>
-                <div class="sobre-tec-grid">
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">H</div></div>
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">C</div></div>
-                </div>
-            </div>
+                <div class="er-grid">
+                    <div class="er-entity">
+                        <p class="er-entity-name">Django</p>
+                        <p class="er-entity-rel">Framework backend usado para criar a aplicação web.</p>
+                    </div>
 
-            <div class="sobre-tec-grupo">
-                <p class="sobre-card-label">Base de Dados</p>
-                <div class="sobre-tec-grid">
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">S</div></div>
-                </div>
-            </div>
+                    <div class="er-entity">
+                        <p class="er-entity-name">Python</p>
+                        <p class="er-entity-rel">Linguagem usada na lógica da aplicação.</p>
+                    </div>
 
-            <div class="sobre-tec-grupo">
-                <p class="sobre-card-label">Outros</p>
-                <div class="sobre-tec-grid">
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">G</div></div>
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">G</div></div>
-                    <div class="sobre-tec-item"><div class="sobre-tec-placeholder">C</div></div>
+                    <div class="er-entity">
+                        <p class="er-entity-name">HTML</p>
+                        <p class="er-entity-rel">Linguagem usada para estruturar as páginas.</p>
+                    </div>
+
+                    <div class="er-entity">
+                        <p class="er-entity-name">CSS</p>
+                        <p class="er-entity-rel">Usado para definir o design, layout e responsividade.</p>
+                    </div>
+
+                    <div class="er-entity">
+                        <p class="er-entity-name">SQLite</p>
+                        <p class="er-entity-rel">Base de dados usada em desenvolvimento.</p>
+                    </div>
+
+                    <div class="er-entity">
+                        <p class="er-entity-name">GitHub</p>
+                        <p class="er-entity-rel">Usado para controlo de versões e backup remoto.</p>
+                    </div>
                 </div>
             </div>
         {% endif %}
     </div>
-</div>
+</section>
 
-
-<!-- ══ 4. ESTRUTURA DE PÁGINAS ═══════════════════════════════ -->
-<div id="estrutura" class="sobre-section">
+<section id="estrutura" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">04</span>
-        <h3>Estrutura de Páginas</h3>
+        <h3>Estrutura das páginas</h3>
     </div>
 
     <div class="sobre-content">
-        <p class="sobre-intro">Mapa de navegação da aplicação.</p>
+        <p class="sobre-intro">
+            A aplicação foi organizada com uma navegação simples, separando páginas
+            de apresentação, páginas de conteúdo e páginas de gestão CRUD.
+        </p>
 
         <div class="sobre-card sobre-card--highlight">
-            <p class="sobre-card-label">Mapa de navegação (desenho)</p>
-            <img src="{% static 'portfolioPWEB/img/mapa.jpg' %}" alt="Mapa de navegação" class="sobre-img">
+            <p class="sobre-card-label">Mapa da estrutura de navegação</p>
+            <img src="{% static 'portfolioPWEB/img/mapa.jpg' %}" alt="Mapa de navegação da aplicação" class="sobre-img">
         </div>
 
         <div class="sobre-card" style="margin-top:16px">
-            <p class="sobre-card-label">Estrutura de rotas</p>
+            <p class="sobre-card-label">Mapa das páginas</p>
 
             <div class="nav-map">
-                <div class="nav-map-item nav-map-item--root">/ — Home</div>
+                <div class="nav-map-item nav-map-item--root">Home</div>
 
                 <div class="nav-map-children">
-                    <div class="nav-map-item">/percurso/ — Sobre Mim</div>
-                    <div class="nav-map-item">/projetos/ — Projetos</div>
-                    <div class="nav-map-item">/makingofs/ — Making Of</div>
-                    <div class="nav-map-item">/sobre/ — Sobre esta Aplicação</div>
+                    <div class="nav-map-item">Formações</div>
+                    <div class="nav-map-item">Licenciaturas e UCs</div>
+                    <div class="nav-map-item">Competências</div>
+                    <div class="nav-map-item">Tecnologias</div>
+                    <div class="nav-map-item">Projetos</div>
+                    <div class="nav-map-item">Sobre esta Aplicação</div>
+                    <div class="nav-map-item">Making Of</div>
 
                     <div class="nav-map-item">
-                        /painel/ — Painel de Gestão
-
+                        CRUD
                         <div class="nav-map-children" style="margin-top:6px">
-                            <div class="nav-map-item nav-map-item--small">/projeto/novo/ · edita · apaga</div>
-                            <div class="nav-map-item nav-map-item--small">/tecnologia/nova/ · edita · apaga</div>
-                            <div class="nav-map-item nav-map-item--small">/competencia/nova/ · edita · apaga</div>
-                            <div class="nav-map-item nav-map-item--small">/formacao/nova/ · edita · apaga</div>
+                            <div class="nav-map-item nav-map-item--small">Criar, editar e apagar projetos</div>
+                            <div class="nav-map-item nav-map-item--small">Criar, editar e apagar tecnologias</div>
+                            <div class="nav-map-item nav-map-item--small">Criar, editar e apagar competências</div>
+                            <div class="nav-map-item nav-map-item--small">Criar, editar e apagar formações</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-
-<!-- ══ 5. GITHUB ═════════════════════════════════════════════ -->
-<div id="github" class="sobre-section">
+<section id="github" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">05</span>
         <h3>Repositório GitHub</h3>
@@ -411,25 +363,27 @@ class TFC(models.Model):
             <p class="sobre-card-label">Repositório</p>
 
             <p style="color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:20px">
-                O GitHub foi usado para controlo de versões ao longo do desenvolvimento.
-                Cada funcionalidade foi guardada com commits descritivos, permitindo
-                acompanhar a evolução e reverter alterações quando necessário.
+                O GitHub foi usado para guardar o código do projeto, controlar versões
+                e acompanhar a evolução do desenvolvimento através de commits.
+                Esta tecnologia facilita o desenvolvimento de software porque permite
+                manter um histórico das alterações, recuperar versões anteriores e
+                trabalhar a partir de diferentes dispositivos.
             </p>
 
             <div class="sobre-github-stats">
                 <div class="sobre-github-stat">
                     <strong>Controlo de versões</strong>
-                    <p>Cada alteração registada com uma mensagem descritiva</p>
+                    <p>Permite acompanhar as alterações feitas ao longo do tempo.</p>
                 </div>
 
                 <div class="sobre-github-stat">
                     <strong>Backup remoto</strong>
-                    <p>Código seguro na cloud, acessível de qualquer dispositivo</p>
+                    <p>O código fica guardado online e acessível através da cloud.</p>
                 </div>
 
                 <div class="sobre-github-stat">
                     <strong>Codespaces</strong>
-                    <p>Ambiente de desenvolvimento integrado no repositório</p>
+                    <p>Ambiente de desenvolvimento usado diretamente no browser.</p>
                 </div>
             </div>
 
@@ -442,11 +396,9 @@ class TFC(models.Model):
             </a>
         </div>
     </div>
-</div>
+</section>
 
-
-<!-- ══ 6. MAKING OF ══════════════════════════════════════════ -->
-<div id="makingof" class="sobre-section">
+<section id="makingof" class="sobre-section">
     <div class="sobre-section-label">
         <span class="sobre-num">06</span>
         <h3>Making Of</h3>
@@ -454,21 +406,24 @@ class TFC(models.Model):
 
     <div class="sobre-content">
         <p class="sobre-intro">
-            Registo do processo de desenvolvimento — desafios, decisões e aprendizagens.
+            O Making Of reúne o processo de desenvolvimento do portfólio,
+            incluindo decisões tomadas, dificuldades encontradas, correções,
+            justificações e uso de inteligência artificial.
         </p>
 
         <div class="sobre-card sobre-card--highlight" style="margin-bottom:16px">
             <p class="sobre-card-label">O desafio</p>
 
             <p style="color:var(--muted);font-size:15px;line-height:1.8">
-                Desenvolver um portfólio pessoal completo em Django, com gestão de conteúdos,
-                design responsivo e documentação técnica. O projeto cresce semana a semana.
+                O desafio consistiu em desenvolver um portfólio pessoal em Django,
+                com páginas dinâmicas, relações entre entidades, funcionalidades CRUD,
+                design responsivo e documentação técnica.
             </p>
         </div>
 
         {% if makingofs %}
         <div class="sobre-makingof-lista">
-            {% for mo in makingofs|slice:":3" %}
+            {% for mo in makingofs %}
             <div class="sobre-mo-item">
                 <p class="sobre-card-label">{{ mo.projeto.titulo }}</p>
 
@@ -486,6 +441,6 @@ class TFC(models.Model):
             <a href="{% url 'makingofs' %}" class="btn btn-outline">Ver todos os registos →</a>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}

@@ -2423,3 +2423,17 @@ footer {
     line-height: 1.8;
     white-space: pre;
 }
+.video-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 22px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--line);
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
