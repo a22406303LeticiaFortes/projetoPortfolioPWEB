@@ -9,6 +9,8 @@ urlpatterns = [
     path("", include("portfolioPWEB.urls")),
     path("portfolio/", include("portfolioPWEB.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
+    path("accounts/", include("accounts.urls")),   # ← adiciona
+    path("artigos/", include("artigos.urls")), 
     
 ]
 

@@ -1,0 +1,39 @@
+{% extends "portfolioPWEB/base.html" %}
+{% block title %}Registo | Leticia Fortes{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="section-label">Conta</span>
+            <h2 class="auth-title">Criar conta</h2>
+            <p class="auth-sub">Regista-te para publicar artigos no portfólio.</p>
+        </div>
+
+        {% if messages %}
+        <div class="auth-messages">
+            {% for msg in messages %}
+            <div class="auth-msg auth-msg--{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form styled-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+                <label>{{ field.label_tag }}</label>
+                {{ field }}
+                {% if field.errors %}<span class="auth-error">{{ field.errors }}</span>{% endif %}
+            </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary auth-submit">Criar conta →</button>
+        </form>
+
+        <p class="auth-footer">
+            Já tens conta?
+            <a href="{% url 'login' %}" style="color:var(--rose-dark);font-weight:700">Entrar →</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "portfolioPWEB",
     'escola',
     "markdownify.apps.MarkdownifyConfig",
-    "django_browser_reload"
+    "django_browser_reload",
+    'accounts',   
+    'artigos',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,16 @@ MARKDOWNIFY = {
         ],
     },
 }
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'let.fortes911@gmail.com'
+EMAIL_HOST_PASSWORD = 'vwqv jcif hrdu kakt'
+
+# Redirects
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/portfolio/'
+LOGOUT_REDIRECT_URL = '/portfolio/'

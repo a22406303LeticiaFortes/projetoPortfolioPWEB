@@ -1,0 +1,19 @@
+{% extends "portfolioPWEB/base.html" %}
+{% block title %}{{ titulo }} | Leticia Fortes{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <div class="form-card">
+        <span class="section-label">Artigos</span>
+        <h2 style="font-family:var(--font-title);font-size:38px;font-weight:400;margin:10px 0 6px">{{ titulo }}</h2>
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'artigos' %}" class="btn btn-outline">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

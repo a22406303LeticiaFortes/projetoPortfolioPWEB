@@ -1,0 +1,68 @@
+{% extends "portfolioPWEB/base.html" %}
+{% block title %}Artigos | Leticia Fortes{% endblock %}
+
+{% block content %}
+
+<div class="lic-hero">
+    <span class="section-label">Publicações</span>
+    <h2>Artigos</h2>
+    <p>Conteúdos sobre tecnologia, soft-skills e desenvolvimento.</p>
+    {% if request.user.is_authenticated %}
+    <div style="margin-top:20px">
+        <a href="/artigos/novo/" class="btn btn-primary">+ Novo artigo</a>
+
+    </div>
+    {% endif %}
+</div>
+
+<div class="artigos-lista">
+    {% for a in artigos %}
+    <article class="artigo-card">
+        {% if a.fotografia %}
+        <div class="artigo-img">
+            <img src="{{ a.fotografia.url }}" alt="{{ a.titulo }}" />
+        </div>
+        {% endif %}
+
+        <div class="artigo-body">
+            <div class="artigo-meta">
+                <span class="artigo-autor">{{ a.autor.get_full_name|default:a.autor.username }}</span>
+                <span class="artigo-data">{{ a.data_criacao|date:"d M Y" }}</span>
+            </div>
+
+            <h3 class="artigo-titulo">
+                <a href="{% url 'artigo_detail' artigo_id=a.pk %}">{{ a.titulo }}</a>
+            </h3>
+
+            <p class="artigo-excerpt">{{ a.texto|truncatewords:30 }}</p>
+
+            <div class="artigo-footer">
+                <div class="artigo-acoes">
+                    <a href="{% url 'artigo_like' artigo_id=a.pk %}" class="artigo-like-btn">
+                        ♥ {{ a.total_likes }}
+                    </a>
+                    <span class="artigo-coment-count">
+                        💬 {{ a.total_comentarios }}
+                    </span>
+                </div>
+
+                <div class="artigo-links">
+                    <a href="{% url 'artigo_detail' artigo_id=a.pk %}" class="proj-link-btn">
+                        Ler mais →
+                    </a>
+                    {% if request.user == a.autor %}
+                    <a href="{% url 'artigo_edita' artigo_id=a.pk %}" class="painel-btn-edit">✎</a>
+                    <a href="{% url 'artigo_apaga' artigo_id=a.pk %}" class="painel-btn-delete">✕</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </article>
+    {% empty %}
+    <div class="empty-state">
+        <p>Ainda não existem artigos publicados.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

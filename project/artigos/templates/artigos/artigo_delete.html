@@ -1,0 +1,14 @@
+{% extends "portfolioPWEB/base.html" %}
+{% block title %}Apagar Artigo | Leticia Fortes{% endblock %}
+
+{% block content %}
+<div class="delete-box">
+    <h2>Apagar Artigo</h2>
+    <p>Tens a certeza que queres apagar <strong>"{{ artigo.titulo }}"</strong>? Esta ação é irreversível.</p>
+    <form method="POST" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, apagar</button>
+        <a href="{% url 'artigo_detail' artigo_id=artigo.pk %}" class="btn btn-outline">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

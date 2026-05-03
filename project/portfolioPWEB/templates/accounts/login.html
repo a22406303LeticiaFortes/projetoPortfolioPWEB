@@ -1,0 +1,68 @@
+{% extends "portfolioPWEB/base.html" %}
+{% block title %}Login | Leticia Fortes{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="section-label">Acesso</span>
+            <h2 class="auth-title">Entrar</h2>
+            <p class="auth-sub">Acede ao painel de gestão do portfólio.</p>
+        </div>
+
+        {% if messages %}
+        <div class="auth-messages">
+            {% for msg in messages %}
+            <div class="auth-msg auth-msg--{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- ── Login por password ── -->
+        <form method="POST" class="auth-form styled-form">
+            {% csrf_token %}
+            {% for field in form_login %}
+            <p>
+                <label>{{ field.label_tag }}</label>
+                {{ field }}
+                {% if field.errors %}<span class="auth-error">{{ field.errors }}</span>{% endif %}
+            </p>
+            {% endfor %}
+            <button type="submit" name="login_password" class="btn btn-primary auth-submit">
+                Entrar com password →
+            </button>
+        </form>
+
+        <!-- Separador -->
+        <div class="auth-sep">
+            <span>ou</span>
+        </div>
+
+        <!-- ── Magic Link ── -->
+        {% if magic_enviado %}
+        <div class="auth-magic-sent">
+            <span>📧</span>
+            <p>Link enviado! Verifica o teu email e clica no link para entrar.</p>
+        </div>
+        {% else %}
+        <form method="POST" class="auth-form styled-form">
+            {% csrf_token %}
+            <p>
+                <label>{{ form_magic.email.label_tag }}</label>
+                {{ form_magic.email }}
+            </p>
+            <button type="submit" name="magic_link" class="btn btn-outline auth-submit">
+                📧 Receber link mágico por email
+            </button>
+        </form>
+        {% endif %}
+
+        <p class="auth-footer">
+            Não tens conta?
+            <a href="{% url 'registo' %}" style="color:var(--rose-dark);font-weight:700">Regista-te →</a>
+        </p>
+    </div>
+
+</div>
+{% endblock %}

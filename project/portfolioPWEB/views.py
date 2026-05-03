@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib.auth.decorators import login_required
 
+
 from .models import (
     Licenciatura,
     Docente,
@@ -97,7 +98,7 @@ def portfolio_home_view(request):
 
 # --- CRUD PROJETOS ---
 
-
+@login_required(login_url='login')
 def novo_projeto_view(request):
     form = ProjetoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -106,6 +107,7 @@ def novo_projeto_view(request):
     return render(request, "portfolioPWEB/projetoForm.html", {"form": form, "titulo": "Novo Projeto"})
 
 
+@login_required(login_url='login')
 def edita_projeto_view(request, projeto_id):
     projeto = get_object_or_404(Projeto, id=projeto_id)
     form = ProjetoForm(request.POST or None, request.FILES or None, instance=projeto)
@@ -115,6 +117,7 @@ def edita_projeto_view(request, projeto_id):
     return render(request, "portfolioPWEB/projetoForm.html", {"form": form, "titulo": "Editar Projeto", "projeto": projeto})
 
 
+@login_required(login_url='login')
 def apaga_projeto_view(request, projeto_id):
     projeto = get_object_or_404(Projeto, id=projeto_id)
     if request.method == "POST":
@@ -125,7 +128,7 @@ def apaga_projeto_view(request, projeto_id):
 
 # --- CRUD TECNOLOGIAS ---
 
-
+@login_required(login_url='login')
 def nova_tecnologia_view(request):
     form = TecnologiaForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -134,6 +137,7 @@ def nova_tecnologia_view(request):
     return render(request, "portfolioPWEB/tecnologiaForm.html", {"form": form, "titulo": "Nova Tecnologia"})
 
 
+@login_required(login_url='login')
 def edita_tecnologia_view(request, tecnologia_id):
     tecnologia = get_object_or_404(Tecnologia, id=tecnologia_id)
     form = TecnologiaForm(request.POST or None, request.FILES or None, instance=tecnologia)
@@ -143,6 +147,7 @@ def edita_tecnologia_view(request, tecnologia_id):
     return render(request, "portfolioPWEB/tecnologiaForm.html", {"form": form, "titulo": "Editar Tecnologia", "tecnologia": tecnologia})
 
 
+@login_required(login_url='login')
 def apaga_tecnologia_view(request, tecnologia_id):
     tecnologia = get_object_or_404(Tecnologia, id=tecnologia_id)
     if request.method == "POST":
@@ -153,7 +158,7 @@ def apaga_tecnologia_view(request, tecnologia_id):
 
 # --- CRUD COMPETÊNCIAS ---
 
-
+@login_required(login_url='login')
 def nova_competencia_view(request):
     form = CompetenciaForm(request.POST or None)
     if form.is_valid():
@@ -162,6 +167,7 @@ def nova_competencia_view(request):
     return render(request, "portfolioPWEB/competenciaForm.html", {"form": form, "titulo": "Nova Competência"})
 
 
+@login_required(login_url='login')
 def edita_competencia_view(request, competencia_id):
     competencia = get_object_or_404(Competencia, id=competencia_id)
     form = CompetenciaForm(request.POST or None, instance=competencia)
@@ -171,6 +177,7 @@ def edita_competencia_view(request, competencia_id):
     return render(request, "portfolioPWEB/competenciaForm.html", {"form": form, "titulo": "Editar Competência", "competencia": competencia})
 
 
+@login_required(login_url='login')
 def apaga_competencia_view(request, competencia_id):
     competencia = get_object_or_404(Competencia, id=competencia_id)
     if request.method == "POST":
@@ -181,6 +188,7 @@ def apaga_competencia_view(request, competencia_id):
 
 # --- CRUD FORMAÇÕES ---
 
+@login_required(login_url='login')
 def nova_formacao_view(request):
     form = FormacaoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -188,6 +196,8 @@ def nova_formacao_view(request):
         return redirect("formacoes")
     return render(request, "portfolioPWEB/formacaoForm.html", {"form": form, "titulo": "Nova Formação"})
 
+
+@login_required(login_url='login')
 def edita_formacao_view(request, formacao_id):
     formacao = get_object_or_404(Formacao, id=formacao_id)
     form = FormacaoForm(request.POST or None, request.FILES or None, instance=formacao)
@@ -197,6 +207,7 @@ def edita_formacao_view(request, formacao_id):
     return render(request, "portfolioPWEB/formacaoForm.html", {"form": form, "titulo": "Editar Formação", "formacao": formacao})
 
 
+@login_required(login_url='login')
 def apaga_formacao_view(request, formacao_id):
     formacao = get_object_or_404(Formacao, id=formacao_id)
     if request.method == "POST":
@@ -204,18 +215,15 @@ def apaga_formacao_view(request, formacao_id):
         return redirect("formacoes")
     return render(request, "portfolioPWEB/formacaoDelete.html", {"formacao": formacao})
 
+
 def sobre_view(request):
     tecnologias_sobre = Tecnologia.objects.all().order_by("tipo", "nome")
     makingofs = MakingOf.objects.select_related("projeto").all()[:3]
+    return render(request, "portfolioPWEB/sobre.html", {
+        "tecnologias_sobre": tecnologias_sobre,
+        "makingofs": makingofs,
+    })
 
-    return render(
-        request,
-        "portfolioPWEB/sobre.html",
-        {
-            "tecnologias_sobre": tecnologias_sobre,
-            "makingofs": makingofs,
-        }
-    )
 
 def percurso_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related(
@@ -227,22 +235,21 @@ def percurso_view(request):
     formacoes    = Formacao.objects.prefetch_related("competencias").order_by("-data_fim")
     competencias = Competencia.objects.all().order_by("tipo", "nome")
     areas        = AreaDeInteresse.objects.prefetch_related("competencias").all()
-    tecnologias = Tecnologia.objects.prefetch_related("competencias").order_by("tipo", "nome")
+    tecnologias  = Tecnologia.objects.prefetch_related("competencias").order_by("tipo", "nome")
 
- 
     return render(request, "portfolioPWEB/percurso.html", {
         "licenciaturas": licenciaturas,
         "formacoes":     formacoes,
         "competencias":  competencias,
-        "tecnologias":   tecnologias,  # ← adiciona isto
+        "tecnologias":   tecnologias,
         "areas":         areas,
     })
 
+@login_required(login_url='login')
 def painel_view(request):
     return render(request, "portfolioPWEB/painel.html", {
-        "projetos":    Projeto.objects.select_related("uc").order_by("-ano"),
-        "tecnologias": Tecnologia.objects.order_by("tipo", "nome"),
+        "projetos":     Projeto.objects.select_related("uc").order_by("-ano"),
+        "tecnologias":  Tecnologia.objects.order_by("tipo", "nome"),
         "competencias": Competencia.objects.order_by("tipo", "nome"),
-        "formacoes":   Formacao.objects.order_by("-data_fim"),
+        "formacoes":    Formacao.objects.order_by("-data_fim"),
     })
- 
