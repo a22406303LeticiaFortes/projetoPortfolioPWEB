@@ -17,7 +17,6 @@ from .models import (
 
 from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 
-
 def licenciaturas_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related(
         "unidades_curriculares",
@@ -51,9 +50,7 @@ def ucs_view(request):
 
 
 def projetos_view(request):
-    projetos = Projeto.objects.select_related("uc").prefetch_related(
-        "tecnologias", "competencias", "makingofs"
-    ).all()
+    projetos = Projeto.objects.select_related('uc').prefetch_related('tecnologias', 'competencias').all()
     return render(request, "portfolioPWEB/projetos.html", {"projetos": projetos})
 
 
@@ -83,6 +80,7 @@ def areas_view(request):
     areas = AreaDeInteresse.objects.prefetch_related("competencias").all()
     return render(request, "portfolioPWEB/areas.html", {"areas": areas})
 
+from accounts.forms import LoginForm, MagicLinkForm
 
 def portfolio_home_view(request):
     projetos_destaque = (
@@ -93,8 +91,10 @@ def portfolio_home_view(request):
     )
     return render(request, "portfolioPWEB/home.html", {
         "projetos_destaque": projetos_destaque,
+        "form_login":    LoginForm(),
+        "form_magic":    MagicLinkForm(),
+        "magic_enviado": False,
     })
-
 
 # --- CRUD PROJETOS ---
 
@@ -217,7 +217,20 @@ def apaga_formacao_view(request, formacao_id):
 
 
 def sobre_view(request):
-    tecnologias_sobre = Tecnologia.objects.all().order_by("tipo", "nome")
+    # Filtra tecnologias apenas do projeto Portfólio Pessoal
+    try:
+        projeto_portfolio = Projeto.objects.filter(
+            titulo__icontains="portfólio"
+        ).prefetch_related("tecnologias__competencias").first()
+ 
+        tecnologias_sobre = (
+            projeto_portfolio.tecnologias.all().order_by("tipo", "nome")
+            if projeto_portfolio
+            else Tecnologia.objects.none()
+        )
+    except Exception:
+        tecnologias_sobre = Tecnologia.objects.none()
+ 
     makingofs = MakingOf.objects.select_related("projeto").all()[:3]
     return render(request, "portfolioPWEB/sobre.html", {
         "tecnologias_sobre": tecnologias_sobre,

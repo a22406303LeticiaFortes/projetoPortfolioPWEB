@@ -10,49 +10,38 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        .errorlist {
-            list-style: none;
-            color: #b91c1c;
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     {% block extra_head %}{% endblock %}
 </head>
 <body>
 
     <header id="siteHeader">
-        <div class="header-inner">
-            <a href="{% url 'portfolio_home' %}" class="logo-link">
-                <h1>Leticia<span>.</span></h1>
-            </a>
+        <a href="{% url 'portfolio_home' %}" class="logo-link">
+            <h1>Leticia<span>.</span></h1>
+        </a>
 
-            <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            <nav id="mainNav">
-                <a href="{% url 'portfolio_home' %}" class="nav-link">Home</a>
-                <a href="{% url 'percurso' %}"       class="nav-link">Sobre Mim</a>
-                <a href="{% url 'projetos' %}"       class="nav-link">Projetos</a>
-                <a href="{% url 'artigos' %}"        class="nav-link">Artigos</a>
-                <a href="{% url 'sobre' %}"          class="nav-link">Sobre</a>
-                <a href="{% url 'painel' %}"         class="nav-link">Painel</a>
-                {% if request.user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-link">Sair ({{ request.user.username }})</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="nav-link">Login</a>
-                {% endif %}
-            </nav>
-        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav id="mainNav">
+            <a href="{% url 'portfolio_home' %}" class="nav-link">Home</a>
+            <a href="{% url 'percurso' %}"       class="nav-link">Sobre Mim</a>
+            <a href="{% url 'projetos' %}"        class="nav-link">Projetos</a>
+            <a href="{% url 'artigos' %}"         class="nav-link">Artigos</a>
+            <a href="{% url 'sobre' %}"           class="nav-link">Sobre</a>
+            <a href="{% url 'painel' %}"          class="nav-link">Painel</a>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-logout">Sair ({{ request.user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}#login" class="nav-login">
+                    <span class="nav-login-dot"></span>
+                    Entrar
+                </a>
+            {% endif %}
+        </nav>
     </header>
 
     <main>
@@ -60,22 +49,20 @@
     </main>
 
     <footer>
-        <div class="footer-inner">
-            <p class="footer-brand">Leticia Fortes</p>
-            <p class="footer-copy">&copy; 2026 · Desenvolvido em <strong>Django</strong></p>
-            <div class="footer-links">
-                <a href="{% url 'portfolio_home' %}">Home</a>
-                <a href="{% url 'sobre' %}">Sobre</a>
-                <a href="{% url 'projetos' %}">Projetos</a>
-            </div>
+        <div class="footer-brand">Leticia.</div>
+        <p class="footer-copy">© 2026 · Desenvolvido em <strong>Django</strong></p>
+        <div class="footer-links">
+            <a href="{% url 'portfolio_home' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre</a>
+            <a href="{% url 'projetos' %}">Projetos</a>
         </div>
     </footer>
 
     <script>
-    /* ── Sticky Header ── */
+    /* ── Sticky Header shadow ── */
     const header = document.getElementById('siteHeader');
     window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 40);
+        header.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
 
     /* ── Active Nav Link ── */
@@ -87,12 +74,14 @@
     /* ── Mobile Menu ── */
     const toggle = document.getElementById('navToggle');
     const nav    = document.getElementById('mainNav');
+
     toggle.addEventListener('click', () => {
         const open = nav.classList.toggle('open');
         toggle.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open);
     });
-    nav.querySelectorAll('.nav-link').forEach(a => {
+
+    nav.querySelectorAll('.nav-link, .nav-login, .nav-logout').forEach(a => {
         a.addEventListener('click', () => {
             nav.classList.remove('open');
             toggle.classList.remove('open');
@@ -101,16 +90,16 @@
     });
 
     /* ── Scroll Reveal ── */
-    const revealEls = document.querySelectorAll('.card, .project-row, .about-card, .mo-card');
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
     const observer  = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
-                e.target.classList.add('revealed');
+                e.target.classList.add('visible');
                 observer.unobserve(e.target);
             }
         });
-    }, { threshold: 0.08 });
-    revealEls.forEach(el => { el.classList.add('will-reveal'); observer.observe(el); });
+    }, { threshold: 0.10 });
+    revealEls.forEach(el => observer.observe(el));
     </script>
 
     {% block extra_scripts %}{% endblock %}

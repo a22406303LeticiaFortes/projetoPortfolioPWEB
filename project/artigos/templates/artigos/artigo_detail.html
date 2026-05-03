@@ -6,68 +6,70 @@
 <article class="artigo-detalhe">
 
     <div class="artigo-detalhe-header">
-        <span class="section-label">Artigo</span>
+        <div class="section-label">Artigo</div>
         <h1 class="artigo-detalhe-titulo">{{ artigo.titulo }}</h1>
-        <div class="artigo-meta" style="margin-top:12px">
+        <div class="artigo-detalhe-meta">
             <span class="artigo-autor">{{ artigo.autor.get_full_name|default:artigo.autor.username }}</span>
             <span class="artigo-data">{{ artigo.data_criacao|date:"d \d\e M \d\e Y" }}</span>
+            {% if request.user == artigo.autor %}
+            <div class="artigo-detalhe-acoes">
+                <a href="{% url 'artigo_edita' artigo_id=artigo.pk %}" class="btn btn-outline">✎ Editar</a>
+                <a href="{% url 'artigo_apaga' artigo_id=artigo.pk %}" class="btn btn-danger">Apagar</a>
+            </div>
+            {% endif %}
         </div>
-
-        {% if request.user == artigo.autor %}
-        <div style="display:flex;gap:10px;margin-top:16px">
-            <a href="{% url 'artigo_edita' artigo_id=artigo.pk %}" class="btn btn-outline">✎ Editar</a>
-            <a href="{% url 'artigo_apaga' artigo_id=artigo.pk %}" class="btn" style="color:var(--danger);background:rgba(185,75,93,0.08);border:1px solid transparent">Apagar</a>
-        </div>
-        {% endif %}
     </div>
 
     {% if artigo.fotografia %}
     <div class="artigo-detalhe-img">
-        <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}" />
+        <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}">
     </div>
     {% endif %}
 
-    <div class="artigo-detalhe-texto">
-        {{ artigo.texto|linebreaks }}
-    </div>
+    <div class="artigo-detalhe-corpo">
+        <div class="artigo-detalhe-texto">
+            {{ artigo.texto|linebreaks }}
+        </div>
 
-    {% if artigo.link_externo %}
-    <div style="margin:24px 0">
-        <a href="{{ artigo.link_externo }}" target="_blank" rel="noopener" class="btn btn-outline">
+        {% if artigo.link_externo %}
+        <a href="{{ artigo.link_externo }}" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:8px">
             Saber mais ↗
         </a>
-    </div>
-    {% endif %}
+        {% endif %}
 
-    <!-- Like -->
-    <div class="artigo-like-section">
-        <a href="{% url 'artigo_like' artigo_id=artigo.pk %}" class="artigo-like-big">
-            ♥ <span>{{ artigo.total_likes }}</span>
-            {% if artigo.total_likes == 1 %}gosto{% else %}gostos{% endif %}
-        </a>
+        <div class="artigo-like-section">
+            <a href="{% url 'artigo_like' artigo_id=artigo.pk %}" class="artigo-like-big">
+                ♥ {{ artigo.total_likes }} {% if artigo.total_likes == 1 %}gosto{% else %}gostos{% endif %}
+            </a>
+        </div>
     </div>
 
 </article>
 
-<!-- Comentários -->
 <section class="artigo-comentarios">
-    <h3 class="artigo-coment-titulo">Comentários ({{ artigo.total_comentarios }})</h3>
 
-    {% for c in comentarios %}
-    <div class="artigo-coment-item">
-        <div class="artigo-coment-header">
-            <strong>{{ c.autor.get_full_name|default:c.autor.username }}</strong>
-            <span class="artigo-data">{{ c.data|date:"d M Y, H:i" }}</span>
-        </div>
-        <p>{{ c.texto|linebreaks }}</p>
+    <div class="artigo-coment-titulo">
+        <span class="section-label">Comentários</span>
+        <span class="artigo-coment-count">{{ artigo.total_comentarios }}</span>
     </div>
-    {% empty %}
-    <p class="lic-empty">Ainda não há comentários. Sê o primeiro!</p>
-    {% endfor %}
+
+    <div class="artigo-coment-lista">
+        {% for c in comentarios %}
+        <div class="artigo-coment-item">
+            <div class="artigo-coment-header">
+                <strong>{{ c.autor.get_full_name|default:c.autor.username }}</strong>
+                <span class="artigo-data">{{ c.data|date:"d M Y, H:i" }}</span>
+            </div>
+            <div class="artigo-coment-texto">{{ c.texto|linebreaks }}</div>
+        </div>
+        {% empty %}
+        <p class="artigo-coment-empty">Ainda não há comentários. Sê a primeira!</p>
+        {% endfor %}
+    </div>
 
     {% if request.user.is_authenticated %}
     <div class="artigo-coment-form">
-        <h4 style="font-family:var(--font-title);font-size:22px;font-weight:400;margin-bottom:14px">Deixa um comentário</h4>
+        <p class="artigo-coment-form-titulo">Deixa um comentário</p>
         <form method="POST" class="styled-form">
             {% csrf_token %}
             {{ form_comentario.as_p }}
@@ -75,13 +77,11 @@
         </form>
     </div>
     {% else %}
-    <div class="sobre-card" style="margin-top:20px;text-align:center">
-        <p style="color:var(--muted)">
-            <a href="{% url 'login' %}" style="color:var(--rose-dark);font-weight:700">Entra</a>
-            para deixar um comentário.
-        </p>
+    <div class="artigo-coment-login">
+        <p><a href="{% url 'login' %}">Entra</a> para deixar um comentário.</p>
     </div>
     {% endif %}
+
 </section>
 
 {% endblock %}

@@ -1,84 +1,88 @@
 {% extends "portfolioPWEB/base.html" %}
-
 {% block title %}Sobre Mim | Leticia Fortes{% endblock %}
 
 {% block content %}
 
-<div class="lic-hero">
-    <span class="section-label">Sobre mim</span>
-    <h2>Quem sou</h2>
-    <p>
-        Estudante de Informática de Gestão apaixonada por tecnologia, design
-        e soluções que fazem sentido. Aqui encontras o meu percurso académico,
-        formações, competências e as áreas que mais me motivam.
-    </p>
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div>
+        <div class="section-label">Percurso</div>
+        <div class="page-header-title">Sobre <em>Mim</em></div>
+    </div>
+    <p class="ph-desc">Formação, competências, tecnologias e áreas de interesse.</p>
 </div>
 
-<div class="percurso-tabs">
-    <button class="percurso-tab active" data-target="sec-licenciaturas">Licenciaturas</button>
-    <button class="percurso-tab" data-target="sec-formacoes">Formações</button>
-    <button class="percurso-tab" data-target="sec-competencias">Competências</button>
-    <button class="percurso-tab" data-target="sec-tecnologias">Tecnologias</button>
-    <button class="percurso-tab" data-target="sec-areas">Áreas de Interesse</button>
+<!-- TABS -->
+<div class="percurso-tabs-bar">
+    <button class="percurso-tab-btn active" onclick="showTab('formacao', this)">Formação</button>
+    <button class="percurso-tab-btn" onclick="showTab('competencias', this)">Competências</button>
+    <button class="percurso-tab-btn" onclick="showTab('tecnologias', this)">Tecnologias</button>
+    <button class="percurso-tab-btn" onclick="showTab('areas', this)">Áreas de Interesse</button>
 </div>
 
 
-<!-- ══ LICENCIATURAS ═════════════════════════════════════════ -->
-<div id="sec-licenciaturas" class="percurso-section">
-    <div class="lic-grid">
+<!-- ══ FORMAÇÃO ══════════════════════════════════════════════ -->
+<div class="percurso-pane active" id="tab-formacao">
+    <div class="formacao-wrap">
+
         {% for l in licenciaturas %}
-        <article class="lic-card">
-            <button class="lic-card-header" type="button" aria-expanded="false">
-                <div>
-                    <span class="lic-index">0{{ forloop.counter }}</span>
-                    <h3>{{ l.nome }}</h3>
-                    <p>{{ l.faculdade }}</p>
+        <div class="fi-accordion">
+            <button class="fi-accordion-trigger" type="button" onclick="toggleFi(this)">
+                <div class="fi-trigger-left">
+                    <div class="fi-ano">
+                        {% if l.data_inicio %}{{ l.data_inicio|date:"Y" }}{% endif %}
+                        {% if l.data_fim %} → {{ l.data_fim|date:"Y" }}{% else %} → Atual{% endif %}
+                    </div>
+                    <div>
+                        <div class="fi-nome">{{ l.nome }}</div>
+                        <div class="fi-sub">{{ l.faculdade }}</div>
+                    </div>
                 </div>
-                <span class="lic-toggle-icon" aria-hidden="true">+</span>
+                <div class="fi-trigger-right">
+                    <div class="fi-badge">{% if not l.data_fim %}Em curso{% else %}Concluído{% endif %}</div>
+                    <div class="fi-acc-icon">+</div>
+                </div>
             </button>
-            <div class="lic-card-body">
-                {% if l.descricao %}
-                <p class="lic-description">{{ l.descricao }}</p>
-                {% endif %}
-                <div class="lic-meta">
-                    {% if l.creditos %}<div><span>Créditos</span><strong>{{ l.creditos }}</strong></div>{% endif %}
-                    {% if l.semestres %}<div><span>Semestres</span><strong>{{ l.semestres }}</strong></div>{% endif %}
-                    {% if l.formato %}<div><span>Formato</span><strong>{{ l.formato }}</strong></div>{% endif %}
-                </div>
-                <div class="lic-section">
-                    <h4>Unidades Curriculares</h4>
+            <div class="fi-accordion-body">
+                <div class="fi-accordion-inner">
+                    {% if l.descricao %}<p class="fi-desc">{{ l.descricao }}</p>{% endif %}
+                    <div class="fi-meta-row">
+                        {% if l.creditos %}<div class="fi-meta-item"><span class="fi-meta-label">Créditos</span><strong>{{ l.creditos }}</strong></div>{% endif %}
+                        {% if l.semestres %}<div class="fi-meta-item"><span class="fi-meta-label">Semestres</span><strong>{{ l.semestres }}</strong></div>{% endif %}
+                        {% if l.formato %}<div class="fi-meta-item"><span class="fi-meta-label">Formato</span><strong>{{ l.formato }}</strong></div>{% endif %}
+                    </div>
                     {% regroup l.unidades_curriculares.all|dictsort:"ano_curricular" by ano_curricular as ucs_por_ano %}
                     {% if ucs_por_ano %}
+                    <div class="fi-ucs-section">
+                        <div class="fi-section-title">Unidades Curriculares</div>
                         {% for grupo in ucs_por_ano %}
-                        <div class="uc-ano-grupo">
-                            <p class="uc-ano-label">{{ grupo.grouper }}º Ano</p>
-                            <div class="uc-list">
+                        <div class="fi-uc-ano-group">
+                            <div class="fi-uc-ano-label">{{ grupo.grouper }}º Ano</div>
+                            <div class="fi-uc-grid">
                                 {% for uc in grupo.list %}
-                                <div class="uc-pill">
-                                    <div class="uc-pill-header">
+                                <div class="fi-uc-pill">
+                                    <div class="fi-uc-header">
                                         <strong>{{ uc.nome }}</strong>
-                                        <span class="uc-pill-meta">{{ uc.creditos }} ECTS{% if uc.semestre %} · {{ uc.semestre }}º semestre{% endif %}</span>
+                                        <span class="fi-uc-meta">{{ uc.creditos }} ECTS{% if uc.semestre %} · {{ uc.semestre }}º sem{% endif %}</span>
                                     </div>
                                     {% if uc.docentes.all %}
-                                    <div class="uc-pill-section">
-                                        <p class="uc-pill-label">Docentes</p>
-                                        <div class="uc-docentes">
-                                            {% for d in uc.docentes.all %}
-                                            <span class="uc-docente">{% if d.pagina_pessoal %}<a href="{{ d.pagina_pessoal }}" target="_blank" rel="noopener">{{ d.nome }}</a>{% else %}{{ d.nome }}{% endif %}</span>
-                                            {% endfor %}
+                                    <div class="fi-uc-block">
+                                        <span class="fi-uc-label">Docentes</span>
+                                        <div class="fi-uc-docentes">
+                                            {% for d in uc.docentes.all %}<span class="fi-uc-docente">{% if d.pagina_pessoal %}<a href="{{ d.pagina_pessoal }}" target="_blank">{{ d.nome }}</a>{% else %}{{ d.nome }}{% endif %}</span>{% endfor %}
                                         </div>
                                     </div>
                                     {% endif %}
                                     {% if uc.tecnologias.all %}
-                                    <div class="uc-pill-section">
-                                        <p class="uc-pill-label">Tecnologias</p>
-                                        <div class="uc-tags">{% for t in uc.tecnologias.all %}<span class="tag">{{ t.nome }}</span>{% endfor %}</div>
+                                    <div class="fi-uc-block">
+                                        <span class="fi-uc-label">Tecnologias</span>
+                                        <div class="fi-uc-tags">{% for t in uc.tecnologias.all %}<span class="fi-tag">{{ t.nome }}</span>{% endfor %}</div>
                                     </div>
                                     {% endif %}
                                     {% if uc.competencias.all %}
-                                    <div class="uc-pill-section">
-                                        <p class="uc-pill-label">Competências</p>
-                                        <div class="uc-tags">{% for c in uc.competencias.all %}<span class="tag">{{ c.nome }}</span>{% endfor %}</div>
+                                    <div class="fi-uc-block">
+                                        <span class="fi-uc-label">Competências</span>
+                                        <div class="fi-uc-tags">{% for c in uc.competencias.all %}<span class="fi-tag">{{ c.nome }}</span>{% endfor %}</div>
                                     </div>
                                     {% endif %}
                                 </div>
@@ -86,210 +90,190 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% else %}
-                        <p class="lic-empty">Ainda não existem unidades curriculares associadas.</p>
+                    </div>
                     {% endif %}
+                    {% if l.website %}<a href="{{ l.website }}" target="_blank" rel="noopener" class="btn-outline fi-website-btn">Ver website oficial ↗</a>{% endif %}
                 </div>
-                {% if l.website %}
-                <a href="{{ l.website }}" target="_blank" rel="noopener" class="btn btn-outline lic-link">Ver website oficial ↗</a>
-                {% endif %}
-            </div>
-        </article>
-        {% empty %}
-        <p class="lic-empty">Ainda não existem licenciaturas registadas.</p>
-        {% endfor %}
-    </div>
-</div>
-
-
-<!-- ══ FORMAÇÕES ═════════════════════════════════════════════ -->
-<div id="sec-formacoes" class="percurso-section" hidden>
-    <div class="formacoes-lista">
-        {% for f in formacoes %}
-        <div class="formacao-card">
-            {% if f.logotipo %}
-            <img src="{{ f.logotipo.url }}" alt="{{ f.instituicao }}" class="formacao-logo" />
-            {% else %}
-            <div class="formacao-logo-placeholder">{{ f.instituicao|first }}</div>
-            {% endif %}
-            <div class="formacao-info">
-                <span class="page-tag">{{ f.tipo }}</span>
-                <h3>{{ f.nome }}</h3>
-                <p class="formacao-inst">{{ f.instituicao }}</p>
-                <p class="formacao-datas">{{ f.data_inicio|date:"M Y" }} → {{ f.data_fim|date:"M Y" }}</p>
-                {% if f.competencias.all %}
-                <div class="card-tags" style="margin-top:12px">
-                    {% for c in f.competencias.all %}<span class="tag">{{ c.nome }}</span>{% endfor %}
-                </div>
-                {% endif %}
             </div>
         </div>
-        {% empty %}
-        <p class="lic-empty">Ainda não existem formações registadas.</p>
         {% endfor %}
+
+        {% for f in formacoes %}
+        <div class="fi-accordion">
+            <button class="fi-accordion-trigger" type="button" onclick="toggleFi(this)">
+                <div class="fi-trigger-left">
+                    <div class="fi-ano">{{ f.data_inicio|date:"Y" }} → {% if f.data_fim %}{{ f.data_fim|date:"Y" }}{% else %}Atual{% endif %}</div>
+                    <div>
+                        <div class="fi-nome">{{ f.nome }}</div>
+                        <div class="fi-sub">{{ f.instituicao }} · {{ f.tipo }}</div>
+                    </div>
+                </div>
+                <div class="fi-trigger-right">
+                    <div class="fi-badge">{% if not f.data_fim %}Em curso{% else %}Concluído{% endif %}</div>
+                    <div class="fi-acc-icon">+</div>
+                </div>
+            </button>
+            <div class="fi-accordion-body">
+                <div class="fi-accordion-inner">
+                    {% if f.competencias.all %}
+                    <div class="fi-section-title">Competências desenvolvidas</div>
+                    <div class="fi-uc-tags" style="margin-top:10px;">{% for c in f.competencias.all %}<span class="fi-tag">{{ c.nome }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
     </div>
 </div>
 
 
 <!-- ══ COMPETÊNCIAS ══════════════════════════════════════════ -->
-<div id="sec-competencias" class="percurso-section" hidden>
-    <div class="competencias-grid">
-        {% for c in competencias %}
-        <div class="competencia-card">
-            <div class="competencia-header">
-                <h3>{{ c.nome }}</h3>
-                <span class="page-tag">{{ c.tipo }}</span>
-            </div>
-            <p class="competencia-desc">{{ c.descricao }}</p>
-            {% if c.nivel %}
-            <div class="competencia-nivel">
-                <div class="nivel-header">
-                    <span class="nivel-label">Nível</span>
-                    <span class="nivel-value">{{ c.nivel }}<span style="font-size:13px;color:var(--muted)">/5</span></span>
+<div class="percurso-pane" id="tab-competencias">
+
+    <div class="comp-group-section">
+        <div class="comp-group-label">Hard Skills</div>
+        <div class="acc-wrap">
+            {% for c in competencias %}{% if "hard" in c.tipo|lower %}
+            <div class="acc-item">
+                <button class="acc-trigger" onclick="toggleAcc(this)" type="button">
+                    <div class="acc-trigger-left"><span class="acc-name">{{ c.nome }}</span></div>
+                    <div class="acc-right">
+                        <div class="acc-dots">{% for i in "12345" %}<div class="dot {% if forloop.counter <= c.nivel %}on{% endif %}"></div>{% endfor %}</div>
+                        <div class="acc-icon">+</div>
+                    </div>
+                </button>
+                <div class="acc-body">
+                    <div class="acc-body-inner">
+                        <p class="acc-desc">{{ c.descricao }}</p>
+                        <div class="acc-nivel-info">
+                            <span class="acc-nivel-label">Nível {{ c.nivel }}/5</span>
+                            <div class="acc-nivel-dots">{% for i in "12345" %}<div class="dot {% if forloop.counter <= c.nivel %}on{% endif %}"></div>{% endfor %}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="nivel-bar">
-                    <div class="nivel-fill" style="width:calc({{ c.nivel }} * 20%)"></div>
-                </div>
             </div>
-            {% endif %}
+            {% endif %}{% empty %}<p class="empty-msg">Sem competências registadas.</p>{% endfor %}
         </div>
-        {% empty %}
-        <p class="lic-empty">Ainda não existem competências registadas.</p>
-        {% endfor %}
     </div>
+
+    <div class="comp-group-section" style="margin-top:48px;">
+        <div class="comp-group-label">Soft Skills</div>
+        <div class="acc-wrap">
+            {% for c in competencias %}{% if "soft" in c.tipo|lower %}
+            <div class="acc-item">
+                <button class="acc-trigger" onclick="toggleAcc(this)" type="button">
+                    <div class="acc-trigger-left"><span class="acc-name">{{ c.nome }}</span></div>
+                    <div class="acc-right">
+                        <div class="acc-dots">{% for i in "12345" %}<div class="dot {% if forloop.counter <= c.nivel %}on{% endif %}"></div>{% endfor %}</div>
+                        <div class="acc-icon">+</div>
+                    </div>
+                </button>
+                <div class="acc-body">
+                    <div class="acc-body-inner">
+                        <p class="acc-desc">{{ c.descricao }}</p>
+                        <div class="acc-nivel-info">
+                            <span class="acc-nivel-label">Nível {{ c.nivel }}/5</span>
+                            <div class="acc-nivel-dots">{% for i in "12345" %}<div class="dot {% if forloop.counter <= c.nivel %}on{% endif %}"></div>{% endfor %}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}{% endfor %}
+        </div>
+    </div>
+
 </div>
 
 
-<!-- ══ TECNOLOGIAS — accordion por tipo ══════════════════════ -->
-<div id="sec-tecnologias" class="percurso-section" hidden>
-
-    {% regroup tecnologias by tipo as tec_por_tipo %}
-
-    {% if tec_por_tipo %}
-    <div class="tec-accordion">
+<!-- ══ TECNOLOGIAS ══════════════════════════════════════════ -->
+<div class="percurso-pane" id="tab-tecnologias">
+    <div class="tec-acc-wrap">
+        {% regroup tecnologias by tipo as tec_por_tipo %}
         {% for grupo in tec_por_tipo %}
-        <div class="tec-acc-item">
-
-            <!-- Trigger -->
-            <button class="tec-acc-trigger" type="button">
-                <div class="tec-acc-trigger-left">
-                    <span class="tec-acc-tipo">{{ grupo.grouper }}</span>
-                    <span class="tec-acc-count">{{ grupo.list|length }} tecnologia{{ grupo.list|length|pluralize:"s" }}</span>
+        <div class="tec-group">
+            <button class="tec-group-trigger" onclick="toggleTec(this)" type="button">
+                <div class="tec-trigger-left">
+                    <span class="tec-group-name">{{ grupo.grouper }}</span>
+                    <span class="tec-group-count">{{ grupo.list|length }} tecnologia{{ grupo.list|length|pluralize:"s" }}</span>
                 </div>
-                <span class="tec-acc-icon">+</span>
+                <div class="tec-group-icon">+</div>
             </button>
-
-            <!-- Conteúdo -->
-            <div class="tec-acc-body">
-                <div class="tec-acc-grid">
+            <div class="tec-group-body">
+                <div class="tec-cards">
                     {% for t in grupo.list %}
-                    <div class="tec-acc-card">
-                        <div class="tec-acc-card-top">
-                            <div class="tec-acc-logo">
-                                {% if t.logo %}
-                                <img src="{{ t.logo.url }}" alt="{{ t.nome }}" />
-                                {% else %}
-                                <span>{{ t.nome|slice:":2"|upper }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="tec-acc-info">
-                                <h4 class="tec-acc-nome">{{ t.nome }}</h4>
+                    <div class="tec-card-full">
+                        <div class="tec-card-top-row">
+                            {% if t.logo %}<img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="tec-logo-img" />{% else %}<div class="tec-logo-ph">{{ t.nome|slice:":2"|upper }}</div>{% endif %}
+                            <div class="tec-card-info">
+                                <div class="tec-card-name">{{ t.nome }}</div>
                                 {% if t.nivel_conhecimento %}
-                                <div class="tec-acc-nivel">
-                                    {% for i in "12345" %}
-                                    <div class="tec-acc-dot {% if forloop.counter <= t.nivel_conhecimento %}tec-acc-dot--on{% endif %}"></div>
-                                    {% endfor %}
-                                    <span>{{ t.nivel_conhecimento }}/5</span>
-                                </div>
+                                <div class="tec-card-dots">{% for i in "12345" %}<div class="td {% if forloop.counter <= t.nivel_conhecimento %}on{% endif %}"></div>{% endfor %}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        {% if t.nivel_conhecimento %}
-                        <div class="tec-acc-bar">
-                            <div class="tec-acc-bar-fill" style="width:calc({{ t.nivel_conhecimento }} * 20%)"></div>
-                        </div>
-                        {% endif %}
+                        {% if t.descricao %}<p class="tec-card-desc">{{ t.descricao }}</p>{% endif %}
                         {% if t.competencias.all %}
-                        <div class="tec-acc-comps">
-                            {% for c in t.competencias.all|slice:":3" %}<span>{{ c.nome }}</span>{% endfor %}
-                        </div>
+                        <div class="tec-card-tags">{% for c in t.competencias.all|slice:":3" %}<span class="fi-tag">{{ c.nome }}</span>{% endfor %}</div>
                         {% endif %}
                     </div>
                     {% endfor %}
                 </div>
             </div>
-
         </div>
-        {% endfor %}
+        {% empty %}<p class="empty-msg">Ainda não existem tecnologias registadas.</p>{% endfor %}
     </div>
-    {% else %}
-    <p class="lic-empty">Ainda não existem tecnologias registadas.</p>
-    {% endif %}
-
 </div>
 
 
 <!-- ══ ÁREAS DE INTERESSE ════════════════════════════════════ -->
-<div id="sec-areas" class="percurso-section" hidden>
-    <div class="areas-grid">
-        {% for a in areas %}
-        <div class="area-card">
-            <span class="page-tag">{{ a.categoria }}</span>
-            <h3>{{ a.nome }}</h3>
-            <p>{{ a.descricao }}</p>
-            {% if a.competencias.all %}
-            <div class="card-tags">
-                {% for c in a.competencias.all %}<span class="tag">{{ c.nome }}</span>{% endfor %}
+<div class="percurso-pane" id="tab-areas">
+    <div class="areas-pane-wrap">
+        <div class="areas-section-dark">
+            <div class="areas-dark-title">Áreas de <em>Interesse</em></div>
+            <div class="areas-dark-grid">
+                {% for a in areas %}
+                <div class="area-dark-card">
+                    <div class="area-dark-num">0{{ forloop.counter }}</div>
+                    <div class="area-dark-name">{{ a.nome }}</div>
+                    {% if a.descricao %}<p class="area-dark-desc">{{ a.descricao }}</p>{% endif %}
+                    {% if a.competencias.all %}
+                    <div class="area-dark-tags">{% for c in a.competencias.all %}<span class="area-dark-tag">{{ c.nome }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+                {% empty %}<p style="color:rgba(255,255,255,.4);font-size:14px;">Ainda não existem áreas registadas.</p>{% endfor %}
             </div>
-            {% endif %}
         </div>
-        {% empty %}
-        <p class="lic-empty">Ainda não existem áreas de interesse registadas.</p>
-        {% endfor %}
     </div>
 </div>
 
 {% endblock %}
 
-
 {% block extra_scripts %}
 <script>
-document.querySelectorAll('.percurso-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.percurso-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.percurso-section').forEach(s => s.hidden = true);
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.target).hidden = false;
-    });
-});
-
-/* ── Accordion tecnologias ── */
-document.querySelectorAll('.tec-acc-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const item   = btn.closest('.tec-acc-item');
-        const isOpen = item.classList.contains('open');
-        document.querySelectorAll('.tec-acc-item').forEach(i => i.classList.remove('open'));
-        if (!isOpen) item.classList.add('open');
-    });
-});
-
-document.querySelectorAll('.lic-card-header').forEach(button => {
-    button.addEventListener('click', () => {
-        const card   = button.closest('.lic-card');
-        const isOpen = card.classList.contains('open');
-        document.querySelectorAll('.lic-card').forEach(c => {
-            c.classList.remove('open');
-            c.querySelector('.lic-card-header').setAttribute('aria-expanded', 'false');
-        });
-        if (!isOpen) {
-            card.classList.add('open');
-            button.setAttribute('aria-expanded', 'true');
-            setTimeout(() => {
-                const rect = card.getBoundingClientRect();
-                if (rect.top < 80) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 80);
-        }
-    });
-});
+function showTab(name, btn) {
+    document.querySelectorAll('.percurso-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.percurso-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+}
+function toggleFi(btn) {
+    const item = btn.closest('.fi-accordion');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.fi-accordion').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+}
+function toggleAcc(btn) {
+    const item = btn.closest('.acc-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+}
+function toggleTec(btn) {
+    const item = btn.closest('.tec-group');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.tec-group').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+}
 </script>
 {% endblock %}

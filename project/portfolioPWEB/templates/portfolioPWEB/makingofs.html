@@ -1,62 +1,78 @@
 {% extends "portfolioPWEB/base.html" %}
 
 {% block content %}
-<h2>Making Of</h2>
 
-<section class="making-of-grid">
+<div class="page-header">
+    <div>
+        <div class="section-label">Processo de Desenvolvimento</div>
+        <div class="page-header-title">Making<br><em>Of</em></div>
+    </div>
+    <p class="ph-desc">Decisões, erros, correções e uso de IA ao longo do desenvolvimento.</p>
+</div>
+
+{% if makingofs %}
+<div class="mo-wrap">
     {% for m in makingofs %}
-    <article class="mo-card">
-        <div class="mo-header">
-            <div class="mo-title-group">
-                <h3>{{ m.projeto.titulo }}</h3>
-                <span class="etapa-badge">{{ m.etapas }}</span>
+    <article class="mo-article">
+
+        <div class="mo-article-header">
+            <div class="mo-article-meta">
+                <span class="tag">{{ m.projeto.titulo }}</span>
             </div>
+            <h2 class="mo-article-title">{{ m.etapas }}</h2>
+            <span class="etapa-badge">Etapa concluída</span>
         </div>
 
-        <div class="mo-content">
-            <div class="mo-section">
-                <h4><i class="icon">💡</i> Decisões e Justificação</h4>
-                <p><strong>Decisão:</strong> {{ m.decisoes }}</p>
-                <p class="mo-subtext"><em>{{ m.justificacao }}</em></p>
+        <div class="mo-article-body">
+
+            <div class="mo-block">
+                <span class="mo-block-label">Decisões e Justificação</span>
+                <p class="mo-block-decision">{{ m.decisoes }}</p>
+                <p class="mo-block-justify">{{ m.justificacao }}</p>
             </div>
 
-            <div class="mo-split">
-                <div class="mo-box error">
-                    <h4><i class="icon">⚠️</i> Erros Encontrados</h4>
+            <div class="mo-block-split">
+                <div class="mo-block mo-block--error">
+                    <span class="mo-block-label">Erros Encontrados</span>
                     <p>{{ m.erros_encontrados }}</p>
                 </div>
-                <div class="mo-box success">
-                    <h4><i class="icon">✅</i> Correções Realizadas</h4>
+                <div class="mo-block mo-block--success">
+                    <span class="mo-block-label">Correções Realizadas</span>
                     <p>{{ m.correcoes }}</p>
                 </div>
             </div>
 
             {% if m.uso_ia %}
-            <div class="mo-section ia-block">
-                <h4><i class="icon">🤖</i> Uso de Inteligência Artificial</h4>
+            <div class="mo-block mo-block--ia">
+                <span class="mo-block-label">Uso de Inteligência Artificial</span>
                 <p>{{ m.uso_ia }}</p>
             </div>
             {% endif %}
 
-            <div class="mo-media">
-                {% if m.registo1 %}
-                    <div class="media-item">
-                        <p>Registo Técnico 1:</p>
-                        <a href="{{ m.registo1.url }}" class="btn-file" target="_blank">Abrir Ficheiro</a>
-                    </div>
-                {% endif %}
-                
-                {% if m.registo2 %}
-                    <div class="media-item">
-                        <p>Registo Técnico 2:</p>
-                        <a href="{{ m.registo2.url }}" class="btn-file" target="_blank">Abrir Ficheiro</a>
-                    </div>
-                {% endif %}
+            {% if m.registo1 or m.registo2 %}
+            <div class="mo-block mo-block--files">
+                <span class="mo-block-label">Registos Técnicos</span>
+                <div class="mo-files">
+                    {% if m.registo1 %}
+                    <a href="{{ m.registo1.url }}" target="_blank" class="btn btn-ghost">Registo 1 ↗</a>
+                    {% endif %}
+                    {% if m.registo2 %}
+                    <a href="{{ m.registo2.url }}" target="_blank" class="btn btn-ghost">Registo 2 ↗</a>
+                    {% endif %}
+                </div>
             </div>
+            {% endif %}
+
         </div>
     </article>
-    {% empty %}
-    <p>Ainda não foram registados processos de "Making Of".</p>
     {% endfor %}
-</section>
+</div>
+
+{% else %}
+<div class="empty-state">
+    <p style="font-family:var(--font-title);font-size:28px;font-weight:700;color:var(--rose);margin-bottom:8px;">Ainda sem registos</p>
+    <p>Ainda não foram registados processos de Making Of.</p>
+</div>
+{% endif %}
+
 {% endblock %}

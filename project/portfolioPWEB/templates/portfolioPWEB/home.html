@@ -4,183 +4,233 @@
 
 {% block content %}
 
-<!-- ══ HERO — layout editorial assimétrico ════════════════════ -->
-<section class="h-hero">
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<section class="home-hero">
 
-    <!-- Coluna esquerda: texto -->
-    <div class="h-hero-text">
-        <div class="h-hero-label">
-            <span class="h-label-line"></span>
-            <span class="h-label-text">Informática de Gestão · 2026</span>
+    <!-- orbs decorativos animados -->
+    <div class="home-orb home-orb--1"></div>
+    <div class="home-orb home-orb--2"></div>
+    <div class="home-orb home-orb--3"></div>
+
+    <div class="home-hero-inner">
+
+        <!-- Esquerda: texto -->
+        <div class="home-hero-text">
+            <div class="home-eyebrow">
+                <span class="home-eyebrow-line"></span>
+                <span class="home-eyebrow-label">Informática de Gestão · 2026</span>
+            </div>
+
+            <h1 class="home-title">
+                <span class="home-title-row anim-1">Leticia</span>
+                <span class="home-title-row home-title-italic anim-2">Fortes.</span>
+            </h1>
+
+            <p class="home-sub anim-3">
+                Estudante apaixonada por unir <strong>tecnologia e gestão</strong>.
+                Projetos reais, processo documentado, aprendizagem constante.
+            </p>
+
+            <div class="home-actions anim-4">
+                <a href="{% url 'projetos' %}" class="btn-primary">
+                    Explorar projetos
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="{% url 'percurso' %}" class="btn-outline">Sobre mim →</a>
+            </div>
         </div>
 
-        <h1 class="h-hero-title">
-            <span class="h-title-row h-title-row--1">Olá,</span>
-            <span class="h-title-row h-title-row--2">sou a</span>
-            <span class="h-title-row h-title-row--3"><em>Leticia<span class="h-title-dot">.</span></em></span>
-        </h1>
+        <!-- Direita: chips flutuantes -->
+        <div class="home-hero-right anim-5">
+            <div class="home-fcard home-fcard--1">
+                <div class="home-fcard-label">Projetos</div>
+                <div class="home-fcard-val">{{ projetos_destaque|length }}</div>
+                <div class="home-fcard-sub">documentados</div>
+            </div>
+            <div class="home-fcard home-fcard--2">
+                <div class="home-fcard-label">Curso</div>
+                <div class="home-fcard-val">IG</div>
+                <div class="home-fcard-sub">Informática de Gestão</div>
+            </div>
+            <div class="home-fcard home-fcard--3">
+                <div class="home-fcard-label">Stack</div>
+                <div class="home-fcard-val">Py</div>
+                <div class="home-fcard-sub">Django · SQL · CSS</div>
+            </div>
+        </div>
 
-        <p class="h-hero-sub">
-            Estudante apaixonada por tecnologia, design
-            e soluções que fazem sentido.
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="home-scroll anim-6">
+        <span class="home-scroll-text">Scroll</span>
+        <div class="home-scroll-bar"><div class="home-scroll-fill"></div></div>
+    </div>
+
+</section>
+
+
+<!-- ══ BENTO GRID — explorar ═════════════════════════════════ -->
+<section class="home-explore" id="explore">
+
+    <div class="home-explore-header reveal">
+        <div class="home-explore-title">Por onde queres<br><em>começar?</em></div>
+        <p class="home-explore-sub">Cada secção tem o seu espaço — escolhe o teu ponto de entrada.</p>
+    </div>
+
+    <div class="home-bento">
+
+        <a href="{% url 'percurso' %}" class="home-bcard home-bcard--dark reveal delay-1">
+            <div class="home-bcard-num">01</div>
+            <div class="home-bcard-label">Percurso</div>
+            <div class="home-bcard-title">Sobre <em>Mim</em></div>
+            <p class="home-bcard-desc">Formação, competências, tecnologias e áreas de interesse.</p>
+            <div class="home-bcard-cta">Conhecer <span class="home-bcard-arrow">→</span></div>
+            <div class="home-bcard-ghost">I</div>
+        </a>
+
+        <a href="{% url 'projetos' %}" class="home-bcard home-bcard--rose reveal delay-2">
+            <div class="home-bcard-num">02</div>
+            <div class="home-bcard-label">Trabalho</div>
+            <div class="home-bcard-title">Pro<em>jetos</em></div>
+            <p class="home-bcard-desc">Trabalhos com contexto real, decisões e tecnologias documentadas.</p>
+            <div class="home-bcard-cta">Ver todos <span class="home-bcard-arrow">→</span></div>
+            <div class="home-bcard-ghost">II</div>
+        </a>
+
+        <a href="{% url 'artigos' %}" class="home-bcard home-bcard--warm reveal delay-3">
+            <div class="home-bcard-num">03</div>
+            <div class="home-bcard-label">Escrita</div>
+            <div class="home-bcard-title">Ar<em>tigos</em></div>
+            <p class="home-bcard-desc">Reflexões e documentação do processo técnico e criativo.</p>
+            <div class="home-bcard-cta">Ler <span class="home-bcard-arrow">→</span></div>
+            <div class="home-bcard-ghost">III</div>
+        </a>
+
+        <a href="{% url 'makingofs' %}" class="home-bcard home-bcard--light reveal delay-4">
+            <div class="home-bcard-num">04</div>
+            <div class="home-bcard-label">Processo</div>
+            <div class="home-bcard-title">Making <em>Of</em></div>
+            <p class="home-bcard-desc">Como foi construída esta aplicação — arquitectura, decisões e dificuldades.</p>
+            <div class="home-bcard-cta">Descobrir <span class="home-bcard-arrow">→</span></div>
+            <div class="home-bcard-ghost">IV</div>
+        </a>
+
+        <a href="{% url 'sobre' %}" class="home-bcard home-bcard--nude reveal delay-5">
+            <div class="home-bcard-num">05</div>
+            <div class="home-bcard-label">A Aplicação</div>
+            <div class="home-bcard-title">Sobre esta <em>App</em></div>
+            <p class="home-bcard-desc">Tecnologias usadas, arquitectura Django e o que há por detrás desta plataforma.</p>
+            <div class="home-bcard-cta">Explorar <span class="home-bcard-arrow">→</span></div>
+            <div class="home-bcard-ghost">V</div>
+        </a>
+
+    </div>
+</section>
+
+
+<!-- ══ LOGIN ════════════════════════════════════════════════ -->
+{% if not request.user.is_authenticated %}
+<section class="home-login" id="login">
+
+    <div class="home-login-form reveal-left">
+        <div class="auth-badge">
+            <div class="auth-badge-dot"></div>
+            Área reservada
+        </div>
+        <div class="auth-title">Entrar</div>
+        <div class="auth-title-2">no painel.</div>
+
+        {% if messages %}
+        <div class="auth-messages">
+            {% for msg in messages %}
+            <div class="auth-msg auth-msg--{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Login por password -->
+        <form method="POST" action="{% url 'login' %}" class="styled-form">
+            {% csrf_token %}
+            {% for field in form_login %}
+            <p>
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<span class="auth-error">{{ field.errors }}</span>{% endif %}
+            </p>
+            {% endfor %}
+            <button type="submit" name="login_password" class="auth-submit">
+                Entrar com password →
+            </button>
+        </form>
+
+        <div class="auth-sep"><span>ou</span></div>
+
+        <!-- Magic Link -->
+        {% if magic_enviado %}
+        <div class="auth-magic-sent">
+            <span>✉</span>
+            <p>Link enviado! Verifica o teu email.</p>
+        </div>
+        {% else %}
+        <form method="POST" action="{% url 'login' %}" class="styled-form">
+            {% csrf_token %}
+            <p>
+                <label>{{ form_magic.email.label }}</label>
+                {{ form_magic.email }}
+            </p>
+            <button type="submit" name="magic_link" class="btn-outline auth-magic">
+                ✉ Link mágico por email
+            </button>
+        </form>
+        {% endif %}
+
+        <p class="auth-footer">
+            Não tens conta?
+            <a href="{% url 'registo' %}">Registar →</a>
         </p>
+    </div>
 
-        <div class="h-hero-actions">
-            <a href="{% url 'projetos' %}" class="h-btn-primary">
-                <span>Ver Projetos</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="{% url 'percurso' %}" class="h-btn-ghost">Percurso ↗</a>
-            <a href="{% url 'painel' %}" class="h-btn-icon" title="Painel">⚙</a>
+    <div class="home-login-side reveal-right">
+        <div class="auth-quote">
+            "Um portfólio não é um arquivo —
+            é uma <em>declaração</em> de quem és."
+        </div>
+        <div class="auth-stats">
+            <div class="auth-stat-item">
+                <div class="auth-stat-n">{{ projetos_destaque|length }}</div>
+                <div class="auth-stat-t">projetos com processo e contexto documentado</div>
+            </div>
+            <div class="auth-stat-item">
+                <div class="auth-stat-n">∞</div>
+                <div class="auth-stat-t">aprendizagem contínua documentada em artigos</div>
+            </div>
+            <div class="auth-stat-item">
+                <div class="auth-stat-n">01</div>
+                <div class="auth-stat-t">making of desta própria aplicação</div>
+            </div>
         </div>
     </div>
 
-    <!-- Coluna direita: card de stats + decoração -->
-    <div class="h-hero-right">
-        <div class="h-stats-card">
-            <div class="h-stat">
-                <span class="h-stat-n">{{ projetos_destaque|length }}</span>
-                <span class="h-stat-l">Projetos</span>
-            </div>
-            <div class="h-stat-sep"></div>
-            <div class="h-stat">
-                <span class="h-stat-n">2</span>
-                <span class="h-stat-l">Licenciaturas</span>
-            </div>
-            <div class="h-stat-sep"></div>
-            <div class="h-stat">
-                <span class="h-stat-n">∞</span>
-                <span class="h-stat-l">Curiosidade</span>
-            </div>
-        </div>
-
-        <div class="h-tags-cloud">
-            <span class="h-cloud-tag" style="--d:.0s">Django</span>
-            <span class="h-cloud-tag" style="--d:.15s">Python</span>
-            <span class="h-cloud-tag" style="--d:.3s">Power BI</span>
-            <span class="h-cloud-tag" style="--d:.45s">SQL</span>
-            <span class="h-cloud-tag" style="--d:.6s">CSS</span>
-            <span class="h-cloud-tag" style="--d:.75s">GitHub</span>
-        </div>
-
-        <!-- Elemento decorativo -->
-        <div class="h-deco-ring"></div>
-    </div>
-
-</section>
-
-<!-- Separador editorial -->
-<div class="h-sep">
-    <div class="h-sep-line"></div>
-    <span class="h-sep-text">Portfólio · Leticia Fortes · {% now "Y" %}</span>
-    <div class="h-sep-line"></div>
-</div>
-
-
-<!-- ══ MAPA — grelha editorial ═══════════════════════════════ -->
-<section class="h-map">
-    <div class="h-map-intro">
-        <span class="h-section-label">01 — Explorar</span>
-        <h2 class="h-map-title">O que<br><em>encontras</em><br>aqui dentro</h2>
-    </div>
-
-    <div class="h-map-grid">
-        <a href="{% url 'projetos' %}" class="h-map-card h-map-card--big">
-            <span class="h-map-num">01</span>
-            <div class="h-map-card-body">
-                <h3>Projetos</h3>
-                <p>Trabalhos desenvolvidos com tecnologias, descrição e Making Of.</p>
-            </div>
-            <span class="h-map-arrow">→</span>
-        </a>
-
-        <a href="{% url 'percurso' %}" class="h-map-card">
-            <span class="h-map-num">02</span>
-            <div class="h-map-card-body">
-                <h3>Percurso</h3>
-                <p>Licenciaturas, formações e competências.</p>
-            </div>
-            <span class="h-map-arrow">→</span>
-        </a>
-
-        <a href="{% url 'tecnologias' %}" class="h-map-card">
-            <span class="h-map-num">03</span>
-            <div class="h-map-card-body">
-                <h3>Tecnologias</h3>
-                <p>Ferramentas e linguagens exploradas.</p>
-            </div>
-            <span class="h-map-arrow">→</span>
-        </a>
-
-        <a href="{% url 'makingofs' %}" class="h-map-card">
-            <span class="h-map-num">04</span>
-            <div class="h-map-card-body">
-                <h3>Making Of</h3>
-                <p>Diário de bordo do desenvolvimento.</p>
-            </div>
-            <span class="h-map-arrow">→</span>
-        </a>
-
-        <a href="{% url 'sobre' %}" class="h-map-card">
-            <span class="h-map-num">05</span>
-            <div class="h-map-card-body">
-                <h3>Sobre</h3>
-                <p>Arquitetura MVT e documentação.</p>
-            </div>
-            <span class="h-map-arrow">→</span>
-        </a>
-    </div>
-</section>
-
-
-<!-- ══ PROJETOS EM DESTAQUE ══════════════════════════════════ -->
-{% if projetos_destaque %}
-<section class="h-featured">
-    <div class="h-featured-header">
-        <span class="h-section-label">02 — Em destaque</span>
-        <h2 class="h-featured-title">Projetos<br><em>recentes</em></h2>
-        <a href="{% url 'projetos' %}" class="h-ver-todos">Ver todos →</a>
-    </div>
-
-    <div class="h-proj-grid">
-        {% for p in projetos_destaque %}
-        <a href="{% url 'projetos' %}" class="h-proj-card {% if forloop.first %}h-proj-card--hero{% endif %}">
-            <div class="h-proj-img">
-                {% if p.imagem %}
-                <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" />
-                {% else %}
-                <div class="h-proj-ph">{{ p.titulo|first }}</div>
-                {% endif %}
-            </div>
-            <div class="h-proj-info">
-                <div class="h-proj-meta">
-                    {% if p.uc %}<span class="h-proj-uc">{{ p.uc.nome }}</span>{% endif %}
-                    <span class="h-proj-year">{{ p.ano }}</span>
-                </div>
-                <h3 class="h-proj-title">{{ p.titulo }}</h3>
-                <p class="h-proj-desc">{{ p.descricao|truncatewords:18 }}</p>
-                <div class="h-proj-tags">
-                    {% for t in p.tecnologias.all|slice:":3" %}
-                    <span>{{ t.nome }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-            <span class="h-proj-arrow">↗</span>
-        </a>
-        {% endfor %}
-    </div>
 </section>
 {% endif %}
 
 {% endblock %}
 
+
 {% block extra_scripts %}
 <script>
-/* Animação de entrada staggered */
-const els = document.querySelectorAll('.h-title-row, .h-hero-sub, .h-hero-actions, .h-stats-card, .h-tags-cloud, .h-map-card, .h-proj-card');
-const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('h-visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.1 });
-els.forEach(el => obs.observe(el));
+/* Scroll reveal */
+const rv = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            rv.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.10 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => rv.observe(el));
 </script>
 {% endblock %}
+ 

@@ -3,24 +3,26 @@
 
 {% block content %}
 
-<div class="lic-hero">
-    <span class="section-label">Publicações</span>
-    <h2>Artigos</h2>
-    <p>Conteúdos sobre tecnologia, soft-skills e desenvolvimento.</p>
-    {% if request.user.is_authenticated %}
-    <div style="margin-top:20px">
-        <a href="/artigos/novo/" class="btn btn-primary">+ Novo artigo</a>
-
+<div class="page-header">
+    <div>
+        <div class="section-label">Publicações</div>
+        <div class="page-header-title">Arti<em>gos</em></div>
     </div>
-    {% endif %}
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+        <p class="ph-desc">Conteúdos sobre tecnologia, soft-skills e desenvolvimento.</p>
+        {% if request.user.is_authenticated %}
+        <a href="/artigos/novo/" class="btn btn-primary">+ Novo artigo</a>
+        {% endif %}
+    </div>
 </div>
 
 <div class="artigos-lista">
     {% for a in artigos %}
     <article class="artigo-card">
+
         {% if a.fotografia %}
         <div class="artigo-img">
-            <img src="{{ a.fotografia.url }}" alt="{{ a.titulo }}" />
+            <img src="{{ a.fotografia.url }}" alt="{{ a.titulo }}">
         </div>
         {% endif %}
 
@@ -41,15 +43,11 @@
                     <a href="{% url 'artigo_like' artigo_id=a.pk %}" class="artigo-like-btn">
                         ♥ {{ a.total_likes }}
                     </a>
-                    <span class="artigo-coment-count">
-                        💬 {{ a.total_comentarios }}
-                    </span>
+                    <span class="artigo-coment-count">{{ a.total_comentarios }} comentários</span>
                 </div>
 
                 <div class="artigo-links">
-                    <a href="{% url 'artigo_detail' artigo_id=a.pk %}" class="proj-link-btn">
-                        Ler mais →
-                    </a>
+                    <a href="{% url 'artigo_detail' artigo_id=a.pk %}" class="proj-link-btn">Ler mais →</a>
                     {% if request.user == a.autor %}
                     <a href="{% url 'artigo_edita' artigo_id=a.pk %}" class="painel-btn-edit">✎</a>
                     <a href="{% url 'artigo_apaga' artigo_id=a.pk %}" class="painel-btn-delete">✕</a>
@@ -57,9 +55,10 @@
                 </div>
             </div>
         </div>
+
     </article>
     {% empty %}
-    <div class="empty-state">
+    <div class="empty-state" style="grid-column:1/-1">
         <p>Ainda não existem artigos publicados.</p>
     </div>
     {% endfor %}

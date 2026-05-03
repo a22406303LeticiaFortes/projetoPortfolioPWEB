@@ -1,106 +1,156 @@
 {% extends "portfolioPWEB/base.html" %}
-
 {% block title %}Projetos | Leticia Fortes{% endblock %}
 
 {% block content %}
 
-<div class="lic-hero">
-    <span class="section-label">Portfólio</span>
-    <h2>Projetos</h2>
-    <p>
-        Trabalhos desenvolvidos ao longo do percurso académico —
-        cada projeto com a sua história, tecnologias e processo criativo.
-    </p>
-</div>
-
-<div class="proj-list">
-    {% for p in projetos %}
-    <article class="proj-item">
-
-        <!-- Índice -->
-        <span class="proj-num">0{{ forloop.counter }}</span>
-
-        <!-- Texto -->
-        <div class="proj-text">
-            <h3 class="proj-titulo">{{ p.titulo }}</h3>
-
-            {% if p.uc %}
-            <span class="proj-uc">{{ p.uc.nome }}</span>
-            {% endif %}
-
-            <!-- Descrição truncada + ler mais -->
-            <div class="proj-desc-wrap" id="desc-{{ forloop.counter }}">
-                <p class="proj-descricao proj-descricao--short">
-                    {{ p.descricao|truncatewords:30 }}
-                </p>
-                <p class="proj-descricao proj-descricao--full" hidden>
-                    {{ p.descricao }}
-                </p>
-                {% if p.descricao|wordcount > 30 %}
-                <button class="proj-ler-mais" onclick="toggleDesc({{ forloop.counter }})">
-                    Ler mais ↓
-                </button>
-                {% endif %}
-            </div>
-
-            {% if p.tecnologias.all %}
-            <div class="proj-tecnologias">
-                {% for t in p.tecnologias.all %}
-                <span class="tag tag-lg">{{ t.nome }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if p.competencias.all %}
-            <div class="proj-tecnologias" style="margin-top:6px">
-                {% for c in p.competencias.all %}
-                <span class="tag tag-lg tag-competencia">{{ c.nome }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if p.github or p.video_demo %}
-            <div class="proj-links">
-                {% if p.github %}
-                <a href="{{ p.github }}" target="_blank" rel="noopener" class="proj-link-btn">GitHub ↗</a>
-                {% endif %}
-                {% if p.video_demo %}
-                <a href="{{ p.video_demo }}" target="_blank" rel="noopener" class="proj-link-btn">Demo ↗</a>
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
-
-        <!-- Imagem -->
-        <div class="proj-img-col">
-            {% if p.imagem %}
-            <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" />
-            {% else %}
-            <div class="proj-placeholder">{{ p.titulo|first }}</div>
-            {% endif %}
-            <span class="proj-ano-badge">{{ p.ano }}</span>
-        </div>
-
-    </article>
-    {% empty %}
-    <div class="empty-state">
-        <p>Ainda não existem projetos publicados.</p>
+<div class="page-header">
+    <div>
+        <div class="section-label">Portfólio</div>
+        <div class="page-header-title">Pro<em>jetos</em></div>
     </div>
-    {% endfor %}
+    <div class="proj-header-right">
+        <div class="proj-scroll-hint">
+            <span>Desliza</span>
+            <div class="proj-scroll-hint-line"></div>
+        </div>
+        <div class="proj-nav-btns">
+            <button class="proj-nav-btn" onclick="scrollProj(-1)">←</button>
+            <button class="proj-nav-btn" onclick="scrollProj(1)">→</button>
+        </div>
+    </div>
 </div>
+
+<div class="proj-scroll-wrap">
+    <div class="proj-track" id="projTrack">
+        {% for p in projetos %}
+        <div class="proj-card">
+            <div class="proj-card-img">
+                {% if p.imagem %}
+                <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" width="340" height="200" loading="lazy" decoding="async">
+                {% else %}
+                <div class="proj-card-img-ph">{{ p.titulo|first }}</div>
+                {% endif %}
+                <span class="proj-card-ano">{{ p.ano }}</span>
+                <span class="proj-card-num">0{{ forloop.counter }}</span>
+            </div>
+            <div class="proj-card-body">
+                {% if p.uc %}<div class="proj-card-uc">{{ p.uc.nome }}</div>{% endif %}
+                <div class="proj-card-title">{{ p.titulo }}</div>
+                <p class="proj-card-desc">{{ p.descricao|truncatewords:20 }}</p>
+                <div class="proj-card-tags">
+                    {% for t in p.tecnologias.all|slice:":3" %}<span class="proj-tag">{{ t.nome }}</span>{% endfor %}
+                    {% for c in p.competencias.all|slice:":2" %}<span class="proj-tag proj-tag-comp">{{ c.nome }}</span>{% endfor %}
+                </div>
+                <div class="proj-card-footer">
+                    <div class="proj-card-links">
+                        {% if p.github %}<a href="{{ p.github }}" target="_blank" rel="noopener" class="proj-card-link">GitHub ↗</a>{% endif %}
+                        {% if p.video_demo %}<a href="{{ p.video_demo }}" target="_blank" rel="noopener" class="proj-card-link">Demo ↗</a>{% endif %}
+                    </div>
+                    <button class="proj-card-ver-mais" onclick="openModal('{{ forloop.counter0 }}')">Ver mais →</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="proj-empty"><p>Ainda não existem projetos publicados.</p></div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="proj-progress">
+    <div class="proj-progress-track"><div class="proj-progress-fill" id="projProgressFill"></div></div>
+    <span class="proj-progress-count" id="projProgressCount">1 / {{ projetos|length }}</span>
+</div>
+
+{% for p in projetos %}
+<div class="proj-modal-overlay" id="modal-{{ forloop.counter0 }}" onclick="closeModal(event,'{{ forloop.counter0 }}')">
+    <div class="proj-modal">
+        <button class="proj-modal-close" onclick="closeModalById('{{ forloop.counter0 }}')">✕</button>
+        <div class="proj-modal-img">
+            {% if p.imagem %}
+            <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" width="680" height="260" loading="lazy" decoding="async">
+            {% else %}
+            <div class="proj-modal-img-ph">{{ p.titulo|first }}</div>
+            {% endif %}
+            {% if p.ano %}<span class="proj-modal-ano">{{ p.ano }}</span>{% endif %}
+        </div>
+        <div class="proj-modal-body">
+            {% if p.uc %}<div class="proj-modal-uc">{{ p.uc.nome }}</div>{% endif %}
+            <h2 class="proj-modal-title">{{ p.titulo }}</h2>
+            <p class="proj-modal-desc">{{ p.descricao }}</p>
+            {% if p.tecnologias.all %}
+            <span class="proj-modal-label">Tecnologias</span>
+            <div class="proj-modal-tags">{% for t in p.tecnologias.all %}<span class="proj-tag">{{ t.nome }}</span>{% endfor %}</div>
+            {% endif %}
+            {% if p.competencias.all %}
+            <span class="proj-modal-label" style="margin-top:14px">Competências</span>
+            <div class="proj-modal-tags">{% for c in p.competencias.all %}<span class="proj-tag proj-tag-comp">{{ c.nome }}</span>{% endfor %}</div>
+            {% endif %}
+            {% if p.github or p.video_demo %}
+            <div class="proj-modal-links">
+                {% if p.github %}<a href="{{ p.github }}" target="_blank" rel="noopener" class="proj-modal-link">GitHub ↗</a>{% endif %}
+                {% if p.video_demo %}<a href="{{ p.video_demo }}" target="_blank" rel="noopener" class="proj-modal-link">Demo ↗</a>{% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-function toggleDesc(id) {
-    const short  = document.querySelector(`#desc-${id} .proj-descricao--short`);
-    const full   = document.querySelector(`#desc-${id} .proj-descricao--full`);
-    const btn    = document.querySelector(`#desc-${id} .proj-ler-mais`);
-    const isOpen = !full.hidden;
-    short.hidden = !isOpen;
-    full.hidden  = isOpen;
-    btn.textContent = isOpen ? 'Ler mais ↓' : 'Ler menos ↑';
+const track = document.getElementById('projTrack');
+const fill  = document.getElementById('projProgressFill');
+const count = document.getElementById('projProgressCount');
+const total = {{ projetos|length }};
+const cardW = 360;
+
+track.addEventListener('scroll', () => {
+    const max = track.scrollWidth - track.clientWidth;
+    const ratio = max > 0 ? track.scrollLeft / max : 0;
+    fill.style.width = Math.max(20, ratio * 100) + '%';
+    const idx = Math.round(track.scrollLeft / (cardW + 20));
+    count.textContent = (Math.min(idx + 1, total)) + ' / ' + total;
+}, { passive: true });
+
+function scrollProj(dir) {
+    track.scrollBy({ left: dir * (cardW + 20), behavior: 'smooth' });
 }
+
+let isDragging = false, startX, scrollLeft;
+track.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+    track.style.cursor = 'grabbing';
+});
+track.addEventListener('mouseleave', () => { isDragging = false; track.style.cursor = 'grab'; });
+track.addEventListener('mouseup',   () => { isDragging = false; track.style.cursor = 'grab'; });
+track.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.2;
+});
+
+function openModal(i) {
+    document.getElementById('modal-' + i).classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal(e, i) {
+    if (e.target === document.getElementById('modal-' + i)) closeModalById(i);
+}
+function closeModalById(i) {
+    document.getElementById('modal-' + i).classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.proj-modal-overlay.open').forEach(m => {
+            m.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    }
+});
 </script>
 {% endblock %}
