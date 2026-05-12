@@ -20,7 +20,7 @@ class Licenciatura(models.Model):
 
 class Docente(models.Model):
     codigo_docente = models.CharField(max_length=30, unique=True, blank=True, null=True)
-    nome = models.CharField(max_length=100)
+    nome = models.TextField()
     email = models.EmailField(blank=True)
     pagina_pessoal = models.URLField(blank=True)
 
